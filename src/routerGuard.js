@@ -4,7 +4,7 @@ import { Route, Redirect } from "react-router-dom"
 import cookie from 'react-cookies';
 
 const checkLoginStatus = () => {
-    if(cookie.load("userInfo")==null) return false;
+    if(cookie.load("loggedIn")==null) return false;
     return true;
 }
 

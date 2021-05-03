@@ -1,4 +1,4 @@
-import React, { useState, useEffect} from 'react';
+import React, { useState, useEffect, useContext } from "react";
 import {
   Box,
   Button,
@@ -11,169 +11,156 @@ import {
   TableHead,
   TableRow,
   Link,
-  makeStyles
-} from '@material-ui/core';
-import {GET_ALL_SEMINAR_URL,GET_ALL_USER_URL,DELETE_SEMINAR_URL} from 'src/settings'
-import cookie from 'react-cookies'
-import SeminarManageForm from './SeminarManageForm'
-import AddLinkForm from './AddLinkForm'
+  makeStyles,
+} from "@material-ui/core";
+import { UserContext } from "src/layouts/Context";
+import { getAllUser } from "src/service/userService";
+import {
+  GET_ALL_SEMINAR_URL,
+  GET_ALL_USER_URL,
+  DELETE_SEMINAR_URL,
+} from "src/settings";
+import cookie from "react-cookies";
+import SeminarManageForm from "./SeminarManageForm";
+import AddLinkForm from "./AddLinkForm";
 const useStyles = makeStyles((theme) => ({
   root: {},
   actions: {
-    justifyContent: 'flex-end' 
+    justifyContent: "flex-end",
   },
-  td:{
-    maxWidth: "200px"
+  td: {
+    maxWidth: "200px",
   },
-  header:{
+  header: {
     display: "flex",
     justifyContent: "space-between",
     padding: "16px",
-    '& p' :{
-      lineHeight:2
-    }
-  }
+    "& p": {
+      lineHeight: 2,
+    },
+  },
 }));
 
-
-
-const SeminarManage=()=>{
+const SeminarManage = () => {
   const classes = useStyles();
-  const [seminars,setSeminars] = useState([]);
-  const [users,setUsers] = useState([]);
-  const [userRoleId,setUserRoleId] = useState();
+  const [refresh, setRefresh] = useState(false);
+  const [seminars, setSeminars] = useState([]);
+  const [users, setUsers] = useState([]);
   const [open, setOpen] = useState(false);
+  const { userInfo } = useContext(UserContext);
   //向后台调取用户列表并更新界面
-  const getAllUser = () => {
-      fetch(GET_ALL_USER_URL, {
-        method: 'GET', 
-        headers: new Headers({
-            'token': cookie.load("userInfo").token
-        })
-        }).then(res => res.json())
-        .catch(error => console.error('Error:', error))
-        .then(response => {console.log(response);setUsers(response)});
-  }
-  const getAllSeminar=()=>{
-    fetch(GET_ALL_SEMINAR_URL, {
-      method: 'GET', 
-      headers: new Headers({
-          'token': cookie.load("userInfo").token
-      })
-      }).then(res => res.json())
-      .catch(error => console.error('Error:', error))
-      .then(response => {console.log(response);setSeminars(response)});
-  }
+  useEffect(() => {
+    getAllUser().then((res) => {
+      setUsers(res.data || []);
+    });
+  }, []);
+  const getAllSeminar = () => {
+    fetch(GET_ALL_SEMINAR_URL, {})
+      .then((res) => res.json())
+      .catch((error) => console.error("Error:", error))
+      .then(response => {
+        setSeminars(response.data || []);
+      });
+  };
 
-    const handleOpen = () => {
-        setOpen(true);
-    };
+  const handleOpen = () => {
+    setOpen(true);
+  };
 
-    const handleClose = () => {
-        setOpen(false);
-        getAllSeminar();
-    };
-    
-    const handleDeleteSeminar = (id) =>{
-        fetch(DELETE_SEMINAR_URL+'?id='+id, {
-            method: 'GET', 
-            headers: new Headers({
-                'token': cookie.load("userInfo").token
-            })
-            }).then(res => res.json())
-            .catch(error => console.error('Error:', error))
-            .then(() => {getAllSeminar();});
-    };
-    const NotAuthor = (props)=>{
-      const seminar = props.seminar;
-      if("link" in seminar) return(<Link href= {seminar.link}>link </Link>);
-      else return('暂未上传');
-    }
-  useEffect(getAllSeminar,[]);
-  useEffect(getAllUser,[]);
-  useEffect(()=>setUserRoleId(cookie.load("userInfo").roleID),[]);
+  const handleClose = () => {
+    setOpen(false);
+    setRefresh((prev) => !prev);
+  };
+
+  const handleDeleteSeminar = (id) => {
+    fetch(DELETE_SEMINAR_URL + "?id=" + id, {
+      method: "GET",
+      // headers: new Headers({
+      //     'token': cookie.load("userInfo").token
+      // })
+    })
+      .then((res) => res.json())
+      .catch((error) => console.error("Error:", error))
+      .then(() => {
+        setRefresh((prev) => !prev);
+      });
+  };
+  const NotAuthor = (props) => {
+    const seminar = props.seminar;
+    if ("link" in seminar) return <Link href={seminar.link}>link </Link>;
+    else return "暂未上传";
+  };
+  useEffect(getAllSeminar, [refresh]);
+  const hasPermission = userInfo.roleId === 10 || userInfo.roleId === 20;
   return (
     <div>
-    <Card className={classes.root} >
-      <Box className={classes.header}>
-      <Typography
-      color="textPrimary"
-      size="small"
-      >
-      演讲安排
-      </Typography>
-      {(userRoleId===0|| userRoleId===1) &&<Button
-      color="primary" 
-      size="small"
-      variant="outlined"
-      onClick={handleOpen}
-      >
-      添加演讲安排
-      </Button>}
-      </Box>
-      <Divider />
+      <Card className={classes.root}>
+        <Box className={classes.header}>
+          <Typography color="textPrimary" size="small">
+            演讲安排
+          </Typography>
+          {hasPermission && (
+            <Button
+              color="primary"
+              size="small"
+              variant="outlined"
+              onClick={handleOpen}
+            >
+              添加演讲安排
+            </Button>
+          )}
+        </Box>
+        <Divider />
         <Box minWidth={800}>
           <Table>
             <TableHead>
               <TableRow>
-                <TableCell>
-                  时间
-                </TableCell>
-                <TableCell>
-                  主题
-                </TableCell>
-                <TableCell>
-                  主讲人
-                </TableCell>
-                <TableCell>
-                  资源链接
-                </TableCell>
-                {(userRoleId===0 || userRoleId===1) &&  <TableCell align="center">
-                  操作
-                </TableCell>}
+                <TableCell>时间</TableCell>
+                <TableCell>主题</TableCell>
+                <TableCell>主讲人</TableCell>
+                <TableCell>资源链接</TableCell>
+                {hasPermission && <TableCell align="center">操作</TableCell>}
               </TableRow>
             </TableHead>
             <TableBody>
               {seminars.map((seminar) => (
-                <TableRow
-                  hover
-                  key={seminar.id}
-                >
+                <TableRow hover key={seminar.id}>
+                  <TableCell>{seminar.date}</TableCell>
+                  <TableCell className={classes.td}>{seminar.theme}</TableCell>
+                  <TableCell>{seminar.speakerName}</TableCell>
                   <TableCell>
-                    {seminar.date}
+                    {userInfo.stuId === seminar.speakerID ? (
+                      <AddLinkForm SeminarID={seminar.id} link={seminar.link} />
+                    ) : (
+                      <NotAuthor seminar={seminar} />
+                    )}
                   </TableCell>
-                  <TableCell className={classes.td}>
-                    {seminar.theme}
-                  </TableCell>
-                  <TableCell>
-                    {seminar.speakerName}
-                  </TableCell>
-                  <TableCell>
-                   {cookie.load("userInfo").id===seminar.speakerID?<AddLinkForm SeminarID={seminar.id} link={seminar.link} />:<NotAuthor seminar={seminar}/> }
-                  </TableCell>
-                  {(userRoleId===0 || userRoleId===1) && 
-                  <TableCell align="center">
-                  <Button
-                    color="primary"
-                    size="small"
-                    variant="text"
-                    onClick={(e)=>handleDeleteSeminar(seminar.id)}
-                    >
+                  {hasPermission && (
+                    <TableCell align="center">
+                      <Button
+                        color="primary"
+                        size="small"
+                        variant="text"
+                        onClick={(e) => handleDeleteSeminar(seminar.id)}
+                      >
                         删除
-                    </Button>
-                  </TableCell>}
+                      </Button>
+                    </TableCell>
+                  )}
                 </TableRow>
               ))}
             </TableBody>
           </Table>
         </Box>
-    </Card>
-    <SeminarManageForm open={open} onClose={handleClose} classes={classes} users={users}/>
-    
-   </div>
+      </Card>
+      <SeminarManageForm
+        open={open}
+        onClose={handleClose}
+        classes={classes}
+        users={users}
+      />
+    </div>
   );
 };
-
-
 
 export default SeminarManage;

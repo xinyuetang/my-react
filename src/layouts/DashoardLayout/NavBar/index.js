@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useContext } from 'react';
 import {
   Box,
   Divider,
@@ -19,9 +19,9 @@ import {
 } from 'react-feather';
 
 import cookie from 'react-cookies';
+import { RoleName } from 'src/settings'
 import NavItem from './NavItem';
- const userRoles = [ '系统管理员', '讨论班管理员', "Lab管理员", "推荐论文管理员"
-  ,"培养方案管理员", "通知管理员","普通用户"]
+import { UserContext } from 'src/layouts/Context'
 
 const useStyles = makeStyles(() => ({
   mobileDrawer: {
@@ -41,21 +41,12 @@ const useStyles = makeStyles(() => ({
 
 const NavBar = ({ onMobileClose, openMobile }) => {
   const classes = useStyles();
-  const [user, setUser] = useState({
-  });
-
+  const { userInfo } = useContext(UserContext)
 
   useEffect(() => {
     if (openMobile && onMobileClose) {
       onMobileClose();
     }
-    if(cookie.load("userInfo")!=null){
-    setUser( {
-      name: cookie.load("userInfo").name,
-      id: cookie.load("userInfo").studentID,
-      roleID:cookie.load("userInfo").roleID
-    });
-  }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -76,19 +67,19 @@ const NavBar = ({ onMobileClose, openMobile }) => {
           color="textPrimary"
           variant="h5"
         >
-          {user.name}
+          {userInfo.name}
         </Typography>
         <Typography
           color="textSecondary"
           variant="body2"
         >
-          {user.id}
+          {userInfo.stuId}
         </Typography>
         <Typography
           color="textSecondary"
           variant="body2"
         >
-         {userRoles[user.roleID]}
+         {RoleName[userInfo.roleId]}
         </Typography>
       </Box>
       <Divider />
@@ -115,7 +106,7 @@ const NavBar = ({ onMobileClose, openMobile }) => {
           isToOutLink={false}
           />
 
-          {(user.roleID===2 || user.roleID===0) &&<NavItem
+          {(userInfo.roleID===2 || userInfo.roleID===0) &&<NavItem
           href='http://10.176.36.7/'
           title='Lab 管理'
           icon ={ServerIcon}
@@ -136,7 +127,7 @@ const NavBar = ({ onMobileClose, openMobile }) => {
           isToOutLink={false}
           />
         
-          {(user.roleID===5|| user.roleID===0) &&<NavItem
+          {(userInfo.roleID===5|| userInfo.roleID===0) &&<NavItem
           href='/app/bulletinManagement'
           title='通知管理'
           icon ={MessageCircleIcon}

@@ -15,6 +15,7 @@ import {
 import MenuIcon from '@material-ui/icons/Menu';
 import NotificationsIcon from '@material-ui/icons/NotificationsOutlined';
 import InputIcon from '@material-ui/icons/Input';
+import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import cookie from 'react-cookies';
 import {GET_NEW_BULLETIN_NUMBER_URL} from 'src/settings';
 
@@ -47,12 +48,13 @@ const TopBar = ({
   const getAllBulletin = ()=>{
     return fetch(GET_NEW_BULLETIN_NUMBER_URL, {
       method: 'GET',
-      headers: new Headers({
-          'token': cookie.load("userInfo").token
-      })
+      mode: 'cors',
+      // headers: new Headers({
+      //     'token': cookie.load("userInfo").token
+      // })
       }).then(res => res.json())
       .catch(error => console.error('Error:', error))
-      .then(response => {console.log(response); setNewBulletinBumber(response.number);});
+      // .then(response => {console.log(response); setNewBulletinBumber(response.number);});
   }
 
   

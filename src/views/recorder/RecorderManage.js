@@ -51,9 +51,9 @@ const RecorderManage = () => {
   const getAllUser = () => {
     fetch(GET_ALL_USER_URL, {
       method: 'GET',
-      headers: new Headers({
-        'token': cookie.load("userInfo").token
-      })
+      // headers: new Headers({
+      //   'token': cookie.load("userInfo").token
+      // })
     }).then(res => res.json())
       .catch(error => console.error('Error:', error))
       .then(response => { console.log(response); setUsers(response) });

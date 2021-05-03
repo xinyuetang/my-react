@@ -51,22 +51,27 @@ function LoginView  (){
             })}
             onSubmit={(values) => {
           
-              var url = LOGIN_URL+'?studentID='+values.studentID+'&password='+values.password;
-              fetch(url, {
-                method: 'GET', 
+              // var url = LOGIN_URL+'?studentID='+values.studentID+'&password='+values.password;
+              var formData = new FormData()
+              formData.append('stuId', values.studentID)
+              formData.append('password', values.password)
+              fetch(LOGIN_URL, {
+                method: 'POST',
+                body: formData
               }).then(res => res.json())
               .catch(error => console.error('Error:', error))
               .then(response => {
-                if(response.result==="success"){
-                cookie.save('userInfo',response,{path:"/"});
-                //navigate('', { replace: true });
-                console.log("logged in");
-                history.replace('/app/seminar');
-              }else{
-                //登录失败
-                alert("用户名不存在或密码错误");
-                window.location.reload();
-              }});
+                if(response.success){
+                  // cookie.save('userInfo',response,{path:"/"});
+                  //navigate('', { replace: true });
+                  console.log("logged in");
+                  history.replace('/app/seminar');
+                }else{
+                  //navigate('', { replace: true });
+                  //登录失败
+                  alert("用户名不存在或密码错误");
+                  window.location.reload();
+                }});
 
             }}
           >
