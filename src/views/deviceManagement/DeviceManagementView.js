@@ -13,6 +13,7 @@ import Page from "src/components/Page";
 import { Formik } from "formik";
 import * as Yup from "yup";
 import { ADD_DEVICE_URL, GET_ALL_DEVICE_URL } from "src/settings";
+import { postFetch } from "src/base";
 import cookie from "react-cookies";
 import DeviceTable from "src/views/deviceManagement/DeviceTable";
 const useStyles = makeStyles((theme) => ({
@@ -25,6 +26,7 @@ const useStyles = makeStyles((theme) => ({
 const DeviceManagementView = () => {
   const classes = useStyles();
   const [value, setValue] = useState(0);
+  const [refresh, setRefresh] = useState(false);
 
   const [type0, setType0] = useState([]);
   const [type1, setType1] = useState([]);
@@ -46,7 +48,8 @@ const DeviceManagementView = () => {
         setType3(response?.data?.type0 || []);
       });
   };
-  useEffect(getAllDevice, []);
+  useEffect(getAllDevice, [refresh]);
+  const refreshDevice = () => setRefresh((prev) => !prev)
 
   return (
     <Page className={classes.root} title="notification">
@@ -61,62 +64,42 @@ const DeviceManagementView = () => {
           </Tabs>
         </AppBar>
         <TabPanel value={value} index={0}>
-          <DeviceTable
-            devices={type0}
-            type={0}
-            refresh={getAllDevice}
-          />
+          <DeviceTable devices={type0} type={0} refresh={refreshDevice} />
         </TabPanel>
         <TabPanel value={value} index={1}>
-          <DeviceTable
-            devices={type1}
-            type={1}
-            refresh={getAllDevice}
-          />
+          <DeviceTable devices={type1} type={1} refresh={refreshDevice} />
         </TabPanel>
         <TabPanel value={value} index={2}>
-          <DeviceTable
-            devices={type2}
-            type={2}
-            refresh={getAllDevice}
-          />
+          <DeviceTable devices={type2} type={2} refresh={refreshDevice} />
         </TabPanel>
         <TabPanel value={value} index={3}>
-          <DeviceTable
-            devices={type3}
-            type={3}
-            refresh={getAllDevice}
-          />
+          <DeviceTable devices={type3} type={3} refresh={refreshDevice} />
         </TabPanel>
         <TabPanel value={value} index={4}>
           <Formik
             initialValues={{
               type: 0, // 设备类型，0：台式设备，1：移动设备， 2：服务器，3：其他
-              deviceVersion: "", // 设备型号  仅适用于0，1
-              personInCharge: "", // 负责人姓名  仅适用于 2
-              serverName: "", // 服务器名字    仅适用于2
-              memory: 0, //使用内存, 以G为单位，仅适用于2
-              deviceType: "", // 设备类型， 仅适用于 3
-              deviceModel: "", // 设备型号， 仅适用于 3
+              model: "", // 设备型号  仅适用于0，1
+              principal: "", // 负责人姓名  仅适用于 2
+              name: "", // 服务器名字    仅适用于2
+              inventory: 0, //使用内存, 以G为单位，仅适用于2
+              type: "", // 设备类型， 仅适用于 3
+              model: "", // 设备型号， 仅适用于 3
             }}
             validationSchema={Yup.object().shape({
               type: Yup.number().required("设备类型必填"),
             })}
             onSubmit={(values) => {
-              fetch(ADD_DEVICE_URL, {
-                method: "POST",
-                headers: new Headers({
-                  token: cookie.load("userInfo").token,
-                  "Content-Type": "application/json;charset=utf-8",
-                }),
-                body: JSON.stringify(values),
-              })
-                .then((res) => res.json())
-                .catch((error) => console.error("Error:", error))
-                .then((response) => {
-                  console.log(response);
-                  getAllDevice();
-                });
+              postFetch({
+                url: ADD_DEVICE_URL,
+                values,
+                successCallback: () => {
+                  refreshDevice()
+                },
+                errorCallback: () => {
+                  window.location.reload();
+                },
+              });
             }}
           >
             {({
@@ -150,7 +133,7 @@ const DeviceManagementView = () => {
                   <TextField
                     label="设备型号"
                     margin="normal"
-                    name="deviceVersion"
+                    name="model"
                     variant="outlined"
                     onBlur={handleBlur}
                     onChange={handleChange}
@@ -160,7 +143,7 @@ const DeviceManagementView = () => {
                   <TextField
                     label="负责人姓名"
                     margin="normal"
-                    name="personInCharge"
+                    name="principal"
                     variant="outlined"
                     onBlur={handleBlur}
                     onChange={handleChange}
@@ -170,7 +153,7 @@ const DeviceManagementView = () => {
                   <TextField
                     label="服务器名字"
                     margin="normal"
-                    name="serverName"
+                    name="name"
                     variant="outlined"
                     onBlur={handleBlur}
                     onChange={handleChange}
@@ -180,7 +163,7 @@ const DeviceManagementView = () => {
                   <TextField
                     label="使用内存"
                     margin="normal"
-                    name="memory"
+                    name="inventory"
                     variant="outlined"
                     onBlur={handleBlur}
                     onChange={handleChange}
@@ -190,7 +173,7 @@ const DeviceManagementView = () => {
                   <TextField
                     label="设备类型"
                     margin="normal"
-                    name="deviceType"
+                    name="type"
                     variant="outlined"
                     onBlur={handleBlur}
                     onChange={handleChange}
@@ -200,7 +183,7 @@ const DeviceManagementView = () => {
                   <TextField
                     label="设备型号"
                     margin="normal"
-                    name="deviceModel"
+                    name="model"
                     variant="outlined"
                     onBlur={handleBlur}
                     onChange={handleChange}

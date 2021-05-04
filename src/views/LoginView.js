@@ -43,11 +43,11 @@ function LoginView  (){
         <Container maxWidth="sm">
           <Formik
             initialValues={{
-              studentID: '',
+              stuId: '',
               password: ''
             }}
             validationSchema={Yup.object().shape({
-              studentID: Yup.string().max(255).required('ID is required'),
+              stuId: Yup.string().max(255).required('ID is required'),
               password: Yup.string().max(255).required('Password is required')
             })}
             onSubmit={(values) => {
@@ -87,12 +87,12 @@ function LoginView  (){
                   </Typography>
                 </Box>
                 <TextField
-                  error={Boolean(touched.studentID && errors.studentID)}
+                  error={Boolean(touched.stuId && errors.stuId)}
                   fullWidth
-                  helperText={touched.studentID && errors.studentID}
+                  helperText={touched.stuId && errors.stuId}
                   label="学/工号"
                   margin="normal"
-                  name="studentID"
+                  name="stuId"
                   onBlur={handleBlur}
                   onChange={handleChange}
                   variant="outlined"

@@ -53,7 +53,7 @@ export const formFetch = ({
   fetch(url, {
     method: type,
     headers: {
-      "content-type": "multipart/form-data",
+      "content-type": "application/x-www-form-urlencoded",
     },
     body: JSON.stringify(values),
   })
