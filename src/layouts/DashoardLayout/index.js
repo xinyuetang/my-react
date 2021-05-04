@@ -44,8 +44,8 @@ const DashboardLayout = ({ routes }) => {
   const [isMobileNavOpen, setMobileNavOpen] = useState(false);
   useEffect(() => {
     getUserInfo().then(res => {
-      if (res.success) {
-        setUser(res.data)
+      if (res?.success) {
+        setUser(res?.data)
       } else {
         history.replace('/login');
       }

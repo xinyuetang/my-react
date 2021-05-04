@@ -22,8 +22,10 @@ export const BASE_URL = "http://fd.foxbank.cn";
 export const USER_INFO = BASE_URL + "/user/info";
 export const LOGIN_URL = BASE_URL + "/user/login";
 export const ADD_USER_URL = BASE_URL + "/user/add";
+export const UPDATE_USER_URL = BASE_URL + "/user/update";
 export const DELETE_USER_URL = BASE_URL + "/user/delete";
 export const GET_ALL_USER_URL = BASE_URL + "/user/paging";
+export const GET_USER_DETAIL = BASE_URL + "/user/detail";
 
 //会议安排
 export const ADD_SEMINAR_URL = BASE_URL + "/seminar/add";

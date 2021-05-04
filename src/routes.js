@@ -2,6 +2,7 @@ import {Redirect} from 'react-router-dom';
 import MainLayout from './layouts/MainLayout';
 import DashboardLayout from './layouts/DashoardLayout'
 import LoginView from './views/LoginView';
+import UpdateUserInfoView from "./views/updateUserInfo/UpdateUserInfoView";
 import NotFoundView from './views/NotFoundView';
 import SeminarView from './views/seminar/SeminarView';
 import RecorderView from './views/recorder/RecorderView';
@@ -16,33 +17,33 @@ import DeviceManagementView from './views/deviceManagement/DeviceManagementView'
        
 const routes = [
   {
-    path: '/app',
+    path: "/app",
     component: DashboardLayout,
-    auth:true,
+    auth: true,
     routes: [
-      { path: '/app/article/:id',  component:ArticleView },//查看文章
-      { path: '/app/articleEdit/:id',  component:ArticleEditView},//编辑文章
-      { path: '/app/seminar',  component:SeminarView }, //演讲安排
-      { path: '/app/recorder',  component:RecorderView},//辅读安排
-      { path: '/app/userManagement',  component: UserManagementView },//用户管理
-      { path: '/app/essayRecommendation',  component: EssayRecommendationView },//推荐论文
-      { path: '/app/trainingScheme',  component:TrainingSchemeView},//培养方案
-      { path: '/app/bulletinManagement',  component:BulletinManagementView},// 通告管理
-      { path: '/app/bulletinList', component:BulletinListView},//通知列表
-      { path: '/app/device',  component:DeviceManagementView}, //IT资源管理
-      { path: '*', component: NotFoundView }
-    ]
+      { path: "/app/updateUserInfo/:id", component: UpdateUserInfoView }, //查看文章
+      { path: "/app/article/:id", component: ArticleView }, //查看文章
+      { path: "/app/articleEdit/:id", component: ArticleEditView }, //编辑文章
+      { path: "/app/seminar", component: SeminarView }, //演讲安排
+      { path: "/app/recorder", component: RecorderView }, //辅读安排
+      { path: "/app/userManagement", component: UserManagementView }, //用户管理
+      { path: "/app/essayRecommendation", component: EssayRecommendationView }, //推荐论文
+      { path: "/app/trainingScheme", component: TrainingSchemeView }, //培养方案
+      { path: "/app/bulletinManagement", component: BulletinManagementView }, // 通告管理
+      { path: "/app/bulletinList", component: BulletinListView }, //通知列表
+      { path: "/app/device", component: DeviceManagementView }, //IT资源管理
+      { path: "*", component: NotFoundView },
+    ],
   },
   {
-  path:'/',
-  component: MainLayout,
-  routes:[
-      {path:'/login', component:LoginView},
-      {path: '/404',  component: NotFoundView},
-      {path: '/*', component: LoginView },
-      
-  ]
-}
-]
+    path: "/",
+    component: MainLayout,
+    routes: [
+      { path: "/login", component: LoginView },
+      { path: "/404", component: NotFoundView },
+      { path: "/*", component: LoginView },
+    ],
+  },
+];
 
 export default routes;

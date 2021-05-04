@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { Link as RouterLink,useHistory } from 'react-router-dom';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
@@ -17,7 +17,8 @@ import NotificationsIcon from '@material-ui/icons/NotificationsOutlined';
 import InputIcon from '@material-ui/icons/Input';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import cookie from 'react-cookies';
-import {GET_NEW_BULLETIN_NUMBER_URL} from 'src/settings';
+import { GET_ALL_BULLETIN_URL } from "src/settings";
+import { UserContext } from "src/layouts/Context";
 
 const useStyles = makeStyles(() => ({
   root: {},
@@ -38,6 +39,7 @@ const TopBar = ({
 }) => {
   const classes = useStyles();
   const history = useHistory();
+  const { userInfo } = useContext(UserContext);
   const [newBulletinNumber,setNewBulletinBumber] = useState(0);//未读通知数量
   const logOut = ()=>{
     cookie.remove("loggedIn", { path: "/" });
@@ -46,15 +48,10 @@ const TopBar = ({
  
   //向后台调取所有未读通知数
   const getAllBulletin = ()=>{
-    return fetch(GET_NEW_BULLETIN_NUMBER_URL, {
-      method: 'GET',
-      mode: 'cors',
-      // headers: new Headers({
-      //     'token': cookie.load("userInfo").token
-      // })
-      }).then(res => res.json())
-      .catch(error => console.error('Error:', error))
-      // .then(response => {console.log(response); setNewBulletinBumber(response.number);});
+    return fetch(`${GET_ALL_BULLETIN_URL}?limit=9999`, {})
+      .then((res) => res.json())
+      .catch((error) => console.error("Error:", error))
+      .then((response) => setNewBulletinBumber(response?.data?.length || 0));
   }
 
   
@@ -62,26 +59,28 @@ const TopBar = ({
   
 
   return (
-    <AppBar
-      className={clsx(classes.root, className)}
-      elevation={0}
-      {...rest}
-    >
-      
+    <AppBar className={clsx(classes.root, className)} elevation={0} {...rest}>
       <Toolbar>
         <RouterLink to="/">
-        <Typography className={classes.logo}
-          >
+          <Typography className={classes.logo}>
             复旦大学系统软件与安全实验室
           </Typography>
         </RouterLink>
         <Box flexGrow={1} />
         <Hidden mdDown>
-          <IconButton color="inherit" component={RouterLink} to={"/app/bulletinList/"}>
-            <Badge
-              badgeContent={newBulletinNumber}
-              color="error"
-            >
+          <IconButton
+            color="inherit"
+            component={RouterLink}
+            to={`/app/updateUserInfo/${userInfo.stuId}`}
+          >
+            <AccountCircleIcon />
+          </IconButton>
+          <IconButton
+            color="inherit"
+            component={RouterLink}
+            to={"/app/bulletinList/"}
+          >
+            <Badge badgeContent={newBulletinNumber} color="error">
               <NotificationsIcon />
             </Badge>
           </IconButton>
@@ -90,10 +89,7 @@ const TopBar = ({
           </IconButton>
         </Hidden>
         <Hidden lgUp>
-          <IconButton
-            color="inherit"
-            onClick={onMobileNavOpen}
-          >
+          <IconButton color="inherit" onClick={onMobileNavOpen}>
             <MenuIcon />
           </IconButton>
         </Hidden>

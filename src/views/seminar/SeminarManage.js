@@ -50,7 +50,7 @@ const SeminarManage = () => {
   //向后台调取用户列表并更新界面
   useEffect(() => {
     getAllUser().then((res) => {
-      setUsers(res.data || []);
+      setUsers(res?.data || []);
     });
   }, []);
   const getAllSeminar = () => {

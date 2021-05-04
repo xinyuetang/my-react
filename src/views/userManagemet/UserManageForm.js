@@ -46,13 +46,13 @@ function UserManageForm(props) {
       <Formik
         initialValues={{
           name: "",
-          studentID: "",
-          roleID: 0,
+          stuId: "",
+          roleId: 0,
         }}
         validationSchema={Yup.object().shape({
           name: Yup.string().max(255).required(),
-          studentID: Yup.string().max(255).required(),
-          roleID: Yup.number().required(),
+          stuId: Yup.string().max(255).required(),
+          roleId: Yup.number().required(),
         })}
         onSubmit={(values) => {
           postFetch({
@@ -65,7 +65,7 @@ function UserManageForm(props) {
             errorCallback: () => {
               alert("添加用户失败");
               window.location.reload();
-            }
+            },
           });
         }}
       >
@@ -95,11 +95,11 @@ function UserManageForm(props) {
               variant="outlined"
             />
             <TextField
-              error={Boolean(touched.studentID && errors.studentID)}
+              error={Boolean(touched.stuId && errors.stuId)}
               fullWidth
               label="学/工号"
               margin="normal"
-              name="studentID"
+              name="stuId"
               onBlur={handleBlur}
               onChange={handleChange}
               variant="outlined"
@@ -108,7 +108,7 @@ function UserManageForm(props) {
               select
               fullWidth
               label="权限"
-              name="roleID"
+              name="roleId"
               margin="normal"
               onChange={handleChange}
               variant="outlined"

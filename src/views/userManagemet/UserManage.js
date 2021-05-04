@@ -121,6 +121,14 @@ const UserManage = (props) => {
                         color="primary"
                         size="small"
                         variant="text"
+                        href={`/app/updateUserInfo/${user.stuId}`}
+                      >
+                        编辑
+                      </Button>
+                      <Button
+                        color="primary"
+                        size="small"
+                        variant="text"
                         onClick={(e) => handleDeleteUser(user.id, e)}
                       >
                         删除

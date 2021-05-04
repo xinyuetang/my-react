@@ -27,12 +27,12 @@ const SeminarManageForm = (props) => {
         initialValues={{
           theme: "",
           date: null,
-          speakerID: null,
+          stuId: null,
         }}
         validationSchema={Yup.object().shape({
           theme: Yup.string().required(),
           date: Yup.string().required(),
-          speakerID: Yup.number().required(),
+          stuId: Yup.number().required(),
         })}
         onSubmit={(values) => {
           postFetch({
@@ -77,7 +77,7 @@ const SeminarManageForm = (props) => {
               select
               fullWidth
               label="主讲人"
-              name="speakerID"
+              name="stuId"
               margin="normal"
               onChange={handleChange}
               variant="outlined"
@@ -87,14 +87,14 @@ const SeminarManageForm = (props) => {
             >
               <option value={null}> 请选择</option>
               {users.map((option) => (
-                <option key={option.id} value={option.id}>
+                <option key={option.stuId} value={option.stuId}>
                   {option.name}
                 </option>
               ))}
             </TextField>
             <TextField
               label="时间"
-              type="date"
+              type="datetime"
               margin="normal"
               fullWidth
               name="date"

@@ -45,7 +45,7 @@ export default function TrainingScheme() {
       .catch((error) => console.error("Error:", error))
       .then((response) => {
         console.log(response);
-        setDatas(response.data || []);
+        setDatas(response?.data || []);
       });
   };
   useEffect(getEssayCatalog, []);
