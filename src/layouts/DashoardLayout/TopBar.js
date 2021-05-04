@@ -40,7 +40,7 @@ const TopBar = ({
   const history = useHistory();
   const [newBulletinNumber,setNewBulletinBumber] = useState(0);//未读通知数量
   const logOut = ()=>{
-    cookie.remove("userInfo",{ path: '/' });
+    cookie.remove("loggedIn", { path: "/" });
     history.push('/login');
   }
  

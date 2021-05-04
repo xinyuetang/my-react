@@ -20,7 +20,6 @@ import {
   GET_ALL_USER_URL,
   DELETE_SEMINAR_URL,
 } from "src/settings";
-import cookie from "react-cookies";
 import SeminarManageForm from "./SeminarManageForm";
 import AddLinkForm from "./AddLinkForm";
 const useStyles = makeStyles((theme) => ({

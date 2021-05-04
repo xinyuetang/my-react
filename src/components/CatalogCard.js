@@ -56,7 +56,7 @@ export default function CatalogCard(props) {
               {className}
             </Typography>
           </Grid>
-          {(userRoleId == 0 || userRoleId == authType) && <Grid item md={1}>
+          {(userRoleId == 10 || userRoleId == authType) && <Grid item md={1}>
             <Button onClick={e => handleDeleteClass(classID, e)} >删除类 </Button>
           </Grid>}
         </Grid>
@@ -71,11 +71,11 @@ export default function CatalogCard(props) {
                 </Typography>
               </RouterLink>
             </Grid>
-            {(userRoleId == 0 || userRoleId == authType) &&
+            {(userRoleId == 10 || userRoleId == authType) &&
               <Grid item md={1}>
                 <Button component={RouterLink} to={"/app/articleEdit/" + item.id} >编辑 </Button>
               </Grid>}
-            {(userRoleId == 0 || userRoleId == authType) &&
+            {(userRoleId == 10 || userRoleId == authType) &&
               <Grid item md={1}>
                 <Button onClick={(e) => handleDeleteArticle(item.id, e)} >删除 </Button>
               </Grid>}

@@ -44,23 +44,23 @@ export const DOWNLOAD_RECORDER2_URL = BASE_URL + "/recorder/downloadRecorder2";
 export const DOWNLOAD_SUMMARY_URL = BASE_URL + "/recorder/downloadSummary";
 
 //推荐论文+培养方案
-export const GET_ALL_CLASS_URL = BASE_URL + "/class/all";
+export const GET_ALL_CLASS_URL = BASE_URL + "/class/paging";
 export const ADD_CLASS_URL = BASE_URL + "/class/add";
 export const DELETE_CLASS_URL = BASE_URL + "/class/delete";
 
-export const GET_ARTICLE_URL = BASE_URL + "/article/get";
+export const GET_ARTICLE_URL = BASE_URL + "/article";
 export const ADD_ARTICLE_URL = BASE_URL + "/article/add";
 export const EDIT_ARTICLE_URL = BASE_URL + "/article/edit";
 export const DELETE_ARTICLE_URL = BASE_URL + "/article/delete";
 
 //通告管理
 export const ADD_BULLETIN_URL = BASE_URL + "/bulletin/add";
-export const GET_ALL_BULLETIN_URL = BASE_URL + "/bulletin/all";
+export const GET_ALL_BULLETIN_URL = BASE_URL + "/bulletin/paging";
 export const GET_NEW_BULLETIN_NUMBER_URL =
   BASE_URL + "/bulletin/newBulletinNumber";
 export const MARK_AS_READ_URL = BASE_URL + "/bulletin/markAsRead";
 
 //设备管理
-export const ADD_DEVICE_URL = BASE_URL + "/device/paging";
-export const GET_ALL_DEVICE_URL = BASE_URL + "/device/all";
+export const ADD_DEVICE_URL = BASE_URL + "/device/add";
+export const GET_ALL_DEVICE_URL = BASE_URL + "/device/paging";
 export const DELETE_DEVICE_URL = BASE_URL + "/device/delete";
