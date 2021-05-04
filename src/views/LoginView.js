@@ -63,7 +63,6 @@ function LoginView  (){
                 errorCallback: () => {
                   //navigate('', { replace: true });
                   //登录失败
-                  alert("用户名不存在或密码错误");
                   window.location.reload();
                 },
               });

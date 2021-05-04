@@ -18,7 +18,7 @@ import { RoleName, GET_ALL_USER_URL, USER_INFO } from 'src/settings'
 
 export const getAllUser = async () => {
   try {
-    let response = await fetch(GET_ALL_USER_URL)
+    let response = await fetch(`${GET_ALL_USER_URL}?limit=1999`);
     return await response.json()
   } catch (error) {
     console.log('Request Failed', error);

@@ -63,7 +63,6 @@ function UserManageForm(props) {
               handleClose();
             },
             errorCallback: () => {
-              alert("添加用户失败");
               window.location.reload();
             },
           });
@@ -115,6 +114,7 @@ function UserManageForm(props) {
               SelectProps={{
                 native: true,
               }}
+              value={values.roleId}
             >
               {userRoles.map((option) => (
                 <option key={option.value} value={option.value}>

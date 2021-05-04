@@ -6,7 +6,8 @@ import {
   Input,
   Typography,
 } from '@material-ui/core';
-import {UPLOAD_RECORDER1_URL,UPLOAD_RECORDER2_URL,UPLOAD_SUMMARY_URL} from 'src/settings'
+import { formFetch } from "src/base";
+import { UPLOAD_RECORDER_URL } from "src/settings";
 
 const useStyles = makeStyles(() => ({
     root:{
@@ -26,7 +27,7 @@ const useStyles = makeStyles(() => ({
     }
   }));
   export default function UploadForm(props){    
-    const { RecorderID,DocType,Date}= props;
+    const { RecorderId,DocType,Date}= props;
     const [file,setFile] = useState([]);
     const classes = useStyles();
     
@@ -34,25 +35,38 @@ const useStyles = makeStyles(() => ({
         console.log(e.target.files[0]);
         setFile(e.target.files[0]);
     }
-    const URLS=[UPLOAD_RECORDER1_URL,UPLOAD_RECORDER2_URL,UPLOAD_SUMMARY_URL]
     const DocTypes=["一号辅读", "二号辅读", "会议总结"]
+    const FileKeys = [
+      "recorder1Content",
+      "recorder2Content",
+      "summarizerContent",
+    ];
 
     const handleSubmit = () => {
         if (file == undefined) return;
-        console.log(file);
-        var URL = URLS[DocType];
+        // formFetch({
+        //   url: UPLOAD_RECORDER_URL,
+        //   values: {
+        //     id: RecorderId,
+        //     [FileKeys[DocType]]: file,
+        //   },
+        // });
         var formData = new FormData()
-        formData.append('id', RecorderID);
-        formData.append('file', file);
-        fetch(URL, {
-          method: 'PUT',
-          headers: new Headers({
-            'token': cookie.load("userInfo").token, 
-          }),
-          body: formData
-        }).then(res => res.json())
-          .catch(error => console.error('Error:', error))
-          .then(response => { console.log(response); });
+        formData.append('id', RecorderId);
+        formData.append(FileKeys[DocType], file);
+        fetch(UPLOAD_RECORDER_URL, {
+          method: "POST",
+          body: formData,
+        });
+        // fetch(UPLOAD_RECORDER_URL, {
+        //   method: "POST",
+        //   body: formData,
+        // })
+          // .then((res) => res.json())
+          // .catch((error) => console.error("Error:", error))
+          // .then((response) => {
+          //   console.log(response);
+          // });
       }
    
     return(

@@ -28,6 +28,21 @@ export const jsonToFormData = (params) => {
 //     });
 // };
 
+export const deleteFetch = ({ url, successCallback }) => {
+  fetch(url, {
+    method: "POST",
+    headers: {
+      "content-type": "application/x-www-form-urlencoded",
+    },
+  })
+    .then((res) => res.json())
+    .catch((error) => console.error("Error:", error))
+    .then((response) => {
+      alert(response?.success ? "删除成功" : response?.msg || "删除失败");
+      successCallback && successCallback();
+    });
+};
+
 export const formFetch = ({
   url,
   values = {},
@@ -48,6 +63,7 @@ export const formFetch = ({
       if (response?.success) {
         successCallback && successCallback();
       } else {
+        alert(response?.msg || "操作失败");
         errorCallback && errorCallback();
       }
     });
@@ -67,6 +83,7 @@ export const postFetch = ({ url, values = {}, successCallback, errorCallback, ty
       if (response?.success) {
         successCallback && successCallback();
       } else {
+        alert(response?.msg || '操作失败');
         errorCallback && errorCallback();
       }
     });

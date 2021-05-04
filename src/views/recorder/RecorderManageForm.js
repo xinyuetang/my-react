@@ -16,13 +16,13 @@ export default function RecorderManageForm(props) {
       <Formik
         initialValues={{
           date: null,
-          recorder1ID: null,
-          recorder2ID: null,
-          summaryerID: null,
+          recorder1Id: null,
+          recorder2Id: null,
+          summarizerId: null,
         }}
         validationSchema={Yup.object().shape({
           date: Yup.string().required(),
-          summaryerID: Yup.number().required(),
+          summarizerId: Yup.number().required(),
         })}
         onSubmit={(values) => {
           postFetch({
@@ -33,7 +33,6 @@ export default function RecorderManageForm(props) {
               handleClose();
             },
             errorCallback: () => {
-              alert("添加失败");
               window.location.reload();
             },
           });
@@ -70,7 +69,7 @@ export default function RecorderManageForm(props) {
               select
               fullWidth
               label="辅读人1"
-              name="recorder1ID"
+              name="recorder1Id"
               margin="normal"
               onChange={handleChange}
               variant="outlined"
@@ -89,7 +88,7 @@ export default function RecorderManageForm(props) {
               select
               fullWidth
               label="辅读人2"
-              name="recorder2ID"
+              name="recorder2Id"
               margin="normal"
               onChange={handleChange}
               variant="outlined"
@@ -108,7 +107,7 @@ export default function RecorderManageForm(props) {
               select
               fullWidth
               label="记录员"
-              name="summaryerID"
+              name="summarizerId"
               margin="normal"
               onChange={handleChange}
               variant="outlined"

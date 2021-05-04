@@ -43,7 +43,6 @@ const SeminarManageForm = (props) => {
               handleClose();
             },
             errorCallback: () => {
-              alert("添加失败");
               window.location.reload();
             },
           });

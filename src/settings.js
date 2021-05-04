@@ -29,6 +29,7 @@ export const GET_USER_DETAIL = BASE_URL + "/user/detail";
 
 //会议安排
 export const ADD_SEMINAR_URL = BASE_URL + "/seminar/add";
+export const UPDATE_SEMINAR_URL = BASE_URL + "/seminar/update";
 export const DELETE_SEMINAR_URL = BASE_URL + "/seminar/delete";
 export const GET_ALL_SEMINAR_URL = BASE_URL + "/seminar/paging";
 export const ADD_SEMINAR_LINK_URL = BASE_URL + "/seminar/addlink";
@@ -37,6 +38,8 @@ export const ADD_SEMINAR_LINK_URL = BASE_URL + "/seminar/addlink";
 export const ADD_RECORDER_URL = BASE_URL + "/recorder/add";
 export const GET_ALL_RECORDER_URL = BASE_URL + "/recorder/paging";
 export const DELETE_RECORDER_URL = BASE_URL + "/recorder/delete";
+
+export const UPLOAD_RECORDER_URL = BASE_URL + "/recorder/upload";
 
 export const UPLOAD_RECORDER1_URL = BASE_URL + "/recorder/uploadRecorder1";
 export const UPLOAD_RECORDER2_URL = BASE_URL + "/recorder/uploadRecorder2";

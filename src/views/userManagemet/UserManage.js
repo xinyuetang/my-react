@@ -15,6 +15,7 @@ import {
 import { RoleName, DELETE_USER_URL } from "src/settings";
 import { getAllUser } from "src/service/userService";
 import { UserContext } from "src/layouts/Context";
+import { deleteFetch } from "src/base";
 import UserManageForm from "./UserManageForm";
 
 const useStyles = makeStyles((theme) => ({
@@ -57,18 +58,13 @@ const UserManage = (props) => {
   };
 
   const handleDeleteUser = (id) => {
-    fetch(DELETE_USER_URL + "?id=" + id, {
-      method: "GET",
-      // headers: new Headers({
-      //     'token': cookie.load("userInfo").token
-      // })
-    })
-      .then((res) => res.json())
-      .catch((error) => console.error("Error:", error))
-      .then((response) => {
-        console.log(response);
+    deleteFetch({
+      url: `${DELETE_USER_URL}?id=${id}`,
+      values: { id },
+      successCallback: () => {
         setRefresh((prev) => !prev);
-      });
+      }
+    });
   };
 
   // useEffect(getAllUser,[]);

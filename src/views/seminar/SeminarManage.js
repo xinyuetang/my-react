@@ -15,11 +15,8 @@ import {
 } from "@material-ui/core";
 import { UserContext } from "src/layouts/Context";
 import { getAllUser } from "src/service/userService";
-import {
-  GET_ALL_SEMINAR_URL,
-  GET_ALL_USER_URL,
-  DELETE_SEMINAR_URL,
-} from "src/settings";
+import { GET_ALL_SEMINAR_URL, DELETE_SEMINAR_URL } from "src/settings";
+import { deleteFetch } from "src/base";
 import SeminarManageForm from "./SeminarManageForm";
 import AddLinkForm from "./AddLinkForm";
 const useStyles = makeStyles((theme) => ({
@@ -57,7 +54,7 @@ const SeminarManage = () => {
     fetch(GET_ALL_SEMINAR_URL, {})
       .then((res) => res.json())
       .catch((error) => console.error("Error:", error))
-      .then(response => {
+      .then((response) => {
         setSeminars(response.data || []);
       });
   };
@@ -72,21 +69,17 @@ const SeminarManage = () => {
   };
 
   const handleDeleteSeminar = (id) => {
-    fetch(DELETE_SEMINAR_URL + "?id=" + id, {
-      method: "GET",
-      // headers: new Headers({
-      //     'token': cookie.load("userInfo").token
-      // })
-    })
-      .then((res) => res.json())
-      .catch((error) => console.error("Error:", error))
-      .then(() => {
+    deleteFetch({
+      url: `${DELETE_SEMINAR_URL}?id=${id}`,
+      values: { id },
+      successCallback: () => {
         setRefresh((prev) => !prev);
-      });
+      },
+    });
   };
   const NotAuthor = (props) => {
-    const seminar = props.seminar;
-    if ("link" in seminar) return <Link href={seminar.link}>link </Link>;
+    const { seminar } = props;
+    if (seminar.link) return <Link href={seminar.link}>link </Link>;
     else return "暂未上传";
   };
   useEffect(getAllSeminar, [refresh]);
@@ -128,8 +121,8 @@ const SeminarManage = () => {
                   <TableCell className={classes.td}>{seminar.theme}</TableCell>
                   <TableCell>{seminar.speakerName}</TableCell>
                   <TableCell>
-                    {userInfo.stuId === seminar.speakerID ? (
-                      <AddLinkForm SeminarID={seminar.id} link={seminar.link} />
+                    {userInfo.userId === seminar.speakerId ? (
+                      <AddLinkForm seminar={seminar} />
                     ) : (
                       <NotAuthor seminar={seminar} />
                     )}

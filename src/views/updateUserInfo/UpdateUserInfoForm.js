@@ -7,11 +7,6 @@ import {
   Button,
   TextField,
   makeStyles,
-  FormControl,
-  Radio,
-  RadioGroup,
-  FormControlLabel,
-  FormLabel,
 } from "@material-ui/core";
 import { UPDATE_USER_URL } from "src/settings";
 const useStyles = makeStyles((theme) => ({
@@ -51,10 +46,6 @@ export default function UpdateUserInfoForm({ userDetail }) {
         successCallback: () => {
           console.log("修改用户信息成功");
         },
-        errorCallback: () => {
-          alert("修改用户信息失败");
-          // window.location.reload();
-        },
       });
     },
   });
@@ -70,7 +61,6 @@ export default function UpdateUserInfoForm({ userDetail }) {
   return (
     <form onSubmit={handleSubmit} className={classes.root}>
       <TextField
-        error={Boolean(touched.name && errors.name)}
         label="用户姓名"
         fullWidth
         name="name"
@@ -82,7 +72,6 @@ export default function UpdateUserInfoForm({ userDetail }) {
         className={classes.margin}
       />
       <TextField
-        error={Boolean(touched.studentID && errors.studentID)}
         label="学/工号"
         fullWidth
         name="stuId"

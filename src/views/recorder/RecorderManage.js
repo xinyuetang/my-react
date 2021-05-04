@@ -15,6 +15,7 @@ import {
 import ReactDOM from "react-dom";
 import { UserContext } from "src/layouts/Context";
 import { getAllUser } from "src/service/userService";
+import { deleteFetch } from "src/base";
 import RecorderManageForm from "./RecorderManageForm";
 import {
   GET_ALL_RECORDER_URL,
@@ -71,10 +72,7 @@ const RecorderManage = () => {
       .then((response) => {
         setRecorders(response.data || []);
         response?.data?.map((recorder) => {
-          if (
-            !recorder.recorder1 &&
-            cookie.load("userInfo").id === recorder.recorder1ID
-          ) {
+          if (!recorder.recorder1 && userInfo.userId === recorder?.recorder1Id) {
             const element = document.createElement("div");
             element.id = "id1_" + recorder.id;
             document.getElementById("todos").appendChild(element);
@@ -82,14 +80,14 @@ const RecorderManage = () => {
               <UploadForm
                 DocType={0}
                 Date={recorder.date}
-                RecorderID={recorder.id}
+                RecorderId={recorder.id}
               ></UploadForm>,
               document.getElementById("id1_" + recorder.id)
             );
           }
           if (
             !recorder.recorder2 &&
-            cookie.load("userInfo").id === recorder.recorder2ID
+            userInfo.userId === recorder?.recorder2Id
           ) {
             const element = document.createElement("div");
             element.id = "id2_" + recorder.id;
@@ -98,15 +96,12 @@ const RecorderManage = () => {
               <UploadForm
                 DocType={1}
                 Date={recorder.date}
-                RecorderID={recorder.id}
+                RecorderId={recorder.id}
               ></UploadForm>,
               document.getElementById("id2_" + recorder.id)
             );
           }
-          if (
-            !recorder.summary &&
-            cookie.load("userInfo").id === recorder.summaryerID
-          ) {
+          if (!recorder.summary && userInfo.userId === recorder.summarizerId) {
             const element = document.createElement("div");
             element.id = "id3_" + recorder.id;
             document.getElementById("todos").appendChild(element);
@@ -114,7 +109,7 @@ const RecorderManage = () => {
               <UploadForm
                 DocType={2}
                 Date={recorder.date}
-                RecorderID={recorder.id}
+                RecorderId={recorder.id}
               ></UploadForm>,
               document.getElementById("id3_" + recorder.id)
             );
@@ -132,18 +127,13 @@ const RecorderManage = () => {
     getAllRecorder();
   };
   const handleDeleteRecorder = (id) => {
-    fetch(DELETE_RECORDER_URL + "?id=" + id, {
-      method: "GET",
-      headers: new Headers({
-        token: cookie.load("userInfo").token,
-      }),
-    })
-      .then((res) => res.json())
-      .catch((error) => console.error("Error:", error))
-      .then((response) => {
-        console.log(response);
-        getAllRecorder();
-      });
+    deleteFetch({
+      url: `${DELETE_RECORDER_URL}?id=${id}`,
+      values: { id },
+      successCallback: () => {
+        setRefresh((prev) => !prev);
+      },
+    });
   };
   /* 下载文件的公共方法，参数就传blob文件流*/
   const handleExport = (data, fileName) => {
