@@ -79,12 +79,12 @@ const DeviceManagementView = () => {
           <Formik
             initialValues={{
               type: 0, // 设备类型，0：台式设备，1：移动设备， 2：服务器，3：其他
-              model: "", // 设备型号  仅适用于0，1
-              principal: "", // 负责人姓名  仅适用于 2
-              name: "", // 服务器名字    仅适用于2
-              inventory: 0, //使用内存, 以G为单位，仅适用于2
-              type: "", // 设备类型， 仅适用于 3
-              model: "", // 设备型号， 仅适用于 3
+              deviceVersion: "", // 设备型号  仅适用于0，1
+              personInCharge: "", // 负责人姓名  仅适用于 2
+              serverName: "", // 服务器名字    仅适用于2
+              memory: 0, //使用内存, 以G为单位，仅适用于2
+              deviceType: "", // 设备类型， 仅适用于 3
+              deviceModel: "", // 设备型号， 仅适用于 3
             }}
             validationSchema={Yup.object().shape({
               type: Yup.number().required("设备类型必填"),
@@ -133,7 +133,7 @@ const DeviceManagementView = () => {
                   <TextField
                     label="设备型号"
                     margin="normal"
-                    name="model"
+                    name="deviceVersion"
                     variant="outlined"
                     onBlur={handleBlur}
                     onChange={handleChange}
@@ -143,7 +143,7 @@ const DeviceManagementView = () => {
                   <TextField
                     label="负责人姓名"
                     margin="normal"
-                    name="principal"
+                    name="personInCharge"
                     variant="outlined"
                     onBlur={handleBlur}
                     onChange={handleChange}
@@ -153,7 +153,7 @@ const DeviceManagementView = () => {
                   <TextField
                     label="服务器名字"
                     margin="normal"
-                    name="name"
+                    name="serverName"
                     variant="outlined"
                     onBlur={handleBlur}
                     onChange={handleChange}
@@ -163,7 +163,7 @@ const DeviceManagementView = () => {
                   <TextField
                     label="使用内存"
                     margin="normal"
-                    name="inventory"
+                    name="memory"
                     variant="outlined"
                     onBlur={handleBlur}
                     onChange={handleChange}
@@ -173,7 +173,7 @@ const DeviceManagementView = () => {
                   <TextField
                     label="设备类型"
                     margin="normal"
-                    name="type"
+                    name="deviceType"
                     variant="outlined"
                     onBlur={handleBlur}
                     onChange={handleChange}
@@ -183,7 +183,7 @@ const DeviceManagementView = () => {
                   <TextField
                     label="设备型号"
                     margin="normal"
-                    name="model"
+                    name="deviceModel"
                     variant="outlined"
                     onBlur={handleBlur}
                     onChange={handleChange}
