@@ -6,27 +6,27 @@ export const jsonToFormData = (params) => {
   return formData;
 };
 
-// export const formFetch = ({
-//   url,
-//   values,
-//   successCallback,
-//   errorCallback,
-//   type = "POST",
-// }) => {
-//   fetch(url, {
-//     method: type,
-//     body: values ? jsonToFormData(values) : {},
-//   })
-//     .then((res) => res.json())
-//     .catch((error) => console.error("Error:", error))
-//     .then((response) => {
-//       if (response.success) {
-//         successCallback && successCallback();
-//       } else {
-//         errorCallback && errorCallback();
-//       }
-//     });
-// };
+export const formFetch = ({
+  url,
+  values,
+  successCallback,
+  errorCallback,
+  type = "POST",
+}) => {
+  fetch(url, {
+    method: type,
+    body: values ? jsonToFormData(values) : {},
+  })
+    .then((res) => res.json())
+    .catch((error) => console.error("Error:", error))
+    .then((response) => {
+      if (response.success) {
+        successCallback && successCallback();
+      } else {
+        errorCallback && errorCallback();
+      }
+    });
+};
 
 export const deleteFetch = ({ url, successCallback }) => {
   fetch(url, {
@@ -43,31 +43,31 @@ export const deleteFetch = ({ url, successCallback }) => {
     });
 };
 
-export const formFetch = ({
-  url,
-  values = {},
-  successCallback,
-  errorCallback,
-  type = "POST",
-}) => {
-  fetch(url, {
-    method: type,
-    headers: {
-      "content-type": "application/x-www-form-urlencoded",
-    },
-    body: JSON.stringify(values),
-  })
-    .then((res) => res.json())
-    .catch((error) => console.error("Error:", error))
-    .then((response) => {
-      if (response?.success) {
-        successCallback && successCallback();
-      } else {
-        alert(response?.msg || "操作失败");
-        errorCallback && errorCallback();
-      }
-    });
-};
+// export const formFetch = ({
+//   url,
+//   values = {},
+//   successCallback,
+//   errorCallback,
+//   type = "POST",
+// }) => {
+//   fetch(url, {
+//     method: type,
+//     headers: {
+//       "content-type": "application/x-www-form-urlencoded",
+//     },
+//     body: JSON.stringify(values),
+//   })
+//     .then((res) => res.json())
+//     .catch((error) => console.error("Error:", error))
+//     .then((response) => {
+//       if (response?.success) {
+//         successCallback && successCallback();
+//       } else {
+//         alert(response?.msg || "操作失败");
+//         errorCallback && errorCallback();
+//       }
+//     });
+// };
 
 export const postFetch = ({ url, values = {}, successCallback, errorCallback, type = 'POST' }) => {
   fetch(url, {
