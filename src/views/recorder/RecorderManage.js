@@ -260,7 +260,7 @@ const RecorderManage = () => {
                     </Box>
                   </TableCell>
                   <TableCell align="center">
-                    {recorder.summaryerName}
+                    {recorder.summarizerName}
                     <Box>
                       {recorder.summary ? (
                         <Button
