@@ -11,22 +11,25 @@ import {
   Typography,
   makeStyles
 } from '@material-ui/core';
-
+import KeyboardReturnIcon from "@material-ui/icons/KeyboardReturn";
 import Page from 'src/components/Page';
 import { RESET_PASSWORD_URL } from "src/settings";
 const useStyles = makeStyles((theme) => ({
   root: {
     backgroundColor: theme.palette.background.dark,
-    height: '100%',
+    height: "100%",
     paddingBottom: theme.spacing(3),
-    paddingTop: theme.spacing(3)
+    paddingTop: theme.spacing(3),
+  },
+  return: {
+    float: 'right'
   }
 }));
 
 
 const ResetPasswordView = () => {
   const classes = useStyles();
-  let history = useHistory();
+  const history = useHistory();
   return (
     <Page className={classes.root} title="修改密码">
       <Box
@@ -75,8 +78,20 @@ const ResetPasswordView = () => {
             }) => (
               <form onSubmit={handleSubmit}>
                 <Box mb={3}>
-                  <Typography color="textPrimary" variant="h2">
+                  <Typography
+                    align="justify"
+                    gutterBottom
+                    color="textPrimary"
+                    variant="h2"
+                  >
                     修改密码
+                    <Button
+                      className={classes.return}
+                      endIcon={<KeyboardReturnIcon />}
+                      onClick={history.goBack}
+                    >
+                      返回
+                    </Button>
                   </Typography>
                 </Box>
                 <TextField

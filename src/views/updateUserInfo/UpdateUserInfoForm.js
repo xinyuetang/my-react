@@ -1,13 +1,9 @@
 import React from "react";
+import { useHistory } from "react-router-dom";
 import clsx from "clsx";
 import { useFormik } from "formik";
 import { postFetch } from "src/base";
-import {
-  Box,
-  Button,
-  TextField,
-  makeStyles,
-} from "@material-ui/core";
+import { Box, Button, TextField, makeStyles } from "@material-ui/core";
 import { UPDATE_USER_URL } from "src/settings";
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -37,6 +33,7 @@ const types = [
 ];
 export default function UpdateUserInfoForm({ userDetail }) {
   const classes = useStyles();
+  const history = useHistory();
   const formik = useFormik({
     initialValues: userDetail,
     onSubmit: (values) => {
@@ -44,7 +41,8 @@ export default function UpdateUserInfoForm({ userDetail }) {
         url: UPDATE_USER_URL,
         values,
         successCallback: () => {
-          console.log("修改用户信息成功");
+          alert("修改成功");
+          history.goBack();
         },
       });
     },
