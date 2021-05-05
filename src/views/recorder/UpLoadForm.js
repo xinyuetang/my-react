@@ -6,7 +6,7 @@ import {
   Input,
   Typography,
 } from '@material-ui/core';
-import { formFetch } from "src/base";
+import { formDataFetch } from "src/base";
 import { UPLOAD_RECORDER_URL } from "src/settings";
 
 const useStyles = makeStyles(() => ({
@@ -43,31 +43,31 @@ const useStyles = makeStyles(() => ({
     ];
 
     const handleSubmit = () => {
-        if (file == undefined) return;
-        // formFetch({
-        //   url: UPLOAD_RECORDER_URL,
-        //   values: {
-        //     id: RecorderId,
-        //     [FileKeys[DocType]]: file,
-        //   },
-        // });
-        var formData = new FormData()
-        formData.append('id', RecorderId);
-        formData.append(FileKeys[DocType], file);
-        fetch(UPLOAD_RECORDER_URL, {
-          method: "POST",
-          body: formData,
-        });
-        // fetch(UPLOAD_RECORDER_URL, {
-        //   method: "POST",
-        //   body: formData,
-        // })
-          // .then((res) => res.json())
-          // .catch((error) => console.error("Error:", error))
-          // .then((response) => {
-          //   console.log(response);
-          // });
-      }
+      if (file == undefined) return;
+      formDataFetch({
+        url: UPLOAD_RECORDER_URL,
+        values: {
+          id: RecorderId,
+          [FileKeys[DocType]]: file,
+        },
+      });
+      // var formData = new FormData();
+      // formData.append("id", RecorderId);
+      // formData.append(FileKeys[DocType], file);
+      // fetch(UPLOAD_RECORDER_URL, {
+      //   method: "POST",
+      //   body: formData,
+      // });
+      // fetch(UPLOAD_RECORDER_URL, {
+      //   method: "POST",
+      //   body: formData,
+      // })
+      // .then((res) => res.json())
+      // .catch((error) => console.error("Error:", error))
+      // .then((response) => {
+      //   console.log(response);
+      // });
+    }
    
     return(
         <div>

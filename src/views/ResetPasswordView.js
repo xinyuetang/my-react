@@ -1,38 +1,34 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 import { Formik } from 'formik';
-import { formUrlencodedFetch } from "src/base";
+import { postFetch } from "src/base";
 import * as Yup from 'yup';
 import {
   Box,
   Button,
   Container,
-  Link,
   TextField,
   Typography,
   makeStyles
 } from '@material-ui/core';
 
 import Page from 'src/components/Page';
-import {LOGIN_URL} from 'src/settings';
+import { RESET_PASSWORD_URL } from "src/settings";
 const useStyles = makeStyles((theme) => ({
   root: {
     backgroundColor: theme.palette.background.dark,
-    height: "100%",
+    height: '100%',
     paddingBottom: theme.spacing(3),
-    paddingTop: theme.spacing(3),
-  },
-  link: {
-    textAlign: 'right'
-  },
+    paddingTop: theme.spacing(3)
+  }
 }));
 
 
-function LoginView  (){
+const ResetPasswordView = () => {
   const classes = useStyles();
   let history = useHistory();
   return (
-    <Page className={classes.root} title="Login">
+    <Page className={classes.root} title="修改密码">
       <Box
         display="flex"
         flexDirection="column"
@@ -43,25 +39,26 @@ function LoginView  (){
           <Formik
             initialValues={{
               stuId: "",
-              password: "",
+              oldPassword: "",
+              newPassword: "",
             }}
             validationSchema={Yup.object().shape({
               stuId: Yup.string().max(255).required("ID is required"),
-              password: Yup.string().max(255).required("Password is required"),
+              newPassword: Yup.string()
+                .max(255)
+                .required("Password is required"),
+              oldPassword: Yup.string()
+                .max(255)
+                .required("Password is required"),
             })}
             onSubmit={(values) => {
-              formUrlencodedFetch({
-                url: LOGIN_URL,
+              postFetch({
+                url: RESET_PASSWORD_URL,
                 values,
                 successCallback: () => {
-                  // cookie.save('userInfo',response,{path:"/"});
-                  //navigate('', { replace: true });
-                  console.log("logged in");
-                  history.replace("/app/seminar");
+                  history.goBack();
                 },
                 errorCallback: () => {
-                  //navigate('', { replace: true });
-                  //登录失败
                   window.location.reload();
                 },
               });
@@ -79,7 +76,7 @@ function LoginView  (){
               <form onSubmit={handleSubmit}>
                 <Box mb={3}>
                   <Typography color="textPrimary" variant="h2">
-                    登录
+                    修改密码
                   </Typography>
                 </Box>
                 <TextField
@@ -97,9 +94,21 @@ function LoginView  (){
                   error={Boolean(touched.password && errors.password)}
                   fullWidth
                   helperText={touched.password && errors.password}
-                  label="密码"
+                  label="原密码"
                   margin="normal"
-                  name="password"
+                  name="oldPassword"
+                  onBlur={handleBlur}
+                  onChange={handleChange}
+                  type="password"
+                  variant="outlined"
+                />
+                <TextField
+                  error={Boolean(touched.password && errors.password)}
+                  fullWidth
+                  helperText={touched.password && errors.password}
+                  label="新密码"
+                  margin="normal"
+                  name="newPassword"
                   onBlur={handleBlur}
                   onChange={handleChange}
                   type="password"
@@ -114,26 +123,9 @@ function LoginView  (){
                     type="submit"
                     variant="contained"
                   >
-                    登录
+                    确认修改
                   </Button>
                 </Box>
-                <Box my={2} className={classes.link}>
-                  <Link href="/reset">修改密码</Link>
-                </Box>
-                {/* <Typography
-                  color="textSecondary"
-                  variant="body1"
-                >
-                  Don&apos;t have an account?
-                  {' '}
-                  <Link
-                    component={RouterLink}
-                    to="/register"
-                    variant="h6"
-                  >
-                    Sign up
-                  </Link>
-                </Typography> */}
               </form>
             )}
           </Formik>
@@ -143,4 +135,4 @@ function LoginView  (){
   );
 };
 
-export default LoginView;
+export default ResetPasswordView;

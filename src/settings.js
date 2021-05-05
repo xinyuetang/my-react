@@ -21,6 +21,7 @@ export const BASE_URL = "http://fd.foxbank.cn";
 //登录、用户管理
 export const USER_INFO = BASE_URL + "/user/info";
 export const LOGIN_URL = BASE_URL + "/user/login";
+export const RESET_PASSWORD_URL = BASE_URL + "/user/reset";
 export const ADD_USER_URL = BASE_URL + "/user/add";
 export const UPDATE_USER_URL = BASE_URL + "/user/update";
 export const DELETE_USER_URL = BASE_URL + "/user/delete";

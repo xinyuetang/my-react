@@ -14,12 +14,20 @@ import { Formik } from "formik";
 import * as Yup from "yup";
 import { ADD_DEVICE_URL, GET_ALL_DEVICE_URL } from "src/settings";
 import { postFetch } from "src/base";
-import cookie from "react-cookies";
 import DeviceTable from "src/views/deviceManagement/DeviceTable";
 const useStyles = makeStyles((theme) => ({
   root: {
     // flexGrow: 1,
     backgroundColor: theme.palette.background.paper,
+  },
+  formRoot: {
+    "& .MuiTextField-root": {
+      margin: theme.spacing(1.5),
+      width: "25ch",
+    },
+  },
+  margin: {
+    margin: theme.spacing(1.5),
   },
 }));
 
@@ -38,14 +46,16 @@ const DeviceManagementView = () => {
   };
 
   const getAllDevice = () => {
-    fetch(GET_ALL_DEVICE_URL, {})
+    fetch(`${GET_ALL_DEVICE_URL}?limit=1999`, {})
       .then((res) => res.json())
       .catch((error) => console.error("Error:", error))
       .then((response) => {
-        setType0(response?.data?.type0 || []);
-        setType1(response?.data?.type0 || []);
-        setType2(response?.data?.type0 || []);
-        setType3(response?.data?.type0 || []);
+        if (response?.data?.length > 0) {
+          setType0(response?.data?.filter((device) => device?.type === 0));
+          setType1(response?.data?.filter((device) => device?.type === 1));
+          setType2(response?.data?.filter((device) => device?.type === 2));
+          setType3(response?.data?.filter((device) => device?.type === 3));
+        }
       });
   };
   useEffect(getAllDevice, [refresh]);
@@ -76,15 +86,16 @@ const DeviceManagementView = () => {
           <DeviceTable devices={type3} type={3} refresh={refreshDevice} />
         </TabPanel>
         <TabPanel value={value} index={4}>
+          {/* type;设备类型 model;设备型号 name;设备名称 principal;负责人姓名
+          inventory;库存 inventoryUnit;库存单位 */}
           <Formik
             initialValues={{
-              type: 0, // 设备类型，0：台式设备，1：移动设备， 2：服务器，3：其他
-              deviceVersion: "", // 设备型号  仅适用于0，1
-              personInCharge: "", // 负责人姓名  仅适用于 2
-              serverName: "", // 服务器名字    仅适用于2
-              memory: 0, //使用内存, 以G为单位，仅适用于2
-              deviceType: "", // 设备类型， 仅适用于 3
-              deviceModel: "", // 设备型号， 仅适用于 3
+              type: 0,
+              model: "",
+              principal: "",
+              name: "",
+              inventory: 0,
+              inventoryUnit: "",
             }}
             validationSchema={Yup.object().shape({
               type: Yup.number().required("设备类型必填"),
@@ -94,7 +105,8 @@ const DeviceManagementView = () => {
                 url: ADD_DEVICE_URL,
                 values,
                 successCallback: () => {
-                  refreshDevice()
+                  refreshDevice();
+                  setValue(0);
                 },
                 errorCallback: () => {
                   window.location.reload();
@@ -111,7 +123,7 @@ const DeviceManagementView = () => {
               touched,
               values,
             }) => (
-              <form onSubmit={handleSubmit}>
+              <form onSubmit={handleSubmit} className={classes.formRoot}>
                 <TextField
                   select
                   label="设备类型"
@@ -129,68 +141,48 @@ const DeviceManagementView = () => {
                   <option value={2}> 服务器</option>
                   <option value={3}> 其他</option>
                 </TextField>
-                {(values.type == 0 || values.type == 1) && (
-                  <TextField
-                    label="设备型号"
-                    margin="normal"
-                    name="deviceVersion"
-                    variant="outlined"
-                    onBlur={handleBlur}
-                    onChange={handleChange}
-                  />
-                )}
-                {values.type == 2 && (
-                  <TextField
-                    label="负责人姓名"
-                    margin="normal"
-                    name="personInCharge"
-                    variant="outlined"
-                    onBlur={handleBlur}
-                    onChange={handleChange}
-                  />
-                )}
-                {values.type == 2 && (
-                  <TextField
-                    label="服务器名字"
-                    margin="normal"
-                    name="serverName"
-                    variant="outlined"
-                    onBlur={handleBlur}
-                    onChange={handleChange}
-                  />
-                )}
-                {values.type == 2 && (
-                  <TextField
-                    label="使用内存"
-                    margin="normal"
-                    name="memory"
-                    variant="outlined"
-                    onBlur={handleBlur}
-                    onChange={handleChange}
-                  />
-                )}
-                {values.type == 3 && (
-                  <TextField
-                    label="设备类型"
-                    margin="normal"
-                    name="deviceType"
-                    variant="outlined"
-                    onBlur={handleBlur}
-                    onChange={handleChange}
-                  />
-                )}
-                {values.type == 3 && (
-                  <TextField
-                    label="设备型号"
-                    margin="normal"
-                    name="deviceModel"
-                    variant="outlined"
-                    onBlur={handleBlur}
-                    onChange={handleChange}
-                  />
-                )}
+                <TextField
+                  label="设备型号"
+                  margin="normal"
+                  name="model"
+                  variant="outlined"
+                  onBlur={handleBlur}
+                  onChange={handleChange}
+                />
+                <TextField
+                  label="设备名称"
+                  margin="normal"
+                  name="name"
+                  variant="outlined"
+                  onBlur={handleBlur}
+                  onChange={handleChange}
+                />
+                <TextField
+                  label="负责人姓名"
+                  margin="normal"
+                  name="principal"
+                  variant="outlined"
+                  onBlur={handleBlur}
+                  onChange={handleChange}
+                />
+                <TextField
+                  label="库存"
+                  margin="normal"
+                  name="inventory"
+                  variant="outlined"
+                  onBlur={handleBlur}
+                  onChange={handleChange}
+                />
+                <TextField
+                  label="库存单位"
+                  margin="normal"
+                  name="inventoryUnit"
+                  variant="outlined"
+                  onBlur={handleBlur}
+                  onChange={handleChange}
+                />
 
-                <Box my={2}>
+                <Box my={2} className={classes.margin}>
                   <Button
                     color="primary"
                     disabled={isSubmitting}

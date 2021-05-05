@@ -2,6 +2,7 @@ import {Redirect} from 'react-router-dom';
 import MainLayout from './layouts/MainLayout';
 import DashboardLayout from './layouts/DashoardLayout'
 import LoginView from './views/LoginView';
+import ResetPasswordView from "./views/ResetPasswordView";
 import UpdateUserInfoView from "./views/updateUserInfo/UpdateUserInfoView";
 import NotFoundView from './views/NotFoundView';
 import SeminarView from './views/seminar/SeminarView';
@@ -40,6 +41,7 @@ const routes = [
     component: MainLayout,
     routes: [
       { path: "/login", component: LoginView },
+      { path: "/reset", component: ResetPasswordView },
       { path: "/404", component: NotFoundView },
       { path: "/*", component: LoginView },
     ],
