@@ -1,15 +1,14 @@
-import { ThemeProvider} from '@material-ui/core'
-import { Switch, HashRouter } from "react-router-dom";
+import { ThemeProvider } from "@material-ui/core";
+import { Switch, BrowserRouter } from "react-router-dom";
 
+import GlobalStyles from "./components/GlobalStyles";
+import theme from "src/theme";
+import routes from "src/routes";
 
-import GlobalStyles from './components/GlobalStyles';
-import theme  from 'src/theme';
-import routes from 'src/routes';
-
-import { RouteWithSubRoutes } from "src/routerGuard"
+import { RouteWithSubRoutes } from "src/routerGuard";
 export default function App() {
   return (
-    <HashRouter>
+    <BrowserRouter>
       <ThemeProvider theme={theme}>
         <GlobalStyles />
 
@@ -20,8 +19,6 @@ export default function App() {
           ))}
         </Switch>
       </ThemeProvider>
-    </HashRouter>
+    </BrowserRouter>
   );
 }
-
-
