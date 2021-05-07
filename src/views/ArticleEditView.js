@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useContext } from "react";
 import { useHistory } from "react-router-dom";
+import clsx from "clsx";
 import { makeStyles } from "@material-ui/core/styles";
 import { Box, Button, Typography, TextField } from "@material-ui/core";
 import { useParams } from "react-router-dom";
@@ -24,9 +25,11 @@ const useStyles = makeStyles((theme) => ({
     boxShadow: "2px 2px 2px 1px rgba(0, 0, 0, 0.2)",
     backgroundColor: "white",
   },
+  flexHeader: {
+    display: "flex",
+    alignItems: "center",
+  },
   header: {
-    // display: "flex",
-    // alignItems: "center",
     marginBottom: "2%",
     "& button": {
       marginLeft: 5,
@@ -41,7 +44,7 @@ const useStyles = makeStyles((theme) => ({
   footer: {
     display: "flex",
     alignItems: "center",
-    justifyContent: 'center',
+    justifyContent: "center",
     marginTop: 12,
     "& button": {
       margin: 20,
@@ -104,7 +107,7 @@ export default function ArticleEditView(props) {
   if (!hasPermission) {
     return (
       <div className={classes.article}>
-        <Box className={classes.header}>
+        <Box className={clsx(classes.header, classes.flexHeader)}>
           <Typography color="textPrimary" variant="h4">
             {title}
           </Typography>
@@ -119,7 +122,7 @@ export default function ArticleEditView(props) {
 
   return (
     <div className={classes.root}>
-      <Box className={classes.header}>
+      <Box className={classes.flexHeader}>
         <TextField
           label="论文名称"
           fullWidth
