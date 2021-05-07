@@ -122,7 +122,7 @@ export default function ArticleEditView(props) {
 
   return (
     <div className={classes.root}>
-      <Box className={classes.flexHeader}>
+      <Box className={classes.header}>
         <TextField
           label="论文名称"
           fullWidth
