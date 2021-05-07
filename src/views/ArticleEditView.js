@@ -87,7 +87,7 @@ export default function ArticleEditView(props) {
     });
   };
   const getArticle = () => {
-    fetch(`${GET_ARTICLE_URL}id`, {})
+    fetch(`${GET_ARTICLE_URL}${id}`, {})
       .then((res) => res.json())
       .catch((error) => console.error("Error:", error))
       .then((response) => {

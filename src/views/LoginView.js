@@ -118,9 +118,9 @@ function LoginView  (){
                     登录
                   </Button>
                 </Box>
-                <Box my={2} className={classes.link}>
+                {/* <Box my={2} className={classes.link}>
                   <Link href="/main/reset">修改密码</Link>
-                </Box>
+                </Box> */}
                 {/* <Typography
                   color="textSecondary"
                   variant="body1"
