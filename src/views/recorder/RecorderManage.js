@@ -231,7 +231,7 @@ const RecorderManage = () => {
                   <TableCell align="center">
                     {recorder.recorder2Name}
                     <Box>
-                      {recorder.recorder2 ? (
+                      {recorder.recorder2File ? (
                         <Button
                           color="primary"
                           size="small"
@@ -248,11 +248,11 @@ const RecorderManage = () => {
                   <TableCell align="center">
                     {recorder.summarizerName}
                     <Box>
-                      {recorder.summary ? (
+                      {recorder.summarizerFile ? (
                         <Button
                           color="primary"
                           size="small"
-                          href={recorder.DOWNLOAD_SUMMARY_URL}
+                          href={recorder.summarizerFileUrl}
                         >
                           {" "}
                           下载
