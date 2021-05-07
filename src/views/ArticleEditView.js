@@ -2,7 +2,6 @@ import React, { useEffect, useState, useContext } from "react";
 import { useHistory } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import { Box, Button, Typography, TextField } from "@material-ui/core";
-import { Link as RouterLink } from "react-router-dom";
 import { useParams } from "react-router-dom";
 
 import { Editor } from "@tinymce/tinymce-react";

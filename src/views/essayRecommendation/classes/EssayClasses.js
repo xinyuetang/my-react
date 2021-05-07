@@ -103,7 +103,7 @@ const EssayClasses = () => {
             <TableBody>
               {essayClasses.map((essayClass) => (
                 <TableRow hover key={essayClass.id}>
-                  <TableCell>{essayClass.tag}</TableCell>
+                  <TableCell>{essayClass.id}</TableCell>
                   <TableCell>{essayClass.name}</TableCell>
                   {hasPermission && (
                     <TableCell align="center">

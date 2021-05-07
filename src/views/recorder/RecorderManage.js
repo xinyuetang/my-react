@@ -160,18 +160,18 @@ const RecorderManage = () => {
     }
   };
 
-  const handleDownload = (URL, id, fileName) => {
-    fetch(URL + "?id=" + id, {
-      method: "GET",
-      headers: new Headers({
-        "Content-Type": "application/json",
-      }),
-    }).then((response) => {
-      response.blob().then((blob) => {
-        handleExport(blob, fileName);
-      });
-    });
-  };
+  // const handleDownload = (URL, id, fileName) => {
+  //   fetch(URL + "?id=" + id, {
+  //     method: "GET",
+  //     headers: new Headers({
+  //       "Content-Type": "application/json",
+  //     }),
+  //   }).then((response) => {
+  //     response.blob().then((blob) => {
+  //       handleExport(blob, fileName);
+  //     });
+  //   });
+  // };
   useEffect(getAllRecorder, [refresh]);
   const hasPermission = userInfo.roleId === 10 || userInfo.roleId === 20;
   return (
@@ -218,14 +218,7 @@ const RecorderManage = () => {
                         <Button
                           color="primary"
                           size="small"
-                          onClick={(e) =>
-                            handleDownload(
-                              DOWNLOAD_RECORDER1_URL,
-                              recorder.id,
-                              recorder.recorder1,
-                              e
-                            )
-                          }
+                          href={recorder.recorder1FileUrl}
                         >
                           {" "}
                           下载
@@ -242,14 +235,7 @@ const RecorderManage = () => {
                         <Button
                           color="primary"
                           size="small"
-                          onClick={(e) =>
-                            handleDownload(
-                              DOWNLOAD_RECORDER2_URL,
-                              recorder.id,
-                              recorder.recorder2,
-                              e
-                            )
-                          }
+                          href={recorder.recorder2FileUrl}
                         >
                           {" "}
                           下载
@@ -266,14 +252,7 @@ const RecorderManage = () => {
                         <Button
                           color="primary"
                           size="small"
-                          onClick={(e) =>
-                            handleDownload(
-                              DOWNLOAD_SUMMARY_URL,
-                              recorder.id,
-                              recorder.summary,
-                              e
-                            )
-                          }
+                          href={recorder.DOWNLOAD_SUMMARY_URL}
                         >
                           {" "}
                           下载

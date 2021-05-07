@@ -79,7 +79,11 @@ const SeminarManage = () => {
   };
   const NotAuthor = (props) => {
     const { seminar } = props;
-    if (seminar.link) return <Link href={seminar.link}>link </Link>;
+    if (seminar.link) return (
+      <Link href={seminar.link} title={seminar.link}>
+        去查看
+      </Link>
+    );
     else return "暂未上传";
   };
   useEffect(getAllSeminar, [refresh]);

@@ -29,6 +29,7 @@ const useStyles = makeStyles(() => ({
   export default function UploadForm(props){    
     const { RecorderId,DocType,Date}= props;
     const [file,setFile] = useState([]);
+    const [uploading, setUploading] = useState(false)
     const classes = useStyles();
     
     const handleFiles=(e)=>{
@@ -43,13 +44,19 @@ const useStyles = makeStyles(() => ({
     ];
 
     const handleSubmit = () => {
-      if (file == undefined) return;
+      if (file == undefined || uploading) return;
+      setUploading(true);
       formDataFetch({
         url: UPLOAD_RECORDER_URL,
         values: {
           id: RecorderId,
           [FileKeys[DocType]]: file,
         },
+        successCallback: () => {
+          alert("上传成功");
+          setUploading(false);
+        },
+        errorCallback: () => setUploading(false),
       });
       // var formData = new FormData();
       // formData.append("id", RecorderId);
@@ -69,13 +76,24 @@ const useStyles = makeStyles(() => ({
       // });
     }
    
-    return(
-        <div>
+    return (
+      <div>
         <form className={classes.root}>
-        <Typography className={classes.label}>请提交 {Date} 日的{DocTypes[DocType]}文件</Typography>
-        <Input id="file" type="file" accept=".doc,.docx,.pdf,.xml" required onChange={e=>handleFiles(e)}></Input>
-        <Button  variant="outlined" size="small" onClick={handleSubmit} > 上传文件</Button>
-         </form>
+          <Typography className={classes.label}>
+            请提交 {Date} 日的{DocTypes[DocType]}文件
+          </Typography>
+          <Input
+            id="file"
+            type="file"
+            accept=".doc,.docx,.pdf,.xml"
+            required
+            onChange={(e) => handleFiles(e)}
+          ></Input>
+          <Button variant="outlined" size="small" onClick={handleSubmit}>
+            {" "}
+            {uploading ? "上传中···" : "上传文件"}
+          </Button>
+        </form>
       </div>
-    )
+    );
 }

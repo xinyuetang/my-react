@@ -13,7 +13,7 @@ import {
   makeStyles,
 } from "@material-ui/core";
 import { UserContext } from "src/layouts/Context";
-import { GET_ALL_ARTICLE_URL, DELETE_CLASS_URL } from "src/settings";
+import { GET_ALL_ARTICLE_URL, DELETE_ARTICLE_URL } from "src/settings";
 import { deleteFetch } from "src/base";
 const useStyles = makeStyles((theme) => ({
   root: {},
@@ -50,7 +50,7 @@ const Essays = () => {
 
   const handleDeleteEssays = (id) => {
     deleteFetch({
-      url: `${DELETE_CLASS_URL}?id=${id}`,
+      url: `${DELETE_ARTICLE_URL}?id=${id}`,
       values: { id },
       successCallback: () => {
         setRefresh((prev) => !prev);

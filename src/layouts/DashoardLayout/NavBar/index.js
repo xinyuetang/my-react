@@ -7,9 +7,6 @@ import {
   List,
   Typography,
   makeStyles,
-  ListItem,
-  ListItemIcon,
-  ListItemText,
   Collapse,
 } from "@material-ui/core";
 import {

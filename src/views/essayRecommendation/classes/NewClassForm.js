@@ -1,7 +1,6 @@
 import React from "react";
 import { Formik } from "formik";
 import * as Yup from "yup";
-import cookie from "react-cookies";
 import { Box, Button, TextField, Typography, Dialog } from "@material-ui/core";
 import { ADD_CLASS_URL } from "src/settings";
 import { postFetch } from 'src/base'

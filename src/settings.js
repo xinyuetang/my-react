@@ -71,3 +71,5 @@ export const MARK_AS_READ_URL = BASE_URL + "/bulletin/markAsRead";
 export const ADD_DEVICE_URL = BASE_URL + "/device/add";
 export const GET_ALL_DEVICE_URL = BASE_URL + "/device/paging";
 export const DELETE_DEVICE_URL = BASE_URL + "/device/delete";
+export const APPLY_DEVICE_URL = BASE_URL + "/device/allocation/apply";
+export const RETURN_DEVICE_URL = BASE_URL + "/device/allocation/return";

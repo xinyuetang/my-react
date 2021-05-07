@@ -1,13 +1,12 @@
 import React from "react";
 import { Formik } from "formik";
 import * as Yup from "yup";
-import cookie from "react-cookies";
 import { Box, Button, TextField, Typography, Dialog } from "@material-ui/core";
-import { ADD_CLASS_URL } from "src/settings";
-import { postFetch } from 'src/base'
+import { APPLY_DEVICE_URL } from "src/settings";
+import { postFetch } from "src/base";
 
-export default function NewClassForm(props) {
-  const { onClose, open, tag } = props;
+export default function ApplyDeviceForm(props) {
+  const { onClose, open, deviceId } = props;
 
   const handleClose = () => {
     onClose();
@@ -16,17 +15,17 @@ export default function NewClassForm(props) {
     <Dialog onClose={handleClose} open={open}>
       <Formik
         initialValues={{
-          name: "",
+          inventoryUsage: "",
         }}
         validationSchema={Yup.object().shape({
-          name: Yup.string().max(255).required(),
+          inventoryUsage: Yup.string().max(255).required(),
         })}
         onSubmit={(values) => {
           postFetch({
-            url: ADD_CLASS_URL,
+            url: APPLY_DEVICE_URL,
             values: {
               ...values,
-              tag
+              deviceId,
             },
           });
           handleClose();
@@ -44,15 +43,14 @@ export default function NewClassForm(props) {
           <form onSubmit={handleSubmit} className="dialogForm">
             <Box mb={1}>
               <Typography color="textPrimary" variant="h4">
-                新建论文分类
+                申请设备
               </Typography>
             </Box>
             <TextField
-              error={Boolean(touched.name && errors.name)}
               fullWidth
-              label="新建类名称"
+              label="申请数量"
               margin="normal"
-              name="name"
+              name="inventoryUsage"
               onBlur={handleBlur}
               onChange={handleChange}
               variant="outlined"

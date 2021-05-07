@@ -37,6 +37,7 @@ function AddLinkForm(props) {
             ...seminar,
             link: values.link,
           },
+          successCallback: () => alert('提交成功')
         });
       }}
     >
