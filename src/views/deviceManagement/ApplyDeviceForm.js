@@ -27,6 +27,7 @@ export default function ApplyDeviceForm(props) {
               ...values,
               deviceId,
             },
+            successCallback: () => alert('申请成功')
           });
           handleClose();
         }}

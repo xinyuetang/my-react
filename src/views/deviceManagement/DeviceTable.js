@@ -89,6 +89,7 @@ export default function DeviceTable(props) {
         onClose={() => {
           setOpen(false);
           setDeviceId(0);
+          refresh();
         }}
         tag={0}
       />
