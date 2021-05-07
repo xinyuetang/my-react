@@ -211,7 +211,7 @@ const RecorderManage = () => {
               {recorders.map((recorder) => (
                 <TableRow hover key={recorder.id}>
                   <TableCell align="center">{recorder.date}</TableCell>
-                  <TableCell align="center">
+                  <TableCell align="center"> 
                     {recorder.recorder1Name}
                     <Box>
                       {recorder.recorder1File ? (
@@ -220,7 +220,6 @@ const RecorderManage = () => {
                           size="small"
                           href={recorder.recorder1FileUrl}
                         >
-                          {" "}
                           下载
                         </Button>
                       ) : (
