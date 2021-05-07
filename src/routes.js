@@ -8,7 +8,9 @@ import NotFoundView from './views/NotFoundView';
 import SeminarView from './views/seminar/SeminarView';
 import RecorderView from './views/recorder/RecorderView';
 import UserManagementView from './views/userManagemet/UserManagementView';
-import EssayRecommendationView from './views/essayRecommendation/EssayRecommendationView';
+import EssayRecommendationView from "./views/essayRecommendation/EssayRecommendationView";
+import EssaysView from "./views/essayRecommendation/essays";
+import ClassesView from "./views/essayRecommendation/classes";
 import ArticleView from './views/ArticleView';
 import ArticleEditView from './views/ArticleEditView'
 import TrainingSchemeView from './views/trainingScheme/TrainingSchemeView';
@@ -18,16 +20,29 @@ import DeviceManagementView from './views/deviceManagement/DeviceManagementView'
        
 const routes = [
   {
+    path: "/main",
+    component: MainLayout,
+    routes: [
+      { path: "/main/login", component: LoginView },
+      { path: "/main/reset", component: ResetPasswordView },
+    ],
+  },
+  {
     path: "/app",
     component: DashboardLayout,
     auth: true,
     routes: [
-      { path: "/app/updateUserInfo/:id", component: UpdateUserInfoView }, //查看文章
+      { path: "/app/updateUserInfo/:id", component: UpdateUserInfoView }, //更新用户信息
       { path: "/app/article/:id", component: ArticleView }, //查看文章
       { path: "/app/articleEdit/:id", component: ArticleEditView }, //编辑文章
       { path: "/app/seminar", component: SeminarView }, //演讲安排
       { path: "/app/recorder", component: RecorderView }, //辅读安排
       { path: "/app/userManagement", component: UserManagementView }, //用户管理
+      { path: "/app/essayRecommendation/essays", component: EssaysView }, //推荐论文列表
+      {
+        path: "/app/essayRecommendation/classes",
+        component: ClassesView,
+      }, //推荐论文分类
       { path: "/app/essayRecommendation", component: EssayRecommendationView }, //推荐论文
       { path: "/app/trainingScheme", component: TrainingSchemeView }, //培养方案
       { path: "/app/bulletinManagement", component: BulletinManagementView }, // 通告管理
@@ -40,8 +55,6 @@ const routes = [
     path: "/",
     component: MainLayout,
     routes: [
-      { path: "/login", component: LoginView },
-      { path: "/reset", component: ResetPasswordView },
       { path: "/404", component: NotFoundView },
       { path: "/*", component: LoginView },
     ],

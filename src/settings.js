@@ -49,12 +49,13 @@ export const DOWNLOAD_RECORDER1_URL = BASE_URL + "/recorder/downloadRecorder1";
 export const DOWNLOAD_RECORDER2_URL = BASE_URL + "/recorder/downloadRecorder2";
 export const DOWNLOAD_SUMMARY_URL = BASE_URL + "/recorder/downloadSummary";
 
-//推荐论文+培养方案
-export const GET_ALL_CLASS_URL = BASE_URL + "/class/paging";
-export const ADD_CLASS_URL = BASE_URL + "/class/add";
-export const DELETE_CLASS_URL = BASE_URL + "/class/delete";
+//推荐论文
+export const GET_ALL_CLASS_URL = BASE_URL + "/article/category/list";
+export const ADD_CLASS_URL = BASE_URL + "/article/category/add";
+export const DELETE_CLASS_URL = BASE_URL + "/article/category/delete";
 
-export const GET_ARTICLE_URL = BASE_URL + "/article";
+export const GET_ALL_ARTICLE_URL = BASE_URL + "/article/paging";
+export const GET_ARTICLE_URL = BASE_URL + "/article/";
 export const ADD_ARTICLE_URL = BASE_URL + "/article/add";
 export const EDIT_ARTICLE_URL = BASE_URL + "/article/edit";
 export const DELETE_ARTICLE_URL = BASE_URL + "/article/delete";

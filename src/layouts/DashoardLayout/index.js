@@ -47,7 +47,7 @@ const DashboardLayout = ({ routes }) => {
       if (res?.success) {
         setUser(res?.data)
       } else {
-        history.replace('/login');
+        history.replace('/main/login');
       }
     })
     // eslint-disable-next-line react-hooks/exhaustive-deps

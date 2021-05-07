@@ -1,6 +1,7 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 import { Formik } from 'formik';
+import cookie from "react-cookies";
 import { formUrlencodedFetch } from "src/base";
 import * as Yup from 'yup';
 import {
@@ -30,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
 
 function LoginView  (){
   const classes = useStyles();
-  let history = useHistory();
+  const history = useHistory();
   return (
     <Page className={classes.root} title="Login">
       <Box
@@ -54,7 +55,7 @@ function LoginView  (){
                 url: LOGIN_URL,
                 values,
                 successCallback: () => {
-                  // cookie.save('userInfo',response,{path:"/"});
+                  cookie.save('loggedIn','yes',{path:"/"});
                   //navigate('', { replace: true });
                   console.log("logged in");
                   history.replace("/app/seminar");
@@ -118,7 +119,7 @@ function LoginView  (){
                   </Button>
                 </Box>
                 <Box my={2} className={classes.link}>
-                  <Link href="/reset">修改密码</Link>
+                  <Link href="/main/reset">修改密码</Link>
                 </Box>
                 {/* <Typography
                   color="textSecondary"

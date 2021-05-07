@@ -3,6 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Card, CardContent, Button, Grid, Typography } from '@material-ui/core';
 import { Link as RouterLink } from 'react-router-dom';
 import { DELETE_ARTICLE_URL, DELETE_CLASS_URL } from 'src/settings';
+import { deleteFetch } from "src/base";
 import cookie from 'react-cookies';
 const useStyles = makeStyles({
   root: {
@@ -18,33 +19,21 @@ const useStyles = makeStyles({
 
 export default function CatalogCard(props) {
   const classes = useStyles();
-  const className = props.data.className;
-  const classID = props.data.id;
-  const articles = props.data.articles;
-  const refresh = props.refresh;
-  const userRoleId = props.userRoleId;
-  const authType = props.authType;//可以是推荐论文管理（3）或培养方案管理（4）
-  const handleDeleteArticle = (id, e) => {
-    fetch(DELETE_ARTICLE_URL + '?id=' + id, {
-      method: 'GET',
-      headers: new Headers({
-        'token': cookie.load("userInfo").token
-      }),
-    }).then(res => res.json())
-      .catch(error => console.error('Error:', error))
-      .then(response => { console.log(response); refresh(); });
-
+  const { data = {}, refresh, userRoleId, authType } = props;
+  const { name, id, articles } = data;
+  const handleDeleteArticle = (id) => {
+    deleteFetch({
+      url: `${DELETE_ARTICLE_URL}?id=${id}`,
+      values: { id },
+      successCallback: refresh,
+    });
   }
   const handleDeleteClass = (id, e) => {
-    fetch(DELETE_CLASS_URL + '?id=' + id, {
-      method: 'GET',
-      headers: new Headers({
-        'token': cookie.load("userInfo").token
-      }),
-    }).then(res => res.json())
-      .catch(error => console.error('Error:', error))
-      .then(response => { console.log(response); refresh(); });
-
+    deleteFetch({
+      url: `${DELETE_CLASS_URL}?id=${id}`,
+      values: { id },
+      successCallback: refresh,
+    });
   }
 
   return (
@@ -53,16 +42,16 @@ export default function CatalogCard(props) {
         <Grid container spacing={1} >
           <Grid item md={11}>
             <Typography className={classes.title} color="textSecondary" gutterBottom>
-              {className}
+              {name}
             </Typography>
           </Grid>
           {(userRoleId == 10 || userRoleId == authType) && <Grid item md={1}>
-            <Button onClick={e => handleDeleteClass(classID, e)} >删除类 </Button>
+            <Button onClick={e => handleDeleteClass(id, e)} >删除类 </Button>
           </Grid>}
         </Grid>
 
 
-        {articles.map((item) => (
+        {articles?.map((item) => (
           <Grid container spacing={1} key={item.id}>
             <Grid item md={10}>
               <RouterLink to={"/app/article/" + item.id}>

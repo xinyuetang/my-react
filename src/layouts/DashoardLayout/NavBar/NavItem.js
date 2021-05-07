@@ -10,34 +10,34 @@ import {
 
 const useStyles = makeStyles((theme) => ({
   item: {
-    display: 'flex',
+    display: "flex",
     paddingTop: 0,
-    paddingBottom: 0
+    paddingBottom: 0,
   },
   button: {
     color: theme.palette.text.secondary,
     fontWeight: theme.typography.fontWeightMedium,
-    justifyContent: 'flex-start',
+    justifyContent: "flex-start",
     letterSpacing: 0,
-    padding: '10px 8px',
-    textTransform: 'none',
-    width: '100%'
+    padding: "10px 8px",
+    textTransform: "none",
+    width: "100%",
   },
   icon: {
-    marginRight: theme.spacing(1)
+    marginRight: theme.spacing(1),
   },
   title: {
-    marginRight: 'auto'
+    marginRight: "auto",
   },
   active: {
     color: theme.palette.primary.main,
-    '& $title': {
-      fontWeight: theme.typography.fontWeightMedium
+    "& $title": {
+      fontWeight: theme.typography.fontWeightMedium,
     },
-    '& $icon': {
-      color: theme.palette.primary.main
-    }
-  }
+    "& $icon": {
+      color: theme.palette.primary.main,
+    },
+  },
 }));
 
 const NavItem = ({
@@ -46,56 +46,49 @@ const NavItem = ({
   icon: Icon,
   title,
   isToOutLink,
+  endIcon,
+  nestedItem,
+  onClick,
   ...rest
 }) => {
   const classes = useStyles();
-  if(isToOutLink) return(
-    <ListItem
-      className={clsx(classes.item, className)}
-      disableGutters
-      {...rest}
-    >
-      <Button
-        activeclassname={classes.active}
-        className={classes.button}
-        component={Link}
-        href={href}
-      >
-        {Icon && (
-          <Icon
-            className={classes.icon}
-            size="20"
-          />
-        )}
-        <span className={classes.title}>
-          {title}
-        </span>
-      </Button>
-    </ListItem>);
-
-  else
   return (
     <ListItem
       className={clsx(classes.item, className)}
       disableGutters
       {...rest}
     >
-      <Button
-        activeClassName={classes.active}
-        className={classes.button}
-        component={RouterLink}
-        to={href}
-      >
-        {Icon && (
-          <Icon
-            className={classes.icon}
-            size="20"
-          />
-        )}
-        <span className={classes.title}>
-          {title}
-        </span>
-      </Button>
+      {nestedItem ? (
+        <Button
+          activeClassName={classes.active}
+          className={classes.button}
+          onClick={() => onClick && onClick()}
+        >
+          {Icon && <Icon className={classes.icon} size="20" />}
+          <span className={classes.title}>{title}</span>
+          {endIcon}
+        </Button>
+      ) : isToOutLink ? (
+        <Button
+          activeclassname={classes.active}
+          className={classes.button}
+          component={Link}
+          href={href}
+        >
+          {Icon && <Icon className={classes.icon} size="20" />}
+          <span className={classes.title}>{title}</span>
+        </Button>
+      ) : (
+        <Button
+          activeClassName={classes.active}
+          className={classes.button}
+          component={RouterLink}
+          to={href}
+        >
+          {Icon && <Icon className={classes.icon} size="20" />}
+          <span className={classes.title}>{title}</span>
+        </Button>
+      )}
     </ListItem>
   );
 };

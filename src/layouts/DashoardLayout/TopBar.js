@@ -47,12 +47,12 @@ const TopBar = ({ className, onMobileNavOpen, ...rest }) => {
   const [newBulletinNumber, setNewBulletinBumber] = useState(0); //未读通知数量
   const logOut = () => {
     cookie.remove("loggedIn", { path: "/" });
-    history.push("/login");
+    history.push("/main/login");
   };
 
   //向后台调取所有未读通知数
   const getAllBulletin = () => {
-    return fetch(`${GET_ALL_BULLETIN_URL}?limit=9999`, {})
+    return fetch(`${GET_ALL_BULLETIN_URL}?limit=1999`, {})
       .then((res) => res.json())
       .catch((error) => console.error("Error:", error))
       .then((response) => setNewBulletinBumber(response?.data?.length || 0));
@@ -149,7 +149,7 @@ const TopBar = ({ className, onMobileNavOpen, ...rest }) => {
                       >
                         编辑资料
                       </MenuItem>
-                      <MenuItem component={RouterLink} to={"/reset"}>
+                      <MenuItem component={RouterLink} to={"/main/reset"}>
                         修改密码
                       </MenuItem>
                       <MenuItem onClick={logOut}>退出登录</MenuItem>

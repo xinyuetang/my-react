@@ -44,7 +44,7 @@ export default function NewClassForm(props) {
           <form onSubmit={handleSubmit} className="dialogForm">
             <Box mb={1}>
               <Typography color="textPrimary" variant="h4">
-                新建类
+                新建论文分类
               </Typography>
             </Box>
             <TextField

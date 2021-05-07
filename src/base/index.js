@@ -28,7 +28,7 @@ export const formDataFetch = ({
     .then((res) => res.json())
     .catch((error) => console.error("Error:", error))
     .then((response) => {
-      if (response.success) {
+      if (response?.success) {
         successCallback && successCallback();
       } else {
         errorCallback && errorCallback();

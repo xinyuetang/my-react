@@ -10,15 +10,15 @@ import {
   TableCell,
   TableHead,
   TableRow,
-  Link,
   makeStyles,
 } from "@material-ui/core";
 import { UserContext } from "src/layouts/Context";
-import { getAllUser } from "src/service/userService";
-import { GET_ALL_SEMINAR_URL, DELETE_SEMINAR_URL } from "src/settings";
+import {
+  GET_ALL_CLASS_URL,
+  DELETE_CLASS_URL,
+} from "src/settings";
 import { deleteFetch } from "src/base";
-import SeminarManageForm from "./SeminarManageForm";
-import AddLinkForm from "./AddLinkForm";
+import NewClassForm from "./NewClassForm";
 const useStyles = makeStyles((theme) => ({
   root: {},
   actions: {
@@ -37,25 +37,18 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const SeminarManage = () => {
+const EssayClasses = () => {
   const classes = useStyles();
   const [refresh, setRefresh] = useState(false);
-  const [seminars, setSeminars] = useState([]);
-  const [users, setUsers] = useState([]);
+  const [essayClasses, setEssayClasses] = useState([]);
   const [open, setOpen] = useState(false);
   const { userInfo } = useContext(UserContext);
-  //向后台调取用户列表并更新界面
-  useEffect(() => {
-    getAllUser().then((res) => {
-      setUsers(res?.data || []);
-    });
-  }, []);
-  const getAllSeminar = () => {
-    fetch(GET_ALL_SEMINAR_URL, {})
+  const getAllEssayClasses = () => {
+    fetch(GET_ALL_CLASS_URL, {})
       .then((res) => res.json())
       .catch((error) => console.error("Error:", error))
       .then((response) => {
-        setSeminars(response?.data || []);
+        setEssayClasses(response?.data || []);
       });
   };
 
@@ -68,28 +61,23 @@ const SeminarManage = () => {
     setRefresh((prev) => !prev);
   };
 
-  const handleDeleteSeminar = (id) => {
+  const handleDeleteEssayClasses = (id) => {
     deleteFetch({
-      url: `${DELETE_SEMINAR_URL}?id=${id}`,
+      url: `${DELETE_CLASS_URL}?id=${id}`,
       values: { id },
       successCallback: () => {
         setRefresh((prev) => !prev);
       },
     });
   };
-  const NotAuthor = (props) => {
-    const { seminar } = props;
-    if (seminar.link) return <Link href={seminar.link}>link </Link>;
-    else return "暂未上传";
-  };
-  useEffect(getAllSeminar, [refresh]);
-  const hasPermission = userInfo.roleId === 10 || userInfo.roleId === 20;
+  useEffect(getAllEssayClasses, [refresh]);
+  const hasPermission = userInfo.roleId === 10 || userInfo.roleId === 40;
   return (
     <div>
       <Card className={classes.root}>
         <Box className={classes.header}>
           <Typography color="textPrimary" size="small">
-            演讲安排
+            论文分类
           </Typography>
           {hasPermission && (
             <Button
@@ -98,7 +86,7 @@ const SeminarManage = () => {
               variant="outlined"
               onClick={handleOpen}
             >
-              添加演讲安排
+              添加论文分类
             </Button>
           )}
         </Box>
@@ -107,33 +95,23 @@ const SeminarManage = () => {
           <Table>
             <TableHead>
               <TableRow>
-                <TableCell>时间</TableCell>
-                <TableCell>主题</TableCell>
-                <TableCell>主讲人</TableCell>
-                <TableCell>资源链接</TableCell>
+                <TableCell>编号</TableCell>
+                <TableCell>名称</TableCell>
                 {hasPermission && <TableCell align="center">操作</TableCell>}
               </TableRow>
             </TableHead>
             <TableBody>
-              {seminars.map((seminar) => (
-                <TableRow hover key={seminar.id}>
-                  <TableCell>{seminar.date}</TableCell>
-                  <TableCell className={classes.td}>{seminar.theme}</TableCell>
-                  <TableCell>{seminar.speakerName}</TableCell>
-                  <TableCell>
-                    {userInfo.userId === seminar.speakerId ? (
-                      <AddLinkForm seminar={seminar} />
-                    ) : (
-                      <NotAuthor seminar={seminar} />
-                    )}
-                  </TableCell>
+              {essayClasses.map((essayClass) => (
+                <TableRow hover key={essayClass.id}>
+                  <TableCell>{essayClass.tag}</TableCell>
+                  <TableCell>{essayClass.name}</TableCell>
                   {hasPermission && (
                     <TableCell align="center">
                       <Button
                         color="primary"
                         size="small"
                         variant="text"
-                        onClick={(e) => handleDeleteSeminar(seminar.id)}
+                        onClick={(e) => handleDeleteEssayClasses(essayClass.id)}
                       >
                         删除
                       </Button>
@@ -145,14 +123,9 @@ const SeminarManage = () => {
           </Table>
         </Box>
       </Card>
-      <SeminarManageForm
-        open={open}
-        onClose={handleClose}
-        classes={classes}
-        users={users}
-      />
+      <NewClassForm open={open} onClose={handleClose} tag={0} />
     </div>
   );
 };
 
-export default SeminarManage;
+export default EssayClasses;

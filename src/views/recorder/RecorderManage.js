@@ -214,7 +214,7 @@ const RecorderManage = () => {
                   <TableCell align="center">
                     {recorder.recorder1Name}
                     <Box>
-                      {recorder.recorder1 ? (
+                      {recorder.recorder1File ? (
                         <Button
                           color="primary"
                           size="small"

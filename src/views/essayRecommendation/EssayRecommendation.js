@@ -44,7 +44,7 @@ export default function EssayRecommendation() {
       .catch((error) => console.error("Error:", error))
       .then((response) => {
         console.log(response);
-        setDatas(response.data || []);
+        setDatas(response?.data || []);
       });
   };
   useEffect(getEssayCatalog, []);
@@ -71,13 +71,13 @@ export default function EssayRecommendation() {
         </Box>
       )}
 
-      {datas.map((item) => (
+      {datas?.map((item) => (
         <CatalogCard
           key={item.id}
           data={item}
           refresh={getEssayCatalog}
           userRoleId={userInfo.roleId}
-          authType={3}
+          authType={40}
         ></CatalogCard>
       ))}
       <NewClassForm

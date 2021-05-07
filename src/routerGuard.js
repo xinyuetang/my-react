@@ -12,7 +12,7 @@ export function RouteWithSubRoutes(route) {
     if(route.auth && checkLoginStatus()==false)
     {
         console.log("请先登录")
-        return <Redirect to="/login"/>
+        return <Redirect to="/main/login"/>
     }
     return (
       <Route
