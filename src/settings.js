@@ -1,5 +1,3 @@
-// export const RoleName = ["系统管理员","讨论班管理员","Lab管理员",
-// "推荐论文管理员","培养方案管理员","通知管理员","普通用户"];
 export const RoleName = {
   0: "普通用户",
   10: "系统管理员",
@@ -15,8 +13,13 @@ export const RoleName = {
 //部署开发环境
 // export const BASE_URL ='http://10.176.36.7:8088';
 // 解决跨域问题临时使用
-export const BASE_URL = "http://fd.foxbank.cn";
-// export const BASE_URL = "http://fd.foxzz.cn";
+// export const BASE_URL = "http://fd.foxbank.cn";
+export const BASE_URL = "http://fd.foxzz.cn";
+
+/**
+ * MNG_: 管理员
+ * U_: 普通用户
+ */
 
 //登录、用户管理
 export const USER_INFO = BASE_URL + "/user/info";
@@ -61,8 +64,8 @@ export const EDIT_ARTICLE_URL = BASE_URL + "/article/edit";
 export const DELETE_ARTICLE_URL = BASE_URL + "/article/delete";
 
 //培养计划
-export const GET_ALL_PLAN_URL = BASE_URL + "/study/plan/paging";
-export const DELETE_PLAN_URL = BASE_URL + "/study/plan/delete";
+export const MNG_GET_ALL_PLAN_URL = BASE_URL + "/mng/study/plan/paging";
+export const MNG_DELETE_PLAN_URL = BASE_URL + "/mng/study/plan/delete";
 
 //通告管理
 export const ADD_BULLETIN_URL = BASE_URL + "/bulletin/add";
@@ -71,13 +74,13 @@ export const GET_NEW_BULLETIN_NUMBER_URL =
   BASE_URL + "/bulletin/newBulletinNumber";
 export const MARK_AS_READ_URL = BASE_URL + "/bulletin/markAsRead";
 
-//设备管理 MNG_:管理员 U_:普通用户
-export const ADD_DEVICE_URL = BASE_URL + "/device/add";
-export const UPDATE_DEVICE_URL = BASE_URL + "/device/update";
+//设备管理 
+export const MNG_ADD_DEVICE_URL = BASE_URL + "/mng/device/add";
+export const MNG_UPDATE_DEVICE_URL = BASE_URL + "/mng/device/update";
 export const U_GET_ALL_DEVICE_URL = BASE_URL + "/u/device/paging";
 export const MNG_GET_ALL_DEVICE_URL = BASE_URL + "/mng/device/paging";
-export const DELETE_DEVICE_URL = BASE_URL + "/device/delete";
-export const APPLY_DEVICE_URL = BASE_URL + "/device/allocation/apply";
+export const MNG_DELETE_DEVICE_URL = BASE_URL + "/mng/device/delete";
+export const U_APPLY_DEVICE_URL = BASE_URL + "/u/device/allocation/apply";
 export const U_RETURN_DEVICE_URL = BASE_URL + "/u/device/allocation/return";
 export const MNG_RETURN_DEVICE_URL = BASE_URL + "/mng/device/allocation/return";
 export const U_DEVICE_USAGE_URL = BASE_URL + "/u/device/usage/paging";

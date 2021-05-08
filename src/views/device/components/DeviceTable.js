@@ -12,7 +12,7 @@ import {
 } from "@material-ui/core";
 import { UserContext } from "src/layouts/Context";
 import {
-  DELETE_DEVICE_URL,
+  MNG_DELETE_DEVICE_URL,
 } from "src/settings";
 import { deleteFetch } from "src/base";
 import ApplyDeviceForm from "./ApplyDeviceForm";
@@ -72,7 +72,7 @@ export default function DeviceTable(props) {
   const [deviceDetail, setDeviceDetail] = useState({});
   const deleteDevice = (id) => {
     deleteFetch({
-      url: `${DELETE_DEVICE_URL}?id=${id}`,
+      url: `${MNG_DELETE_DEVICE_URL}?id=${id}`,
       successCallback: refresh,
     });
   };

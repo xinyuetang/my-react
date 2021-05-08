@@ -2,7 +2,7 @@ import React from "react";
 import { Formik } from "formik";
 import * as Yup from "yup";
 import { Box, Button, TextField, Typography, Dialog } from "@material-ui/core";
-import { APPLY_DEVICE_URL } from "src/settings";
+import { U_APPLY_DEVICE_URL } from "src/settings";
 import { postFetch } from "src/base";
 
 export default function ApplyDeviceForm(props) {
@@ -22,7 +22,7 @@ export default function ApplyDeviceForm(props) {
         })}
         onSubmit={(values) => {
           postFetch({
-            url: APPLY_DEVICE_URL,
+            url: U_APPLY_DEVICE_URL,
             values: {
               ...values,
               deviceId,
