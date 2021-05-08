@@ -47,9 +47,9 @@ const routes = [
         component: ClassesView,
       }, //推荐论文分类
       { path: "/app/essayRecommendation", component: EssayRecommendationView }, //推荐论文
-      { path: "/app/studyPlan", component: StudyPlanEditView }, //培养计划列表
-      { path: "/app/studyPlan/detail", component: StudyPlanDetailView }, //培养计划列表
-      { path: "/app/studyPlan/edit/:id", component: StudyPlanView }, //培养计划列表
+      { path: "/app/studyPlan/detail", component: StudyPlanDetailView }, //培养计划详情
+      { path: "/app/studyPlan/edit/:id", component: StudyPlanEditView }, //编辑培养计划
+      { path: "/app/studyPlan", component: StudyPlanView }, //培养计划列表
       { path: "/app/trainingScheme", component: TrainingSchemeView }, //培养方案
       { path: "/app/bulletinManagement", component: BulletinManagementView }, // 通告管理
       { path: "/app/bulletinList", component: BulletinListView }, //通知列表

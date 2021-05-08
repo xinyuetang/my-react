@@ -65,6 +65,8 @@ export const DELETE_ARTICLE_URL = BASE_URL + "/article/delete";
 
 //培养计划
 export const MNG_GET_ALL_PLAN_URL = BASE_URL + "/mng/study/plan/paging";
+export const MNG_ADD_PLAN_URL = BASE_URL + "/mng/study/plan/add";
+export const MNG_UPDATE_PLAN_URL = BASE_URL + "/mng/study/plan/update";
 export const MNG_DELETE_PLAN_URL = BASE_URL + "/mng/study/plan/delete";
 
 //通告管理

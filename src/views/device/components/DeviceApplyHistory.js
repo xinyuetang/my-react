@@ -75,7 +75,7 @@ export default function DeviceApplyHistory(props) {
       <AppBar className={classes.appBar}>
         <Toolbar>
           <Typography variant="h6" className={classes.title}>
-            {`[${deviceDetail.name}]借用记录`}
+            {`[${deviceDetail.name}] 借用记录`}
           </Typography>
           <IconButton
             edge="start"

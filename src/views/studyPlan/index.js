@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Container, makeStyles } from "@material-ui/core";
+import { UserContext } from "src/layouts/Context";
 import Page from "src/components/Page";
-import StudyPlan from "./StudyPlan";
+import StudyPlanManage from "./StudyPlanManage";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -13,11 +14,18 @@ const useStyles = makeStyles((theme) => ({
 }));
 const StudyPlanView = () => {
   const classes = useStyles();
+  const { userInfo } = useContext(UserContext);
+  const hasPermission = userInfo.roleId === 10 || userInfo.roleId === 50;
+  console.log(hasPermission, userInfo);
 
   return (
     <Page className={classes.root} title="培养计划">
       <Container maxWidth={false}>
-        <StudyPlan />
+        {hasPermission ? (
+          <StudyPlanManage />
+        ) : (
+          <div>sadadsdas</div>
+        )}
       </Container>
     </Page>
   );
