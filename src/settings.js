@@ -10,7 +10,6 @@ export const RoleName = {
   60: "通知管理员",
 };
 
-//分别对应的roleID是0123456
 //本地开发环境
 // export const BASE_URL = 'http://localhost:8080';
 //部署开发环境
@@ -61,6 +60,10 @@ export const ADD_ARTICLE_URL = BASE_URL + "/article/add";
 export const EDIT_ARTICLE_URL = BASE_URL + "/article/edit";
 export const DELETE_ARTICLE_URL = BASE_URL + "/article/delete";
 
+//培养计划
+export const GET_ALL_PLAN_URL = BASE_URL + "/study/plan/paging";
+export const DELETE_PLAN_URL = BASE_URL + "/study/plan/delete";
+
 //通告管理
 export const ADD_BULLETIN_URL = BASE_URL + "/bulletin/add";
 export const GET_ALL_BULLETIN_URL = BASE_URL + "/bulletin/paging";
@@ -68,9 +71,16 @@ export const GET_NEW_BULLETIN_NUMBER_URL =
   BASE_URL + "/bulletin/newBulletinNumber";
 export const MARK_AS_READ_URL = BASE_URL + "/bulletin/markAsRead";
 
-//设备管理
+//设备管理 MNG_:管理员 U_:普通用户
 export const ADD_DEVICE_URL = BASE_URL + "/device/add";
-export const GET_ALL_DEVICE_URL = BASE_URL + "/device/paging";
+export const UPDATE_DEVICE_URL = BASE_URL + "/device/update";
+export const U_GET_ALL_DEVICE_URL = BASE_URL + "/u/device/paging";
+export const MNG_GET_ALL_DEVICE_URL = BASE_URL + "/mng/device/paging";
 export const DELETE_DEVICE_URL = BASE_URL + "/device/delete";
 export const APPLY_DEVICE_URL = BASE_URL + "/device/allocation/apply";
-export const RETURN_DEVICE_URL = BASE_URL + "/device/allocation/return";
+export const U_RETURN_DEVICE_URL = BASE_URL + "/u/device/allocation/return";
+export const MNG_RETURN_DEVICE_URL = BASE_URL + "/mng/device/allocation/return";
+export const U_DEVICE_USAGE_URL = BASE_URL + "/u/device/usage/paging";
+export const MNG_DEVICE_USAGE_URL = BASE_URL + "/mng/device/usage/paging";
+export const U_DEVICE_ALLOCATION_URL = BASE_URL + "/u/device/allocation/paging";
+export const MNG_DEVICE_ALLOCATION_URL = BASE_URL + "/mng/device/allocation/paging";

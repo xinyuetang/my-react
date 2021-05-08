@@ -14,9 +14,12 @@ import ClassesView from "./views/essayRecommendation/classes";
 import ArticleView from './views/ArticleView';
 import ArticleEditView from './views/ArticleEditView'
 import TrainingSchemeView from './views/trainingScheme/TrainingSchemeView';
+import StudyPlanView from "./views/studyPlan";
+import StudyPlanEditView from "./views/studyPlan/edit";
+import StudyPlanDetailView from "./views/studyPlan/detail";
 import BulletinManagementView from './views/bulletin/BulletinManagementView';
 import BulletinListView from './views/bulletin/BulletinListView';
-import DeviceManagementView from './views/deviceManagement/DeviceManagementView';
+import DeviceView from './views/device/DeviceView';
        
 const routes = [
   {
@@ -44,10 +47,13 @@ const routes = [
         component: ClassesView,
       }, //推荐论文分类
       { path: "/app/essayRecommendation", component: EssayRecommendationView }, //推荐论文
+      { path: "/app/studyPlan", component: StudyPlanEditView }, //培养计划列表
+      { path: "/app/studyPlan/detail", component: StudyPlanDetailView }, //培养计划列表
+      { path: "/app/studyPlan/edit/:id", component: StudyPlanView }, //培养计划列表
       { path: "/app/trainingScheme", component: TrainingSchemeView }, //培养方案
       { path: "/app/bulletinManagement", component: BulletinManagementView }, // 通告管理
       { path: "/app/bulletinList", component: BulletinListView }, //通知列表
-      { path: "/app/device", component: DeviceManagementView }, //IT资源管理
+      { path: "/app/device", component: DeviceView }, //IT资源管理
       { path: "*", component: NotFoundView },
     ],
   },

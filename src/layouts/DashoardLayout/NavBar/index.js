@@ -112,7 +112,7 @@ const NavBar = ({ onMobileClose, openMobile }) => {
           </Collapse>
 
           <NavItem
-            href="/app/trainingScheme"
+            href="/app/studyPlan"
             title="培养方案管理"
             icon={BookOpenIcon}
           />
