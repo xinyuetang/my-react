@@ -13,8 +13,8 @@ export const RoleName = {
 //部署开发环境
 // export const BASE_URL ='http://10.176.36.7:8088';
 // 解决跨域问题临时使用
-// export const BASE_URL = "http://fd.foxbank.cn";
-export const BASE_URL = "http://fd.foxzz.cn";
+export const BASE_URL = "http://fd.foxbank.cn";
+// export const BASE_URL = "http://fd.foxzz.cn";
 
 /**
  * MNG_: 管理员
