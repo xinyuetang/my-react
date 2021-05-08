@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
+import { useParams, useHistory } from "react-router-dom";
 import {
   Box,
   Button,
@@ -13,11 +14,19 @@ import {
   makeStyles,
 } from "@material-ui/core";
 import { UserContext } from "src/layouts/Context";
-import { MNG_GET_ALL_PLAN_URL, MNG_DELETE_PLAN_URL } from "src/settings";
+import {
+  MNG_GET_ALLOCATION_URL,
+  MNG_DELETE_ALLOCATION,
+  MNG_EDIT_ALLOCATION,
+} from "src/settings";
+import { getAllUser } from "src/service/userService";
 import { deleteFetch } from "src/base";
-import EditStudyPlan from "./components/EditStudyPlan";
+import AssignUser from "../components/AssignUser";
+import Process from "../components/Process";
 const useStyles = makeStyles((theme) => ({
-  root: {},
+  root: {
+    padding: theme.spacing(3),
+  },
   actions: {
     justifyContent: "flex-end",
   },
@@ -32,21 +41,33 @@ const useStyles = makeStyles((theme) => ({
       lineHeight: 2,
     },
   },
+  empty: {
+    padding: theme.spacing(6),
+    textAlign: "center",
+  },
 }));
 
-const StudyPlanManage = () => {
+const PlanAllocationView = () => {
   const classes = useStyles();
+  const { planId } = useParams();
   const [refresh, setRefresh] = useState(false);
-  const [plans, setPlans] = useState([]);
-  const [planDetail, setPlanDetail] = useState({});
+  const [list, setList] = useState([]);
+  const [users, setUsers] = useState([]);
+  const [userId, setUserId] = useState();
   const [open, setOpen] = useState(false);
+  const [openProcess, setOpenProcess] = useState(false);
   const { userInfo } = useContext(UserContext);
-  const getPlans = () => {
-    fetch(MNG_GET_ALL_PLAN_URL, {})
+  useEffect(() => {
+    getAllUser().then((res) => {
+      setUsers(res.data || []);
+    });
+  }, []);
+  const getList = () => {
+    fetch(`${MNG_GET_ALLOCATION_URL}?id=${planId}`, {})
       .then((res) => res.json())
       .catch((error) => console.error("Error:", error))
       .then((response) => {
-        setPlans(response?.data || []);
+        setList(response?.data || []);
       });
   };
 
@@ -56,27 +77,26 @@ const StudyPlanManage = () => {
 
   const handleClose = () => {
     setOpen(false);
-    setPlanDetail({});
     setRefresh((prev) => !prev);
   };
 
-  const handlePlan = (id) => {
+  const handleDelete = (id) => {
     deleteFetch({
-      url: `${MNG_DELETE_PLAN_URL}?id=${id}`,
+      url: `${MNG_DELETE_ALLOCATION}?id=${id}&planId=${planId}`,
       values: { id },
       successCallback: () => {
         setRefresh((prev) => !prev);
       },
     });
   };
-  useEffect(getPlans, [refresh]);
+  useEffect(getList, [refresh]);
   const hasPermission = userInfo.roleId === 10 || userInfo.roleId === 50;
   return (
-    <div>
-      <Card className={classes.root}>
+    <div className={classes.root}>
+      <Card>
         <Box className={classes.header}>
           <Typography color="textPrimary" size="small">
-            培养计划
+            培养计划分配
           </Typography>
           <Button
             color="primary"
@@ -84,7 +104,7 @@ const StudyPlanManage = () => {
             variant="outlined"
             onClick={handleOpen}
           >
-            添加培养计划
+            分配学员
           </Button>
         </Box>
         <Divider />
@@ -93,50 +113,34 @@ const StudyPlanManage = () => {
             <TableHead>
               <TableRow>
                 <TableCell>编号</TableCell>
-                <TableCell>名称</TableCell>
-                <TableCell>入学年份</TableCell>
+                <TableCell>姓名</TableCell>
+                <TableCell>学号</TableCell>
                 {hasPermission && <TableCell align="center">操作</TableCell>}
               </TableRow>
             </TableHead>
             <TableBody>
-              {plans.map((plan) => (
+              {list.map((plan) => (
                 <TableRow hover key={plan.id}>
                   <TableCell>{plan.id}</TableCell>
-                  <TableCell>{plan.name}</TableCell>
-                  <TableCell>{plan.enrollYear}</TableCell>
+                  <TableCell>{plan.userName}</TableCell>
+                  <TableCell>{plan.userStuId}</TableCell>
                   <TableCell align="center">
                     <Button
                       color="primary"
                       size="small"
                       variant="text"
-                      onClick={(e) => {
-                        setPlanDetail(plan);
-                        handleOpen();
+                      onClick={() => {
+                        setUserId(plan.userId);
+                        setOpenProcess(true);
                       }}
                     >
-                      编辑
+                      完成进度
                     </Button>
                     <Button
                       color="primary"
                       size="small"
                       variant="text"
-                      href={`/app/studyPlan/planAllocation/${plan.id}`}
-                    >
-                      任务分配
-                    </Button>
-                    <Button
-                      color="primary"
-                      size="small"
-                      variant="text"
-                      href={`/app/studyPlan/detail/${plan.id}`}
-                    >
-                      查看详情
-                    </Button>
-                    <Button
-                      color="primary"
-                      size="small"
-                      variant="text"
-                      onClick={(e) => handlePlan(plan.id)}
+                      onClick={(e) => handleDelete(plan.id)}
                     >
                       删除
                     </Button>
@@ -145,15 +149,29 @@ const StudyPlanManage = () => {
               ))}
             </TableBody>
           </Table>
+          {list?.length === 0 && (
+            <Card className={classes.empty}>暂未分配学员</Card>
+          )}
         </Box>
       </Card>
-      <EditStudyPlan
-        open={open}
-        onClose={handleClose}
-        planDetail={planDetail}
-      />
+      {users?.length > 0 && (
+        <AssignUser
+          open={open}
+          onClose={handleClose}
+          users={users}
+          planId={planId}
+        />
+      )}
+      {userId > 0 && (
+        <Process
+          open={openProcess}
+          onClose={() => setOpenProcess(false)}
+          planId={planId}
+          userId={userId}
+        />
+      )}
     </div>
   );
 };
 
-export default StudyPlanManage;
+export default PlanAllocationView;

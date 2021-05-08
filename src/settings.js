@@ -63,11 +63,26 @@ export const ADD_ARTICLE_URL = BASE_URL + "/article/add";
 export const EDIT_ARTICLE_URL = BASE_URL + "/article/edit";
 export const DELETE_ARTICLE_URL = BASE_URL + "/article/delete";
 
-//培养计划
+//培养计划 管理员
 export const MNG_GET_ALL_PLAN_URL = BASE_URL + "/mng/study/plan/paging";
 export const MNG_ADD_PLAN_URL = BASE_URL + "/mng/study/plan/add";
 export const MNG_UPDATE_PLAN_URL = BASE_URL + "/mng/study/plan/update";
 export const MNG_DELETE_PLAN_URL = BASE_URL + "/mng/study/plan/delete";
+export const MNG_GET_PLAN_DETAIL_URL = BASE_URL + "/mng/study/plan/overview";
+export const MNG_ADD_WORK_URL = BASE_URL + "/mng/study/plan/work/add";
+export const MNG_UPDATE_WORK_URL = BASE_URL + "/mng/study/plan/work/update";
+export const MNG_DELETE_WORK_URL = BASE_URL + "/mng/study/plan/work/delete";
+export const MNG_ADD_STAGE_URL = BASE_URL + "/mng/study/plan/stage/add";
+export const MNG_UPDATE_STAGE_URL = BASE_URL + "/mng/study/plan/stage/update";
+export const MNG_DELETE_STAGE_URL = BASE_URL + "/mng/study/plan/stage/delete";
+export const MNG_GET_ALLOCATION_URL =
+  BASE_URL + "/mng/study/plan/allocation/info/list";
+export const MNG_ASSGIN_STUDY = BASE_URL + "/mng/study/plan/assign";
+export const MNG_DELETE_ALLOCATION = BASE_URL + "/mng/study/plan/allocation/delete";
+// export const MNG_GET_ALLOCATION_INfO = BASE_URL + "/mng/study/plan/allocation/info";
+export const MNG_GET_ALLOCATION_INfO =
+  BASE_URL + "/mng/study/plan/allocation/overview";
+export const MNG_EDIT_ALLOCATION= BASE_URL + "/mng/study/plan/allocation/edit";
 
 //通告管理
 export const ADD_BULLETIN_URL = BASE_URL + "/bulletin/add";

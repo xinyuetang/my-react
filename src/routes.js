@@ -15,6 +15,7 @@ import ArticleView from './views/ArticleView';
 import ArticleEditView from './views/ArticleEditView'
 import TrainingSchemeView from './views/trainingScheme/TrainingSchemeView';
 import StudyPlanView from "./views/studyPlan";
+import PlanAllocationView from "./views/studyPlan/planAllocation";
 import StudyPlanEditView from "./views/studyPlan/edit";
 import StudyPlanDetailView from "./views/studyPlan/detail";
 import BulletinManagementView from './views/bulletin/BulletinManagementView';
@@ -47,8 +48,11 @@ const routes = [
         component: ClassesView,
       }, //推荐论文分类
       { path: "/app/essayRecommendation", component: EssayRecommendationView }, //推荐论文
-      { path: "/app/studyPlan/detail", component: StudyPlanDetailView }, //培养计划详情
-      { path: "/app/studyPlan/edit/:id", component: StudyPlanEditView }, //编辑培养计划
+      {
+        path: "/app/studyPlan/planAllocation/:planId",
+        component: PlanAllocationView,
+      }, //任务分配
+      { path: "/app/studyPlan/detail/:id", component: StudyPlanDetailView }, //培养计划详情
       { path: "/app/studyPlan", component: StudyPlanView }, //培养计划列表
       { path: "/app/trainingScheme", component: TrainingSchemeView }, //培养方案
       { path: "/app/bulletinManagement", component: BulletinManagementView }, // 通告管理

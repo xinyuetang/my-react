@@ -92,7 +92,7 @@ const SeminarManage = () => {
     <div>
       <Card className={classes.root}>
         <Box className={classes.header}>
-          <Typography color="textPrimary" size="small">
+          <Typography color="textPrimary" size="small" component="h2">
             演讲安排
           </Typography>
           {hasPermission && (
