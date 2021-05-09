@@ -58,7 +58,7 @@ export default function EditStage(props) {
             />
             <TextField
               label="结束时间"
-              type="datetime"
+              type="date"
               margin="normal"
               fullWidth
               name="endDate"
@@ -71,7 +71,7 @@ export default function EditStage(props) {
             <Box my={2}>
               <Button
                 color="primary"
-                disabled={isSubmitting}
+                // disabled={isSubmitting}
                 size="large"
                 type="submit"
                 variant="contained"

@@ -13,6 +13,7 @@ import {
   TableRow,
   makeStyles,
 } from "@material-ui/core";
+import KeyboardReturnIcon from "@material-ui/icons/KeyboardReturn";
 import { UserContext } from "src/layouts/Context";
 import {
   MNG_GET_ALLOCATION_URL,
@@ -35,11 +36,13 @@ const useStyles = makeStyles((theme) => ({
   },
   header: {
     display: "flex",
-    justifyContent: "space-between",
     padding: "16px",
     "& p": {
       lineHeight: 2,
     },
+    "& .MuiTypography-root": {
+      flex: 1
+    }
   },
   empty: {
     padding: theme.spacing(6),
@@ -50,6 +53,7 @@ const useStyles = makeStyles((theme) => ({
 const PlanAllocationView = () => {
   const classes = useStyles();
   const { planId } = useParams();
+  const history = useHistory();
   const [refresh, setRefresh] = useState(false);
   const [list, setList] = useState([]);
   const [users, setUsers] = useState([]);
@@ -105,6 +109,15 @@ const PlanAllocationView = () => {
             onClick={handleOpen}
           >
             分配学员
+          </Button>
+          <Button
+            className={classes.return}
+            size="small"
+            variant="outlined"
+            endIcon={<KeyboardReturnIcon />}
+            onClick={history.goBack}
+          >
+            返回
           </Button>
         </Box>
         <Divider />
