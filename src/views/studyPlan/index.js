@@ -16,16 +16,11 @@ const StudyPlanView = () => {
   const classes = useStyles();
   const { userInfo } = useContext(UserContext);
   const hasPermission = userInfo.roleId === 10 || userInfo.roleId === 50;
-  console.log(hasPermission, userInfo);
 
   return (
     <Page className={classes.root} title="培养计划">
       <Container maxWidth={false}>
-        {hasPermission ? (
-          <StudyPlanManage />
-        ) : (
-          <div>sadadsdas</div>
-        )}
+        <StudyPlanManage />
       </Container>
     </Page>
   );

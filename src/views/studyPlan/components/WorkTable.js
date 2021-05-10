@@ -10,10 +10,11 @@ import {
   makeStyles,
   IconButton,
   Typography,
+  Card,
 } from "@material-ui/core";
 import AddBoxIcon from "@material-ui/icons/AddBox";
-import { MNG_DELETE_WORK_URL } from "src/settings";
-import { deleteFetch } from "src/base";
+import { MNG_DELETE_WORK_URL, U_EDIT_ALLOCATION } from "src/settings";
+import { deleteFetch, postFetch } from "src/base";
 import EditWork from "./EditWork";
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -46,7 +47,7 @@ const WORK_TYPE = {
   330: "技术型任务",
 };
 export default function WorkTable(props) {
-  const { works, refresh, workType, planStageId } = props;
+  const { works, refresh, workType, planStageId, hasPermission } = props;
   const classes = useStyles();
   const [open, setOpen] = useState(false);
   const [workDetail, setWorkDetail] = useState({});
@@ -56,15 +57,30 @@ export default function WorkTable(props) {
       successCallback: refresh,
     });
   };
+  const handleUpdate = (id, finished) => {
+    postFetch({
+      url: U_EDIT_ALLOCATION,
+      values: {
+        id,
+        finished
+      },
+      successCallback: () => {
+        alert("变更成功");
+        refresh();
+      }
+    });
+  }
   return (
-    <div className={classes.root}>
+    <Card className={classes.root}>
       <div className={classes.header}>
         <Typography color="textPrimary" size="small" component="h2">
           {`${WORK_TYPE[workType]}：`}
         </Typography>
-        <IconButton color="inherit" onClick={() => setOpen(true)}>
-          <AddBoxIcon />
-        </IconButton>
+        {hasPermission && (
+          <IconButton color="inherit" onClick={() => setOpen(true)}>
+            <AddBoxIcon />
+          </IconButton>
+        )}
       </div>
       <Divider />
       {works?.length > 0 ? (
@@ -73,6 +89,12 @@ export default function WorkTable(props) {
             <TableRow>
               <TableCell>任务编号</TableCell>
               <TableCell>任务名称</TableCell>
+              {!hasPermission && (
+                <>
+                  <TableCell>任务周期</TableCell>
+                  <TableCell>任务状态</TableCell>
+                </>
+              )}
               <TableCell align="center">操作</TableCell>
             </TableRow>
           </TableHead>
@@ -83,26 +105,59 @@ export default function WorkTable(props) {
               <TableRow hover key={work.id}>
                 <TableCell>{work.id}</TableCell>
                 <TableCell>{work.name}</TableCell>
+                {!hasPermission && (
+                  <>
+                    <TableCell>
+                      {`${work?.allocation?.planWorkStartDate || "--"} ~ ${
+                        work?.allocation?.planWorkEndDate || "--"
+                      }`}
+                    </TableCell>
+                    <TableCell>
+                      {work?.allocation?.finished === 0 ? "未完成" : "已完成"}
+                    </TableCell>
+                  </>
+                )}
                 <TableCell align="center">
-                  <Button
-                    color="primary"
-                    size="small"
-                    variant="text"
-                    onClick={() => {
-                      setOpen(true);
-                      setWorkDetail(work);
-                    }}
-                  >
-                    编辑
-                  </Button>
-                  <Button
-                    color="primary"
-                    size="small"
-                    variant="text"
-                    onClick={() => deleteWork(work.id)}
-                  >
-                    删除
-                  </Button>
+                  {hasPermission ? (
+                    <>
+                      <Button
+                        color="primary"
+                        size="small"
+                        variant="text"
+                        onClick={() => {
+                          setOpen(true);
+                          setWorkDetail(work);
+                        }}
+                      >
+                        编辑
+                      </Button>
+                      <Button
+                        color="primary"
+                        size="small"
+                        variant="text"
+                        onClick={() => deleteWork(work.id)}
+                      >
+                        删除
+                      </Button>
+                    </>
+                  ) : (
+                    <Button
+                      color="primary"
+                      size="small"
+                      variant="text"
+                      onClick={() =>
+                        handleUpdate(
+                          work?.allocation?.id,
+                          work?.allocation?.finished === 0 ? 1 : 0
+                        )
+                      }
+                      hasPermission={hasPermission}
+                    >
+                      {work?.allocation?.finished === 0
+                        ? "设为已完成"
+                        : "设为未完成"}
+                    </Button>
+                  )}
                 </TableCell>
               </TableRow>
             ))}
@@ -122,6 +177,6 @@ export default function WorkTable(props) {
         planStageId={planStageId}
         workType={workType}
       />
-    </div>
+    </Card>
   );
 }

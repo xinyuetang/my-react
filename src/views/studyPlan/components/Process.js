@@ -44,6 +44,7 @@ const useStyles = makeStyles((theme) => ({
   },
   stageContent: {
     marginLeft: theme.spacing(3),
+    flex: 1,
   },
   listItem: {
     display: 'flex',
@@ -64,16 +65,29 @@ export default function Process(props) {
   const handleClose = () => {
     onClose();
   };
-  useEffect(() => {
-    fetch(`${MNG_GET_ALLOCATION_INfO}?id=${planId}&userId=${userId}`, {})
+  const getInfo = () => {
+    fetch(`${MNG_GET_ALLOCATION_INfO}?planId=${planId}&userId=${userId}`, {})
       .then((res) => res.json())
       .catch((error) => console.error("Error:", error))
       .then((response) => {
         setInfo(response?.data || {});
       });
-  });
-  const handleUpdate = (work) => {
-    console.log(work);
+  }
+  useEffect(() => {
+    getInfo()
+  }, []);
+  const handleUpdate = (id, finished) => {
+    postFetch({
+      url: MNG_EDIT_ALLOCATION,
+      values: {
+        id,
+        finished,
+      },
+      successCallback: () => {
+        alert("变更成功");
+        getInfo();
+      },
+    });
   };
   const WorkList = ({stage}) => {
     return (
@@ -81,13 +95,26 @@ export default function Process(props) {
         {stage?.commonWorks?.map((work) => (
           <ListItem key={work.id} className={classes.listItem}>
             <span>{`${work.index}. ${work.name}`}</span>
+            <span
+              style={{
+                color: work?.allocation?.finished === 0 ? "#df5141" : "#3f51b5",
+              }}
+            >{`（${
+              work?.allocation?.finished === 0 ? "未完成" : "已完成"
+            }）`}</span>
             <Button
               color="primary"
               size="small"
               variant="outlined"
-              onClick={() => handleUpdate(work)}
+              style={{ marginLeft: 20 }}
+              onClick={() =>
+                handleUpdate(
+                  work?.allocation?.id,
+                  work?.allocation?.finished === 0 ? 1 : 0
+                )
+              }
             >
-              修改状态
+              {work?.allocation?.finished === 0 ? "设为已完成" : "设为未完成"}
             </Button>
           </ListItem>
         ))}

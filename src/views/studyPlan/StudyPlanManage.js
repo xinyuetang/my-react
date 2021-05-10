@@ -13,7 +13,11 @@ import {
   makeStyles,
 } from "@material-ui/core";
 import { UserContext } from "src/layouts/Context";
-import { MNG_GET_ALL_PLAN_URL, MNG_DELETE_PLAN_URL } from "src/settings";
+import {
+  MNG_GET_ALL_PLAN_URL,
+  MNG_DELETE_PLAN_URL,
+  U_GET_ALL_PLAN_URL,
+} from "src/settings";
 import { deleteFetch } from "src/base";
 import EditStudyPlan from "./components/EditStudyPlan";
 const useStyles = makeStyles((theme) => ({
@@ -41,8 +45,9 @@ const StudyPlanManage = () => {
   const [planDetail, setPlanDetail] = useState({});
   const [open, setOpen] = useState(false);
   const { userInfo } = useContext(UserContext);
+  const hasPermission = userInfo.roleId === 10 || userInfo.roleId === 50;
   const getPlans = () => {
-    fetch(MNG_GET_ALL_PLAN_URL, {})
+    fetch(hasPermission ? MNG_GET_ALL_PLAN_URL : U_GET_ALL_PLAN_URL, {})
       .then((res) => res.json())
       .catch((error) => console.error("Error:", error))
       .then((response) => {
@@ -70,7 +75,6 @@ const StudyPlanManage = () => {
     });
   };
   useEffect(getPlans, [refresh]);
-  const hasPermission = userInfo.roleId === 10 || userInfo.roleId === 50;
   return (
     <div>
       <Card className={classes.root}>
@@ -78,14 +82,16 @@ const StudyPlanManage = () => {
           <Typography color="textPrimary" size="small">
             培养计划
           </Typography>
-          <Button
-            color="primary"
-            size="small"
-            variant="outlined"
-            onClick={handleOpen}
-          >
-            添加培养计划
-          </Button>
+          {hasPermission && (
+            <Button
+              color="primary"
+              size="small"
+              variant="outlined"
+              onClick={handleOpen}
+            >
+              添加培养计划
+            </Button>
+          )}
         </Box>
         <Divider />
         <Box minWidth={800}>
@@ -95,7 +101,7 @@ const StudyPlanManage = () => {
                 <TableCell>编号</TableCell>
                 <TableCell>名称</TableCell>
                 <TableCell>入学年份</TableCell>
-                {hasPermission && <TableCell align="center">操作</TableCell>}
+                <TableCell align="center">操作</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -109,37 +115,41 @@ const StudyPlanManage = () => {
                       color="primary"
                       size="small"
                       variant="text"
-                      onClick={(e) => {
-                        setPlanDetail(plan);
-                        handleOpen();
-                      }}
-                    >
-                      编辑
-                    </Button>
-                    <Button
-                      color="primary"
-                      size="small"
-                      variant="text"
-                      href={`/app/studyPlan/planAllocation/${plan.id}`}
-                    >
-                      任务分配
-                    </Button>
-                    <Button
-                      color="primary"
-                      size="small"
-                      variant="text"
                       href={`/app/studyPlan/detail/${plan.id}`}
                     >
                       查看详情
                     </Button>
-                    <Button
-                      color="primary"
-                      size="small"
-                      variant="text"
-                      onClick={(e) => handlePlan(plan.id)}
-                    >
-                      删除
-                    </Button>
+                    {hasPermission && (
+                      <>
+                        <Button
+                          color="primary"
+                          size="small"
+                          variant="text"
+                          onClick={(e) => {
+                            setPlanDetail(plan);
+                            handleOpen();
+                          }}
+                        >
+                          编辑
+                        </Button>
+                        <Button
+                          color="primary"
+                          size="small"
+                          variant="text"
+                          href={`/app/studyPlan/planAllocation/${plan.id}`}
+                        >
+                          任务分配
+                        </Button>
+                        <Button
+                          color="primary"
+                          size="small"
+                          variant="text"
+                          onClick={(e) => handlePlan(plan.id)}
+                        >
+                          删除
+                        </Button>
+                      </>
+                    )}
                   </TableCell>
                 </TableRow>
               ))}

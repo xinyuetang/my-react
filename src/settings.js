@@ -13,8 +13,8 @@ export const RoleName = {
 //部署开发环境
 // export const BASE_URL ='http://10.176.36.7:8088';
 // 解决跨域问题临时使用
-export const BASE_URL = "http://fd.foxbank.cn";
-// export const BASE_URL = "http://fd.foxzz.cn";
+// export const BASE_URL = "http://fd.foxbank.cn";
+export const BASE_URL = "http://fd.foxzz.cn";
 
 /**
  * MNG_: 管理员
@@ -83,6 +83,11 @@ export const MNG_DELETE_ALLOCATION = BASE_URL + "/mng/study/plan/allocation/dele
 export const MNG_GET_ALLOCATION_INfO =
   BASE_URL + "/mng/study/plan/allocation/overview";
 export const MNG_EDIT_ALLOCATION= BASE_URL + "/mng/study/plan/allocation/edit";
+
+//培养计划 普通用户
+export const U_GET_ALL_PLAN_URL = BASE_URL + "/u/study/plan/allocation/list";
+export const U_GET_PLAN_DETAIL_URL = BASE_URL + "/u/study/plan/allocation/overview";
+export const U_EDIT_ALLOCATION = BASE_URL + "/u/study/plan/allocation/edit";
 
 //通告管理
 export const ADD_BULLETIN_URL = BASE_URL + "/bulletin/add";

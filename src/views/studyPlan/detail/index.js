@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { useParams, useHistory } from "react-router-dom";
+import { UserContext } from "src/layouts/Context";
 import {
   makeStyles,
   Box,
@@ -9,7 +10,11 @@ import {
   Divider,
 } from "@material-ui/core";
 import KeyboardReturnIcon from "@material-ui/icons/KeyboardReturn";
-import { MNG_GET_PLAN_DETAIL_URL, MNG_DELETE_STAGE_URL } from "src/settings";
+import {
+  MNG_GET_PLAN_DETAIL_URL,
+  MNG_DELETE_STAGE_URL,
+  U_GET_PLAN_DETAIL_URL,
+} from "src/settings";
 import { deleteFetch } from "src/base";
 import WorkTable from '../components/WorkTable'
 import EditStage from '../components/EditStage'
@@ -60,8 +65,15 @@ const StudyPlanDetailView = () => {
   const [currentKey, setCurrentKey] = useState(0)
   const [open, setOpen] = useState(false);
   const [stageDetail, setStageDetail] = useState({});
+  const { userInfo } = useContext(UserContext);
+  const hasPermission = userInfo.roleId === 10 || userInfo.roleId === 50;
   useEffect(() => {
-    fetch(`${MNG_GET_PLAN_DETAIL_URL}?id=${id}`, {})
+    fetch(
+      `${hasPermission ? MNG_GET_PLAN_DETAIL_URL : U_GET_PLAN_DETAIL_URL}?${
+        hasPermission ? "id" : "planId"
+      }=${id}`,
+      {}
+    )
       .then((res) => res.json())
       .catch((error) => console.error("Error:", error))
       .then((response) => {
@@ -84,14 +96,16 @@ const StudyPlanDetailView = () => {
         <Typography color="textPrimary" size="small" component="h2">
           {plan?.name || ""}
         </Typography>
-        <Button
-          color="primary"
-          size="small"
-          variant="outlined"
-          onClick={() => setOpen(true)}
-        >
-          添加阶段
-        </Button>
+        {hasPermission && (
+          <Button
+            color="primary"
+            size="small"
+            variant="outlined"
+            onClick={() => setOpen(true)}
+          >
+            添加阶段
+          </Button>
+        )}
         <Button
           className={classes.return}
           size="small"
@@ -115,6 +129,7 @@ const StudyPlanDetailView = () => {
               setStageDetail(stage);
               setOpen(true);
             }}
+            hasPermission={hasPermission}
           />
         ))}
       </Box>
@@ -125,48 +140,53 @@ const StudyPlanDetailView = () => {
         component="h2"
         className={classes.endDate}
       >
-        {`截止时间：${currentStage?.endDate || '--'}`}
+        {`截止时间：${currentStage?.endDate || "--"}`}
       </Typography>
-      <Card>
+      {(hasPermission || currentStage?.commonWorks?.length > 0) && (
         <WorkTable
           works={currentStage?.commonWorks}
           workType={100}
           planStageId={currentStage?.id}
           refresh={() => setRefresh(!refresh)}
+          hasPermission={hasPermission}
         />
-      </Card>
-      <Card>
+      )}
+      {(hasPermission || currentStage?.keshuoWorks?.length > 0) && (
         <WorkTable
           works={currentStage?.keshuoWorks}
-          workType={200}
+          workType={100}
           planStageId={currentStage?.id}
           refresh={() => setRefresh(!refresh)}
+          hasPermission={hasPermission}
         />
-      </Card>
-      <Card>
+      )}
+      {(hasPermission || currentStage?.academicWorks?.length > 0) && (
         <WorkTable
           works={currentStage?.academicWorks}
-          workType={310}
+          workType={100}
           planStageId={currentStage?.id}
           refresh={() => setRefresh(!refresh)}
+          hasPermission={hasPermission}
         />
-      </Card>
-      <Card>
+      )}
+      {(hasPermission || currentStage?.synthesizingWorks?.length > 0) && (
         <WorkTable
           works={currentStage?.synthesizingWorks}
-          workType={320}
+          workType={100}
           planStageId={currentStage?.id}
           refresh={() => setRefresh(!refresh)}
+          hasPermission={hasPermission}
         />
-      </Card>
-      <Card>
+      )}
+      {(hasPermission || currentStage?.technologyWorks?.length > 0) && (
         <WorkTable
           works={currentStage?.technologyWorks}
-          workType={330}
+          workType={100}
           planStageId={currentStage?.id}
           refresh={() => setRefresh(!refresh)}
+          hasPermission={hasPermission}
         />
-      </Card>
+      )}
       <EditStage
         open={open}
         onClose={() => {

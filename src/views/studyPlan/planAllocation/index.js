@@ -181,6 +181,7 @@ const PlanAllocationView = () => {
           onClose={() => setOpenProcess(false)}
           planId={planId}
           userId={userId}
+          refresh={() => setRefresh((prev) => !prev)}
         />
       )}
     </div>

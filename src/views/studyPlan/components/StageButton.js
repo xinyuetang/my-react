@@ -14,43 +14,61 @@ const useStyles = makeStyles((theme) => ({
 }));
 const StageButton = (props) => {
   const classes = useStyles();
-  const { text, color, handleClick, handleEdit, handleDelete } = props;
+  const {
+    text,
+    color,
+    handleClick,
+    handleEdit,
+    handleDelete,
+    hasPermission,
+  } = props;
 
-  return (
-    <Tooltip
-      className={classes.Tooltip}
-      title={
-        <>
-          <Button
-            size="small"
-            variant="text"
-            style={{ color: "#fff" }}
-            onClick={handleEdit}
-          >
-            编辑
-          </Button>
-          <Button
-            size="small"
-            variant="text"
-            onClick={handleDelete}
-            style={{ color: "#fff" }}
-          >
-            删除
-          </Button>
-        </>
-      }
-      interactive
-      arrow
-    >
+  if (hasPermission) {
+    return (
+      <Tooltip
+        className={classes.Tooltip}
+        title={
+          <>
+            <Button
+              size="small"
+              variant="text"
+              style={{ color: "#fff" }}
+              onClick={handleEdit}
+            >
+              编辑
+            </Button>
+            <Button
+              size="small"
+              variant="text"
+              onClick={handleDelete}
+              style={{ color: "#fff" }}
+            >
+              删除
+            </Button>
+          </>
+        }
+        interactive
+        arrow
+      >
+        <Button
+          variant="contained"
+          color={color}
+          onClick={handleClick}
+          endIcon={<MoreVertIcon />}
+        >
+          {text}
+        </Button>
+      </Tooltip>
+    );
+  }
+    return (
       <Button
         variant="contained"
         color={color}
         onClick={handleClick}
-        endIcon={(<MoreVertIcon />)}
       >
         {text}
       </Button>
-    </Tooltip>
-  );
+    );
 };
 export default StageButton;
