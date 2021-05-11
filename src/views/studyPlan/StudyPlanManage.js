@@ -107,7 +107,7 @@ const StudyPlanManage = () => {
             <TableBody>
               {plans.map((plan) => (
                 <TableRow hover key={plan.id}>
-                  <TableCell>{plan.id}</TableCell>
+                  <TableCell>{hasPermission ? plan.id : plan.planId}</TableCell>
                   <TableCell>{plan.name}</TableCell>
                   <TableCell>{plan.enrollYear}</TableCell>
                   <TableCell align="center">
@@ -115,7 +115,9 @@ const StudyPlanManage = () => {
                       color="primary"
                       size="small"
                       variant="text"
-                      href={`/app/studyPlan/detail/${plan.id}`}
+                      href={`/app/studyPlan/detail/${
+                        hasPermission ? plan.id : plan.planId
+                      }`}
                     >
                       查看详情
                     </Button>
