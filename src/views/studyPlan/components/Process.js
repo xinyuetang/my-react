@@ -89,10 +89,10 @@ export default function Process(props) {
       },
     });
   };
-  const WorkList = ({stage}) => {
+  const WorkList = ({works}) => {
     return (
       <List>
-        {stage?.commonWorks?.map((work) => (
+        {works?.map((work) => (
           <ListItem key={work.id} className={classes.listItem}>
             <span>{`${work.index}. ${work.name}`}</span>
             <span
@@ -145,7 +145,10 @@ export default function Process(props) {
         </Toolbar>
       </AppBar>
       <Container>
-        <Typography className={classes.endDate} veriant="h6">{`截止日期：${info?.referenceDate}`}</Typography>
+        <Typography
+          className={classes.endDate}
+          veriant="h6"
+        >{`截止日期：${info?.referenceDate}`}</Typography>
         <Box>
           {info?.stages?.map((stage) => (
             <Card key={stage.id} className={classes.card}>
@@ -154,31 +157,31 @@ export default function Process(props) {
                 {stage?.commonWorks?.length > 0 && (
                   <Box>
                     <Typography veriant="h6">公共任务：</Typography>
-                    <WorkList stage={stage} />
-                  </Box>
-                )}
-                {stage?.commonWorks?.length > 0 && (
-                  <Box>
-                    <Typography veriant="h6">科硕任务：</Typography>
-                    <WorkList stage={stage} />
+                    <WorkList works={stage?.commonWorks} />
                   </Box>
                 )}
                 {stage?.keshuoWorks?.length > 0 && (
                   <Box>
+                    <Typography veriant="h6">科硕任务：</Typography>
+                    <WorkList works={stage?.keshuoWorks} />
+                  </Box>
+                )}
+                {stage?.academicWorks?.length > 0 && (
+                  <Box>
                     <Typography veriant="h6">学术型任务：</Typography>
-                    <WorkList stage={stage} />
+                    <WorkList works={stage?.academicWorks} />
                   </Box>
                 )}
                 {stage?.synthesizingWorks?.length > 0 && (
                   <Box>
                     <Typography veriant="h6">结合型任务：</Typography>
-                    <WorkList stage={stage} />
+                    <WorkList works={stage?.synthesizingWorks} />
                   </Box>
                 )}
                 {stage?.technologyWorks?.length > 0 && (
                   <Box>
                     <Typography veriant="h6">技术型任务：</Typography>
-                    <WorkList stage={stage} />
+                    <WorkList works={stage?.technologyWorks} />
                   </Box>
                 )}
               </div>

@@ -125,18 +125,32 @@ const PlanAllocationView = () => {
           <Table>
             <TableHead>
               <TableRow>
-                <TableCell>编号</TableCell>
                 <TableCell>姓名</TableCell>
                 <TableCell>学号</TableCell>
+                <TableCell>任务总数/未完成/已完成</TableCell>
+                <TableCell title="未过期进行中的任务">进行中</TableCell>
+                <TableCell>正常完成数</TableCell>
+                <TableCell>延期未完成/已完成</TableCell>
+                <TableCell>超期未完成/已完成</TableCell>
                 {hasPermission && <TableCell align="center">操作</TableCell>}
               </TableRow>
             </TableHead>
             <TableBody>
               {list.map((plan) => (
                 <TableRow hover key={plan.id}>
-                  <TableCell>{plan.id}</TableCell>
                   <TableCell>{plan.userName}</TableCell>
                   <TableCell>{plan.userStuId}</TableCell>
+                  <TableCell>{`${plan?.info.total || 0}/${
+                    plan?.info.unfinished || 0
+                  }/${plan?.info.finished || 0}`}</TableCell>
+                  <TableCell>{plan?.info.regularUnfinished || 0}</TableCell>
+                  <TableCell>{plan?.info.regularFinished || 0}</TableCell>
+                  <TableCell>{`${plan?.info.delayUnfinished || 0}/${
+                    plan?.info.delayFinished || 0
+                  }`}</TableCell>
+                  <TableCell>{`${plan?.info.overtimeUnfinished || 0}/${
+                    plan?.info.overtimeFinished || 0
+                  }`}</TableCell>
                   <TableCell align="center">
                     <Button
                       color="primary"
