@@ -55,6 +55,10 @@ const useStyles = makeStyles((theme) => ({
   return: {
     marginLeft: theme.spacing(1),
   },
+  empty: {
+    padding: theme.spacing(3),
+    textAlign: 'center'
+  },
 }));
 const StudyPlanDetailView = () => {
   const classes = useStyles();
@@ -116,76 +120,82 @@ const StudyPlanDetailView = () => {
           返回
         </Button>
       </Box>
-      <Box className={classes.stages}>
-        {plan?.stages?.map((stage, i) => (
-          <StageButton
-            text={`第${stage.term}学期 ~ 阶段${stage.index}`}
-            color={currentKey === i ? "primary" : "default"}
-            key={stage.id}
-            stage={stage}
-            handleClick={() => setCurrentKey(i)}
-            handleDelete={() => handleDelete(stage.id)}
-            handleEdit={() => {
-              setStageDetail(stage);
-              setOpen(true);
-            }}
-            hasPermission={hasPermission}
-          />
-        ))}
-      </Box>
-      <Divider />
-      <Typography
-        color="textPrimary"
-        size="small"
-        component="h2"
-        className={classes.endDate}
-      >
-        {`截止时间：${currentStage?.endDate || "--"}`}
-      </Typography>
-      {(hasPermission || currentStage?.commonWorks?.length > 0) && (
-        <WorkTable
-          works={currentStage?.commonWorks}
-          workType={100}
-          planStageId={currentStage?.id}
-          refresh={() => setRefresh(!refresh)}
-          hasPermission={hasPermission}
-        />
-      )}
-      {(hasPermission || currentStage?.keshuoWorks?.length > 0) && (
-        <WorkTable
-          works={currentStage?.keshuoWorks}
-          workType={100}
-          planStageId={currentStage?.id}
-          refresh={() => setRefresh(!refresh)}
-          hasPermission={hasPermission}
-        />
-      )}
-      {(hasPermission || currentStage?.academicWorks?.length > 0) && (
-        <WorkTable
-          works={currentStage?.academicWorks}
-          workType={100}
-          planStageId={currentStage?.id}
-          refresh={() => setRefresh(!refresh)}
-          hasPermission={hasPermission}
-        />
-      )}
-      {(hasPermission || currentStage?.synthesizingWorks?.length > 0) && (
-        <WorkTable
-          works={currentStage?.synthesizingWorks}
-          workType={100}
-          planStageId={currentStage?.id}
-          refresh={() => setRefresh(!refresh)}
-          hasPermission={hasPermission}
-        />
-      )}
-      {(hasPermission || currentStage?.technologyWorks?.length > 0) && (
-        <WorkTable
-          works={currentStage?.technologyWorks}
-          workType={100}
-          planStageId={currentStage?.id}
-          refresh={() => setRefresh(!refresh)}
-          hasPermission={hasPermission}
-        />
+      {plan?.stages?.length > 0 ? (
+        <>
+          <Box className={classes.stages}>
+            {plan?.stages?.map((stage, i) => (
+              <StageButton
+                text={`第${stage.term}学期 ~ 阶段${stage.index}`}
+                color={currentKey === i ? "primary" : "default"}
+                key={stage.id}
+                stage={stage}
+                handleClick={() => setCurrentKey(i)}
+                handleDelete={() => handleDelete(stage.id)}
+                handleEdit={() => {
+                  setStageDetail(stage);
+                  setOpen(true);
+                }}
+                hasPermission={hasPermission}
+              />
+            ))}
+          </Box>
+          <Divider />
+          <Typography
+            color="textPrimary"
+            size="small"
+            component="h2"
+            className={classes.endDate}
+          >
+            {`截止时间：${currentStage?.endDate || "--"}`}
+          </Typography>
+          {(hasPermission || currentStage?.commonWorks?.length > 0) && (
+            <WorkTable
+              works={currentStage?.commonWorks}
+              workType={100}
+              planStageId={currentStage?.id}
+              refresh={() => setRefresh(!refresh)}
+              hasPermission={hasPermission}
+            />
+          )}
+          {(hasPermission || currentStage?.keshuoWorks?.length > 0) && (
+            <WorkTable
+              works={currentStage?.keshuoWorks}
+              workType={200}
+              planStageId={currentStage?.id}
+              refresh={() => setRefresh(!refresh)}
+              hasPermission={hasPermission}
+            />
+          )}
+          {(hasPermission || currentStage?.academicWorks?.length > 0) && (
+            <WorkTable
+              works={currentStage?.academicWorks}
+              workType={310}
+              planStageId={currentStage?.id}
+              refresh={() => setRefresh(!refresh)}
+              hasPermission={hasPermission}
+            />
+          )}
+          {(hasPermission || currentStage?.synthesizingWorks?.length > 0) && (
+            <WorkTable
+              works={currentStage?.synthesizingWorks}
+              workType={320}
+              planStageId={currentStage?.id}
+              refresh={() => setRefresh(!refresh)}
+              hasPermission={hasPermission}
+            />
+          )}
+          {(hasPermission || currentStage?.technologyWorks?.length > 0) && (
+            <WorkTable
+              works={currentStage?.technologyWorks}
+              workType={330}
+              planStageId={currentStage?.id}
+              refresh={() => setRefresh(!refresh)}
+              hasPermission={hasPermission}
+            />
+          )}
+        </>
+      ) : (
+        <Card className={classes.empty}>还未添加任何培养阶段</Card>
       )}
       <EditStage
         open={open}
