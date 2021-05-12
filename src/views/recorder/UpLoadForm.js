@@ -27,7 +27,7 @@ const useStyles = makeStyles(() => ({
     }
   }));
   export default function UploadForm(props){    
-    const { RecorderId,DocType,Date}= props;
+    const { RecorderId, DocType, Date, refresh } = props;
     const [file,setFile] = useState([]);
     const [uploading, setUploading] = useState(false)
     const classes = useStyles();
@@ -55,6 +55,7 @@ const useStyles = makeStyles(() => ({
         successCallback: () => {
           alert("上传成功");
           setUploading(false);
+          refresh();
         },
         errorCallback: () => setUploading(false),
       });

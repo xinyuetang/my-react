@@ -92,7 +92,8 @@ const RecorderManage = () => {
                 DocType={1}
                 Date={recorder.date}
                 RecorderId={recorder.id}
-              ></UploadForm>,
+                refresh={() => setRefresh(!refresh)}
+              />,
               document.getElementById("id2_" + recorder.id)
             );
           }

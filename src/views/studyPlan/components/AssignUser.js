@@ -19,8 +19,6 @@ import {
 import CheckBoxIcon from '@material-ui/icons/CheckBox';
 import CheckBoxOutlineBlankIcon from "@material-ui/icons/CheckBoxOutlineBlank";
 import CloseIcon from "@material-ui/icons/Close";
-import { MNG_ASSGIN_STUDY } from "src/settings";
-import { postFetch } from "src/base";
 
 const useStyles = makeStyles((theme) => ({
   appBar: {
@@ -82,9 +80,8 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 });
 
 export default function DeviceApplyHistory(props) {
-  const { onClose, open, planId, users } = props;
+  const { onClose, open, users, assignStudy } = props;
   const classes = useStyles();
-  const [refresh, setRefresh] = useState(false)
   const [name, setName] = useState('')
   const [keshuo, setKeshuo] = useState(2)
   const [studyType, setStudyType] = useState(0)
@@ -95,19 +92,7 @@ export default function DeviceApplyHistory(props) {
     onClose();
     setUserIds([]);
   };
-  const assignStudy = () => {
-    postFetch({
-      url: MNG_ASSGIN_STUDY,
-      values: {
-        planId,
-        userIds,
-      },
-      successCallback: () => {
-        alert("设置成功");
-        onClose()
-      },
-    });
-  };
+  
   useEffect(() => {
     let list = [...users];
     if (name !== '') {
@@ -147,16 +132,10 @@ export default function DeviceApplyHistory(props) {
           <Typography variant="h6" className={classes.title}>
             任务分配
           </Typography>
-          <Button
-            size="small"
-            onClick={handleClose}
-          >
+          <Button size="small" onClick={handleClose}>
             取消
           </Button>
-          <Button
-            size="small"
-            onClick={assignStudy}
-          >
+          <Button size="small" onClick={() => assignStudy(userIds)}>
             确认分配
           </Button>
           {/* <IconButton
