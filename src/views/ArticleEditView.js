@@ -75,6 +75,18 @@ export default function ArticleEditView(props) {
       });
   };
   const handleSubmit = () => {
+    if (title === "") {
+      alertBox({ text: "文章标题不可为空", severity: "error" });
+      return;
+    }
+    if (essayClass === "") {
+      alertBox({ text: "请选择文章类型", severity: "error" });
+      return;
+    }
+    if (content === "") {
+      alertBox({ text: "文章内容不可为空", severity: "error" });
+      return;
+    }
     postFetch({
       url: id === "0" ? ADD_ARTICLE_URL : EDIT_ARTICLE_URL,
       values: {

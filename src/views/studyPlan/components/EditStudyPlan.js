@@ -74,21 +74,23 @@ export default function EditStudyPlan(props) {
               onChange={handleChange}
               disabled={planDetail?.id > 0}
             />
-            <TextField
-              select
-              fullWidth
-              label="是否选择模板创建"
-              name="templateId"
-              margin="normal"
-              onChange={handleChange}
-              variant="outlined"
-              SelectProps={{
-                native: true,
-              }}
-            >
-              <option value={0}>否</option>
-              <option value={1}>是</option>
-            </TextField>
+            {!planDetail?.id && (
+              <TextField
+                select
+                fullWidth
+                label="是否选择模板创建"
+                name="templateId"
+                margin="normal"
+                onChange={handleChange}
+                variant="outlined"
+                SelectProps={{
+                  native: true,
+                }}
+              >
+                <option value={0}>否</option>
+                <option value={1}>是</option>
+              </TextField>
+            )}
 
             <Box my={2}>
               <Button

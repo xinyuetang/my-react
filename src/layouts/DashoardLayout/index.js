@@ -5,8 +5,7 @@ import NavBar from './NavBar';
 import TopBar from './TopBar';
 import { getUserInfo } from 'src/service/userService';
 import { RouteWithSubRoutes } from "src/routerGuard";
-import SockJsClient from 'react-stomp';
-import {BASE_URL} from 'src/settings';
+// import SockJsClient from 'react-stomp';
 import { UserContext } from '../Context'
 const useStyles = makeStyles((theme) => ({
   root: {

@@ -41,12 +41,10 @@ const ResetPasswordView = () => {
         <Container maxWidth="sm">
           <Formik
             initialValues={{
-              stuId: "",
               oldPassword: "",
               newPassword: "",
             }}
             validationSchema={Yup.object().shape({
-              stuId: Yup.string().max(255).required("ID is required"),
               newPassword: Yup.string()
                 .max(255)
                 .required("Password is required"),
@@ -94,7 +92,7 @@ const ResetPasswordView = () => {
                     </Button>
                   </Typography>
                 </Box>
-                <TextField
+                {/* <TextField
                   error={Boolean(touched.stuId && errors.stuId)}
                   fullWidth
                   helperText={touched.stuId && errors.stuId}
@@ -104,7 +102,7 @@ const ResetPasswordView = () => {
                   onBlur={handleBlur}
                   onChange={handleChange}
                   variant="outlined"
-                />
+                /> */}
                 <TextField
                   error={Boolean(touched.password && errors.password)}
                   fullWidth
