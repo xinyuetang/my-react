@@ -32,9 +32,6 @@ export default function RecorderManageForm(props) {
               console.log("添加成功");
               handleClose();
             },
-            errorCallback: () => {
-              window.location.reload();
-            },
           });
         }}
       >
