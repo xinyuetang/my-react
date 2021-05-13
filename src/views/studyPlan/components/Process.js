@@ -20,6 +20,7 @@ import {
 import CloseIcon from "@material-ui/icons/Close";
 import { MNG_EDIT_ALLOCATION, MNG_GET_ALLOCATION_INfO } from "src/settings";
 import { postFetch } from "src/base";
+import alertBox from 'src/components/AlertBox'
 const useStyles = makeStyles((theme) => ({
   appBar: {
     position: "relative",
@@ -108,7 +109,7 @@ export default function Process(props) {
       url: MNG_EDIT_ALLOCATION,
       values,
       successCallback: () => {
-        alert("变更成功");
+        alertBox({ text: "变更成功", severity: 'success' });
         getInfo();
       },
     });
@@ -238,9 +239,11 @@ export default function Process(props) {
             <Card key={stage.id} className={classes.card}>
               <div>
                 <h4>
-                  {`第${stage.index}阶段 ~ 第${stage.term}学期`}
+                  {`第${stage.term}学期 ~ 第${stage.index}阶段`}
                   <br />
-                  <span style={{ fontSize: 12 }}>{`结束日期：(${stage?.endDate?.slice(0, 11)})`}</span>
+                  <span
+                    style={{ fontSize: 12 }}
+                  >{`结束日期：(${stage?.endDate?.slice(0, 11)})`}</span>
                 </h4>
               </div>
               <div className={classes.stageContent}>

@@ -16,6 +16,7 @@ import {
 import KeyboardReturnIcon from "@material-ui/icons/KeyboardReturn";
 import { UserContext } from "src/layouts/Context";
 import { postFetch } from "src/base";
+import corfirmModal from "src/components/ConfirmModal";
 import {
   MNG_GET_ALLOCATION_URL,
   MNG_DELETE_ALLOCATION,
@@ -106,12 +107,19 @@ const PlanAllocationView = () => {
     setRefresh((prev) => !prev);
   };
 
-  const handleDelete = (id) => {
-    deleteFetch({
-      url: `${MNG_DELETE_ALLOCATION}?id=${id}&planId=${planId}`,
-      values: { id },
-      successCallback: () => {
-        setRefresh((prev) => !prev);
+  const handleDelete = (id, name) => {
+    const cor = corfirmModal({
+      title: `确定要将[${name}]移出该培养计划吗？`,
+      handleCorfirm: () => {
+        alert("删除成功");
+        cor.close()
+        // deleteFetch({
+        //   url: `${MNG_DELETE_ALLOCATION}?id=${id}&planId=${planId}`,
+        //   values: { id },
+        //   successCallback: () => {
+        //     setRefresh((prev) => !prev);
+        //   },
+        // });
       },
     });
   };
@@ -230,7 +238,7 @@ const PlanAllocationView = () => {
                       color="primary"
                       size="small"
                       variant="text"
-                      onClick={(e) => handleDelete(plan.id)}
+                      onClick={(e) => handleDelete(plan.id, plan.userName)}
                     >
                       删除
                     </Button>

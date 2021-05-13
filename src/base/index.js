@@ -1,3 +1,5 @@
+import alertBox from "src/components/AlertBox";
+
 export const jsonToFormData = (params) => {
   const formData = new FormData();
   Object.keys(params).forEach((key) => {
@@ -56,13 +58,20 @@ export const formUrlencodedFetch = ({
       if (response?.success) {
         successCallback && successCallback();
       } else {
-        alert(response?.msg || "操作失败");
+        // alert(response?.msg || "操作失败")
+        alertBox({ text: response?.msg || "操作失败", severity: "error" });
         errorCallback && errorCallback();
       }
     });
 };
 
-export const postFetch = ({ url, values = {}, successCallback, errorCallback, type = 'POST' }) => {
+export const postFetch = ({
+  url,
+  values = {},
+  successCallback,
+  errorCallback,
+  type = "POST",
+}) => {
   fetch(url, {
     method: type,
     headers: {
@@ -76,7 +85,8 @@ export const postFetch = ({ url, values = {}, successCallback, errorCallback, ty
       if (response?.success) {
         successCallback && successCallback();
       } else {
-        alert(response?.msg || '操作失败');
+        // alert(response?.msg || "操作失败");
+        alertBox({ text: response?.msg || "操作失败", severity: "error" });
         errorCallback && errorCallback();
       }
     });
@@ -92,7 +102,11 @@ export const deleteFetch = ({ url, successCallback }) => {
     .then((res) => res.json())
     .catch((error) => console.error("Error:", error))
     .then((response) => {
-      alert(response?.success ? "删除成功" : response?.msg || "删除失败");
+      // alert(response?.success ? "删除成功" : response?.msg || "删除失败");
+      alertBox({
+        text: response?.success ? "删除成功" : response?.msg || "删除失败",
+        severity: "error",
+      });
       successCallback && successCallback();
     });
 };
