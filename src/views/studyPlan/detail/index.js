@@ -154,7 +154,7 @@ const StudyPlanDetailView = () => {
             component="h2"
             className={classes.endDate}
           >
-            {`截止时间：${currentStage?.endDate || "--"}`}
+            {`截止日期：${currentStage?.endDate?.slice(0, 11) || "--"}`}
           </Typography>
           {(hasPermission || currentStage?.commonWorks?.length > 0) && (
             <WorkTable

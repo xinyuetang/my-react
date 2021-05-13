@@ -15,7 +15,7 @@ export default function RecorderManageForm(props) {
     <Dialog onClose={handleClose} open={open}>
       <Formik
         initialValues={{
-          date: null,
+          date: "2021-01-24",
           recorder1Id: null,
           recorder2Id: null,
           summarizerId: null,
@@ -59,7 +59,7 @@ export default function RecorderManageForm(props) {
               margin="normal"
               fullWidth
               name="date"
-              defaultValue="2021-01-24"
+              value={values.date}
               onChange={handleChange}
               InputLabelProps={{
                 shrink: true,

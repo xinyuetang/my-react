@@ -26,7 +26,7 @@ const SeminarManageForm = (props) => {
       <Formik
         initialValues={{
           theme: "",
-          date: null,
+          date: "2021-01-24",
           speakerId: null,
         }}
         validationSchema={Yup.object().shape({
@@ -97,7 +97,7 @@ const SeminarManageForm = (props) => {
               margin="normal"
               fullWidth
               name="date"
-              defaultValue="2021-01-24"
+              value={values.date}
               onChange={handleChange}
               InputLabelProps={{
                 shrink: true,
