@@ -80,7 +80,6 @@ const UserManage = (props) => {
   useEffect(() => {
     getAllUser(page).then((res) => {
       setUsers(res.data || []);
-      console.log(res?.paging?.pageNo);
       setPageNo(parseInt(res?.paging?.total / 10) || 0);
     });
   }, [refresh, page]);
