@@ -42,9 +42,6 @@ const SeminarManageForm = (props) => {
               console.log("添加成功");
               handleClose();
             },
-            errorCallback: () => {
-              window.location.reload();
-            },
           });
         }}
       >
@@ -106,7 +103,7 @@ const SeminarManageForm = (props) => {
             <Box my={2}>
               <Button
                 color="primary"
-                disabled={isSubmitting}
+                // disabled={isSubmitting}
                 fullWidth
                 size="large"
                 type="submit"

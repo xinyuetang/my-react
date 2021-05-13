@@ -62,9 +62,6 @@ function UserManageForm(props) {
               console.log("添加用户成功");
               handleClose();
             },
-            errorCallback: () => {
-              window.location.reload();
-            },
           });
         }}
       >
@@ -125,7 +122,6 @@ function UserManageForm(props) {
             <Box my={2}>
               <Button
                 color="primary"
-                disabled={isSubmitting}
                 fullWidth
                 size="large"
                 type="submit"

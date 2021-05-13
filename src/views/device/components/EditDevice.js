@@ -138,7 +138,7 @@ export default function EditDevice(props) {
             <Box my={2}>
               <Button
                 color="primary"
-                disabled={isSubmitting}
+                // disabled={isSubmitting}
                 size="large"
                 type="submit"
                 variant="contained"

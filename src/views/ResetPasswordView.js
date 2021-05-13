@@ -59,9 +59,6 @@ const ResetPasswordView = () => {
                 successCallback: () => {
                   history.goBack();
                 },
-                errorCallback: () => {
-                  window.location.reload();
-                },
               });
             }}
           >

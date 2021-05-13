@@ -216,7 +216,7 @@ export default function UpdateUserInfoForm({ userDetail }) {
       <Box my={2} className={classes.margin}>
         <Button
           color="primary"
-          disabled={isSubmitting}
+          // disabled={isSubmitting}
           fullWidth
           size="large"
           type="submit"

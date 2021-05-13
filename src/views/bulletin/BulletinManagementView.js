@@ -76,7 +76,6 @@ const BulletinManagementView = () => {
                   successCallback: () => {
                     // sendMessage("xxx");
                     alertBox({ text: "通知发送成功", severity: "success" });
-                    window.location.reload()
                   },
                 });
                 // var url = ADD_BULLETIN_URL;

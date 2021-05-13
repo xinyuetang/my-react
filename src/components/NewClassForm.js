@@ -59,7 +59,7 @@ export default function NewClassForm(props) {
             <Box my={2}>
               <Button
                 color="primary"
-                disabled={isSubmitting}
+                // disabled={isSubmitting}
                 fullWidth
                 size="large"
                 type="submit"
