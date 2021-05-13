@@ -81,7 +81,7 @@ export const MNG_ASSGIN_STUDY = BASE_URL + "/mng/study/plan/assign";
 export const MNG_DELETE_ALLOCATION = BASE_URL + "/mng/study/plan/allocation/delete";
 // export const MNG_GET_ALLOCATION_INfO = BASE_URL + "/mng/study/plan/allocation/info";
 export const MNG_GET_ALLOCATION_INfO =
-  BASE_URL + "/mng/study/plan/allocation/overview";
+  BASE_URL + "/mng/study/plan/allocation/user/overview";
 export const MNG_EDIT_ALLOCATION= BASE_URL + "/mng/study/plan/allocation/edit";
 export const MNG_GET_USER_LIST = BASE_URL + "/user/allocation/list";
 
@@ -91,11 +91,11 @@ export const U_GET_PLAN_DETAIL_URL = BASE_URL + "/u/study/plan/allocation/overvi
 export const U_EDIT_ALLOCATION = BASE_URL + "/u/study/plan/allocation/edit";
 
 //通告管理
-export const ADD_BULLETIN_URL = BASE_URL + "/bulletin/add";
-export const GET_ALL_BULLETIN_URL = BASE_URL + "/bulletin/paging";
+export const ADD_BULLETIN_URL = BASE_URL + "/mng/bulletin/add";
+export const GET_ALL_BULLETIN_URL = BASE_URL + "/mng/bulletin/paging";
 export const GET_NEW_BULLETIN_NUMBER_URL =
-  BASE_URL + "/bulletin/newBulletinNumber";
-export const MARK_AS_READ_URL = BASE_URL + "/bulletin/markAsRead";
+  BASE_URL + "/u/bulletin/newBulletinNumber";
+export const MARK_AS_READ_URL = BASE_URL + "/mng/bulletin/markAsRead";
 
 //设备管理 
 export const MNG_ADD_DEVICE_URL = BASE_URL + "/mng/device/add";

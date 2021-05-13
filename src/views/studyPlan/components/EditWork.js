@@ -73,6 +73,7 @@ export default function EditWork(props) {
                 size="large"
                 type="submit"
                 variant="contained"
+                fullWidth
               >
                 提交
               </Button>

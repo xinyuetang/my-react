@@ -16,9 +16,11 @@ import { RoleName, GET_ALL_USER_URL, USER_INFO } from 'src/settings'
 //       });
 // }
 
-export const getAllUser = async (page) => {
+export const getAllUser = async ({ page = 1, limit = 10 }) => {
   try {
-    let response = await fetch(`${GET_ALL_USER_URL}?limit=10&offset=${(page - 1) * 10}`);
+    let response = await fetch(
+      `${GET_ALL_USER_URL}?limit=${limit}&offset=${(page - 1) * limit}`
+    );
     return await response.json();
   } catch (error) {
     console.log("Request Failed", error);

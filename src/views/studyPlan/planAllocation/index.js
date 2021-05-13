@@ -13,6 +13,9 @@ import {
   TableRow,
   makeStyles,
 } from "@material-ui/core";
+import Pagination from "@material-ui/lab/Pagination";
+import Loading from "src/components/Loading";
+import NoData from "src/components/NoData";
 import KeyboardReturnIcon from "@material-ui/icons/KeyboardReturn";
 import { UserContext } from "src/layouts/Context";
 import { postFetch } from "src/base";
@@ -23,7 +26,6 @@ import {
   MNG_GET_USER_LIST,
   MNG_ASSGIN_STUDY,
 } from "src/settings";
-import { getAllUser } from "src/service/userService";
 import { deleteFetch } from "src/base";
 import alertBox from "src/components/AlertBox";
 import AssignUser from "../components/AssignUser";
@@ -55,6 +57,12 @@ const useStyles = makeStyles((theme) => ({
   return: {
     marginLeft: theme.spacing(1),
   },
+  Pagination: {
+    padding: theme.spacing(2),
+    "& .MuiPagination-ul": {
+      justifyContent: "center",
+    },
+  },
 }));
 const STATUS_TYPE = {
   0: {
@@ -82,25 +90,42 @@ const PlanAllocationView = () => {
   const [open, setOpen] = useState(false);
   const [openProcess, setOpenProcess] = useState(false);
   const { userInfo } = useContext(UserContext);
+  const [page, setPage] = useState(1);
+  const [pageNo, setPageNo] = useState(0);
+  const [loading, setLoading] = useState(true);
   useEffect(() => {
+    getUserList();
+  }, []);
+  const getUserList = () => {
     fetch(`${MNG_GET_USER_LIST}?planId=${planId}`, {})
       .then((res) => res.json())
       .catch((error) => console.error("Error:", error))
       .then((response) => {
         setUsers(response?.data || []);
       });
-  }, []);
+  }
   const getList = () => {
-    fetch(`${MNG_GET_ALLOCATION_URL}?id=${planId}`, {})
+    fetch(
+      `${MNG_GET_ALLOCATION_URL}?id=${planId}&limit=10&offset=${
+        (page - 1) * 10
+      }`,
+      {}
+    )
       .then((res) => res.json())
       .catch((error) => console.error("Error:", error))
       .then((response) => {
         setList(response?.data || []);
-      });
+        setPageNo(Math.ceil(response?.paging?.total / 10) || 0);
+      })
+      .finally(() => setLoading(false));
   };
 
   const handleOpen = () => {
-    setOpen(true);
+    if (users?.length > 0) {
+      setOpen(true);
+    } else {
+      alertBox({ text: '没有可分配的用户' })
+    }
   };
 
   const handleClose = () => {
@@ -108,16 +133,16 @@ const PlanAllocationView = () => {
     setRefresh((prev) => !prev);
   };
 
-  const handleDelete = (id, name) => {
+  const handleDelete = (id, name, userId) => {
     const cor = corfirmModal({
       title: `确定要将[${name}]移出该培养计划吗？`,
       handleCorfirm: () => {
         cor.close()
         deleteFetch({
-          url: `${MNG_DELETE_ALLOCATION}?id=${id}&planId=${planId}`,
-          values: { id },
+          url: `${MNG_DELETE_ALLOCATION}?id=${id}&userId=${userId}`,
           successCallback: () => {
             setRefresh((prev) => !prev);
+            getUserList();
           },
         });
       },
@@ -136,7 +161,7 @@ const PlanAllocationView = () => {
       },
     });
   };
-  useEffect(getList, [refresh]);
+  useEffect(getList, [refresh, page]);
   const hasPermission = userInfo.roleId === 10 || userInfo.roleId === 50;
   return (
     <div className={classes.root}>
@@ -238,7 +263,9 @@ const PlanAllocationView = () => {
                       color="primary"
                       size="small"
                       variant="text"
-                      onClick={(e) => handleDelete(plan.id, plan.userName)}
+                      onClick={(e) =>
+                        handleDelete(plan.id, plan.userName, plan.userId)
+                      }
                     >
                       删除
                     </Button>
@@ -247,10 +274,18 @@ const PlanAllocationView = () => {
               ))}
             </TableBody>
           </Table>
-          {list?.length === 0 && (
-            <Card className={classes.empty}>暂未分配学员</Card>
-          )}
         </Box>
+        {pageNo > 1 && (
+          <Pagination
+            className={classes.Pagination}
+            count={pageNo}
+            color="primary"
+            onChange={(e, i) => setPage(i)}
+          />
+        )}
+
+        {loading && <Loading />}
+        {!loading && list?.length === 0 && <NoData msg="暂未分配学员" />}
       </Card>
       {users?.length > 0 && (
         <AssignUser

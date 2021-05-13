@@ -13,6 +13,9 @@ import {
   Link,
   makeStyles,
 } from "@material-ui/core";
+import Pagination from "@material-ui/lab/Pagination";
+import Loading from "src/components/Loading";
+import NoData from "src/components/NoData";
 import { UserContext } from "src/layouts/Context";
 import { getAllUser } from "src/service/userService";
 import { GET_ALL_SEMINAR_URL, DELETE_SEMINAR_URL } from "src/settings";
@@ -36,6 +39,12 @@ const useStyles = makeStyles((theme) => ({
       lineHeight: 2,
     },
   },
+  Pagination: {
+    padding: theme.spacing(2),
+    "& .MuiPagination-ul": {
+      justifyContent: "center",
+    },
+  },
 }));
 
 const SeminarManage = () => {
@@ -45,19 +54,24 @@ const SeminarManage = () => {
   const [users, setUsers] = useState([]);
   const [open, setOpen] = useState(false);
   const { userInfo } = useContext(UserContext);
+  const [loading, setLoading] = useState(true);
+  const [page, setPage] = useState(1);
+  const [pageNo, setPageNo] = useState(0);
   //向后台调取用户列表并更新界面
   useEffect(() => {
-    getAllUser().then((res) => {
+    getAllUser({page: 1, limit: 1999}).then((res) => {
       setUsers(res?.data || []);
     });
   }, []);
   const getAllSeminar = () => {
-    fetch(GET_ALL_SEMINAR_URL, {})
+    fetch(`${GET_ALL_SEMINAR_URL}?limit=10&offset=${(page - 1) * 10}`, {})
       .then((res) => res.json())
       .catch((error) => console.error("Error:", error))
       .then((response) => {
         setSeminars(response?.data || []);
-      });
+        setPageNo(Math.ceil(response?.paging?.total / 10) || 0);
+      })
+      .finally(() => setLoading(false));
   };
 
   const handleOpen = () => {
@@ -93,7 +107,7 @@ const SeminarManage = () => {
     );
     else return "暂未上传";
   };
-  useEffect(getAllSeminar, [refresh]);
+  useEffect(getAllSeminar, [refresh, page]);
   const hasPermission = userInfo.roleId === 10 || userInfo.roleId === 20;
   return (
     <div>
@@ -155,6 +169,18 @@ const SeminarManage = () => {
             </TableBody>
           </Table>
         </Box>
+        {pageNo > 1 && (
+          <Pagination
+            className={classes.Pagination}
+            count={pageNo}
+            color="primary"
+            onChange={(e, i) => setPage(i)}
+          />
+        )}
+        {loading && <Loading />}
+        {!loading && seminars?.length === 0 && (
+          <NoData msg="暂未添加演讲" />
+        )}
       </Card>
       <SeminarManageForm
         open={open}

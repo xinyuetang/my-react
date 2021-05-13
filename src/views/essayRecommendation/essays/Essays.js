@@ -13,6 +13,9 @@ import {
   makeStyles,
 } from "@material-ui/core";
 import { UserContext } from "src/layouts/Context";
+import Pagination from "@material-ui/lab/Pagination";
+import Loading from "src/components/Loading";
+import NoData from "src/components/NoData";
 import { GET_ALL_ARTICLE_URL, DELETE_ARTICLE_URL } from "src/settings";
 import { deleteFetch } from "src/base";
 import corfirmModal from "src/components/ConfirmModal";
@@ -32,21 +35,32 @@ const useStyles = makeStyles((theme) => ({
       lineHeight: 2,
     },
   },
+  Pagination: {
+    padding: theme.spacing(2),
+    "& .MuiPagination-ul": {
+      justifyContent: "center",
+    },
+  },
 }));
 
 const Essays = () => {
   const classes = useStyles();
   const [refresh, setRefresh] = useState(false);
   const [essays, setEssays] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [page, setPage] = useState(1);
+  const [pageNo, setPageNo] = useState(0);
   const { userInfo } = useContext(UserContext);
 
   const getAllEssays = () => {
-    fetch(GET_ALL_ARTICLE_URL, {})
+    fetch(`${GET_ALL_ARTICLE_URL}?limit=10&offset=${(page - 1) * 10}`, {})
       .then((res) => res.json())
       .catch((error) => console.error("Error:", error))
       .then((response) => {
         setEssays(response?.data || []);
-      });
+        setPageNo(Math.ceil(response?.paging?.total / 10) || 0);
+      })
+      .finally(() => setLoading(false));
   };
 
   const handleDeleteEssays = (id, name) => {
@@ -64,14 +78,14 @@ const Essays = () => {
       },
     });
   };
-  useEffect(getAllEssays, [refresh]);
+  useEffect(getAllEssays, [refresh, page]);
   const hasPermission = userInfo.roleId === 10 || userInfo.roleId === 40;
   return (
     <div>
       <Card className={classes.root}>
         <Box className={classes.header}>
           <Typography color="textPrimary" size="small">
-            论文分类
+            论文列表
           </Typography>
           {hasPermission && (
             <Button
@@ -114,10 +128,7 @@ const Essays = () => {
                         size="small"
                         variant="text"
                         onClick={(e) =>
-                          handleDeleteEssays(
-                            essayClass.id,
-                            essayClass.categoryName
-                          )
+                          handleDeleteEssays(essayClass.id, essayClass.title)
                         }
                       >
                         删除
@@ -129,6 +140,16 @@ const Essays = () => {
             </TableBody>
           </Table>
         </Box>
+        {pageNo > 1 && (
+          <Pagination
+            className={classes.Pagination}
+            count={pageNo}
+            color="primary"
+            onChange={(e, i) => setPage(i)}
+          />
+        )}
+        {loading && <Loading />}
+        {!loading && essays?.length === 0 && <NoData msg="暂未添加论文" />}
       </Card>
     </div>
   );

@@ -13,6 +13,7 @@ import {
   Typography,
 } from "@material-ui/core";
 import Pagination from "@material-ui/lab/Pagination";
+import corfirmModal from "src/components/ConfirmModal";
 import { RoleName, DELETE_USER_URL } from "src/settings";
 import { getAllUser } from "src/service/userService";
 import { UserContext } from "src/layouts/Context";
@@ -66,21 +67,27 @@ const UserManage = (props) => {
     setRefresh(prev => !prev);
   };
 
-  const handleDeleteUser = (id) => {
-    deleteFetch({
-      url: `${DELETE_USER_URL}?id=${id}`,
-      values: { id },
-      successCallback: () => {
-        setRefresh((prev) => !prev);
-      }
+  const handleDeleteUser = (id, name) => {
+    const cor = corfirmModal({
+      title: `确定要将[${name}]移出该培养计划吗？`,
+      handleCorfirm: () => {
+        cor.close();
+        deleteFetch({
+          url: `${DELETE_USER_URL}?id=${id}`,
+          values: { id },
+          successCallback: () => {
+            setRefresh((prev) => !prev);
+          },
+        });
+      },
     });
   };
 
   // useEffect(getAllUser,[]);
   useEffect(() => {
-    getAllUser(page).then((res) => {
+    getAllUser({ page }).then((res) => {
       setUsers(res.data || []);
-      setPageNo(parseInt(res?.paging?.total / 10) || 0);
+      setPageNo(Math.ceil(res?.paging?.total / 10) || 0);
     });
   }, [refresh, page]);
   return (
@@ -135,7 +142,7 @@ const UserManage = (props) => {
                         color="primary"
                         size="small"
                         variant="text"
-                        onClick={(e) => handleDeleteUser(user.id, e)}
+                        onClick={(e) => handleDeleteUser(user.id, user.name)}
                       >
                         删除
                       </Button>
@@ -145,7 +152,7 @@ const UserManage = (props) => {
               ))}
             </TableBody>
           </Table>
-          {pageNo > 0 && (
+          {pageNo > 1 && (
             <Pagination
               className={classes.Pagination}
               count={pageNo}

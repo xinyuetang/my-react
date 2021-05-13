@@ -105,7 +105,7 @@ export const deleteFetch = ({ url, successCallback }) => {
       // alert(response?.success ? "删除成功" : response?.msg || "删除失败");
       alertBox({
         text: response?.success ? "删除成功" : response?.msg || "删除失败",
-        severity: "error",
+        severity: response?.success ? "success" : "error",
       });
       successCallback && successCallback();
     });

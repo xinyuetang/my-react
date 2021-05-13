@@ -12,6 +12,9 @@ import {
   TableRow,
   makeStyles,
 } from "@material-ui/core";
+import Pagination from "@material-ui/lab/Pagination";
+import Loading from "src/components/Loading";
+import NoData from "src/components/NoData";
 import { UserContext } from "src/layouts/Context";
 import {
   MNG_GET_ALL_PLAN_URL,
@@ -37,6 +40,12 @@ const useStyles = makeStyles((theme) => ({
       lineHeight: 2,
     },
   },
+  Pagination: {
+    padding: theme.spacing(2),
+    "& .MuiPagination-ul": {
+      justifyContent: "center",
+    },
+  },
 }));
 
 const StudyPlanManage = () => {
@@ -46,14 +55,24 @@ const StudyPlanManage = () => {
   const [planDetail, setPlanDetail] = useState({});
   const [open, setOpen] = useState(false);
   const { userInfo } = useContext(UserContext);
+  const [loading, setLoading] = useState(true);
+  const [page, setPage] = useState(1);
+  const [pageNo, setPageNo] = useState(0);
   const hasPermission = userInfo.roleId === 10 || userInfo.roleId === 50;
   const getPlans = () => {
-    fetch(hasPermission ? MNG_GET_ALL_PLAN_URL : U_GET_ALL_PLAN_URL, {})
+    fetch(
+      `${
+        hasPermission ? MNG_GET_ALL_PLAN_URL : U_GET_ALL_PLAN_URL
+      }?limit=10&offset=${(page - 1) * 10}`,
+      {}
+    )
       .then((res) => res.json())
       .catch((error) => console.error("Error:", error))
       .then((response) => {
         setPlans(response?.data || []);
-      });
+        setPageNo(Math.ceil(response?.paging?.total / 10) || 0);
+      })
+      .finally(() => setLoading(false));
   };
 
   const handleOpen = () => {
@@ -81,7 +100,7 @@ const StudyPlanManage = () => {
       },
     });
   };
-  useEffect(getPlans, [refresh]);
+  useEffect(getPlans, [refresh, page]);
   return (
     <div>
       <Card className={classes.root}>
@@ -165,6 +184,16 @@ const StudyPlanManage = () => {
             </TableBody>
           </Table>
         </Box>
+        {pageNo > 1 && (
+          <Pagination
+            className={classes.Pagination}
+            count={pageNo}
+            color="primary"
+            onChange={(e, i) => setPage(i)}
+          />
+        )}
+        {loading && <Loading />}
+        {!loading && plans?.length === 0 && <NoData msg="暂未添加培养计划" />}
       </Card>
       <EditStudyPlan
         open={open}

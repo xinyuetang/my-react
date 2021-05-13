@@ -12,6 +12,9 @@ import {
   makeStyles,
   Typography,
 } from "@material-ui/core";
+import Pagination from "@material-ui/lab/Pagination";
+import Loading from "src/components/Loading";
+import NoData from "src/components/NoData";
 import ReactDOM from "react-dom";
 import { UserContext } from "src/layouts/Context";
 import { getAllUser } from "src/service/userService";
@@ -45,6 +48,12 @@ const useStyles = makeStyles((theme) => ({
     padding: "1rem",
     marginBottom: "5px",
   },
+  Pagination: {
+    padding: theme.spacing(2),
+    "& .MuiPagination-ul": {
+      justifyContent: "center",
+    },
+  },
 }));
 
 const RecorderManage = () => {
@@ -54,21 +63,27 @@ const RecorderManage = () => {
   const [refresh, setRefresh] = useState(false);
   const { userInfo } = useContext(UserContext);
   const [open, setOpen] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [page, setPage] = useState(1);
+  const [pageNo, setPageNo] = useState(0);
   //向后台调取用户列表并更新界面
   useEffect(() => {
-    getAllUser().then((res) => {
+    getAllUser({ page: 1, limit: 1999 }).then((res) => {
       setUsers(res.data || []);
     });
   }, []);
 
   const getAllRecorder = () => {
-    fetch(GET_ALL_RECORDER_URL, {})
+    fetch(`${GET_ALL_RECORDER_URL}?limit=10&offset=${(page - 1) * 10}`, {})
       .then((res) => res.json())
       .catch((error) => console.error("Error:", error))
       .then((response) => {
         setRecorders(response.data || []);
         response?.data?.map((recorder) => {
-          if (!recorder.recorder1 && userInfo.userId === recorder?.recorder1Id) {
+          if (
+            !recorder.recorder1 &&
+            userInfo.userId === recorder?.recorder1Id
+          ) {
             const element = document.createElement("div");
             element.id = "id1_" + recorder.id;
             document.getElementById("todos").appendChild(element);
@@ -111,9 +126,11 @@ const RecorderManage = () => {
               document.getElementById("id3_" + recorder.id)
             );
           }
+          setPageNo(Math.ceil(response?.paging?.total / 10) || 0);
           return null;
         });
-      });
+      })
+      .finally(() => setLoading(false));
   };
   const handleOpen = () => {
     setOpen(true);
@@ -175,7 +192,7 @@ const RecorderManage = () => {
   //     });
   //   });
   // };
-  useEffect(getAllRecorder, [refresh]);
+  useEffect(getAllRecorder, [refresh, page]);
   const hasPermission = userInfo.roleId === 10 || userInfo.roleId === 20;
   return (
     <div>
@@ -214,7 +231,7 @@ const RecorderManage = () => {
               {recorders.map((recorder) => (
                 <TableRow hover key={recorder.id}>
                   <TableCell align="center">{recorder.date}</TableCell>
-                  <TableCell align="center"> 
+                  <TableCell align="center">
                     {recorder.recorder1Name}
                     <Box>
                       {recorder.recorder1File ? (
@@ -281,6 +298,18 @@ const RecorderManage = () => {
             </TableBody>
           </Table>
         </Box>
+        {pageNo > 1 && (
+          <Pagination
+            className={classes.Pagination}
+            count={pageNo}
+            color="primary"
+            onChange={(e, i) => setPage(i)}
+          />
+        )}
+        {loading && <Loading />}
+        {!loading && recorders?.length === 0 && (
+          <NoData msg="暂未添加辅读安排" />
+        )}
         {/* </PerfectScrollbar> */}
       </Card>
       <RecorderManageForm

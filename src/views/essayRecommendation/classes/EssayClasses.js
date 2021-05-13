@@ -17,6 +17,9 @@ import {
   GET_ALL_CLASS_URL,
   DELETE_CLASS_URL,
 } from "src/settings";
+import Pagination from "@material-ui/lab/Pagination";
+import Loading from "src/components/Loading";
+import NoData from "src/components/NoData";
 import { deleteFetch } from "src/base";
 import corfirmModal from "src/components/ConfirmModal";
 import NewClassForm from "./NewClassForm";
@@ -36,6 +39,12 @@ const useStyles = makeStyles((theme) => ({
       lineHeight: 2,
     },
   },
+  Pagination: {
+    padding: theme.spacing(2),
+    "& .MuiPagination-ul": {
+      justifyContent: "center",
+    },
+  },
 }));
 
 const EssayClasses = () => {
@@ -43,14 +52,19 @@ const EssayClasses = () => {
   const [refresh, setRefresh] = useState(false);
   const [essayClasses, setEssayClasses] = useState([]);
   const [open, setOpen] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [page, setPage] = useState(1);
+  const [pageNo, setPageNo] = useState(0);
   const { userInfo } = useContext(UserContext);
   const getAllEssayClasses = () => {
-    fetch(GET_ALL_CLASS_URL, {})
+    fetch(`${GET_ALL_CLASS_URL}?limit=10&offset=${(page - 1) * 10}`, {})
       .then((res) => res.json())
       .catch((error) => console.error("Error:", error))
       .then((response) => {
         setEssayClasses(response?.data || []);
-      });
+        setPageNo(Math.ceil(response?.paging?.total / 10) || 0);
+      })
+      .finally(() => setLoading(false));
   };
 
   const handleOpen = () => {
@@ -77,7 +91,7 @@ const EssayClasses = () => {
       },
     });
   };
-  useEffect(getAllEssayClasses, [refresh]);
+  useEffect(getAllEssayClasses, [refresh, page]);
   const hasPermission = userInfo.roleId === 10 || userInfo.roleId === 40;
   return (
     <div>
@@ -119,7 +133,10 @@ const EssayClasses = () => {
                         size="small"
                         variant="text"
                         onClick={(e) =>
-                          handleDeleteEssayClasses(essayClass.id, essayClass.name)
+                          handleDeleteEssayClasses(
+                            essayClass.id,
+                            essayClass.name
+                          )
                         }
                       >
                         删除
@@ -131,6 +148,18 @@ const EssayClasses = () => {
             </TableBody>
           </Table>
         </Box>
+        {pageNo > 1 && (
+          <Pagination
+            className={classes.Pagination}
+            count={pageNo}
+            color="primary"
+            onChange={(e, i) => setPage(i)}
+          />
+        )}
+        {loading && <Loading />}
+        {!loading && essayClasses?.length === 0 && (
+          <NoData msg="暂未添加论文分类" />
+        )}
       </Card>
       <NewClassForm open={open} onClose={handleClose} tag={0} />
     </div>

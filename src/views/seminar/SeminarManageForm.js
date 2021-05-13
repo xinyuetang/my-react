@@ -93,7 +93,7 @@ const SeminarManageForm = (props) => {
             </TextField>
             <TextField
               label="时间"
-              type="datetime"
+              type="date"
               margin="normal"
               fullWidth
               name="date"
