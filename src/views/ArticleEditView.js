@@ -4,6 +4,7 @@ import clsx from "clsx";
 import { makeStyles } from "@material-ui/core/styles";
 import { Box, Button, Typography, TextField } from "@material-ui/core";
 import { useParams } from "react-router-dom";
+import alertBox from "src/components/AlertBox";
 
 import { Editor } from "@tinymce/tinymce-react";
 import {
@@ -83,7 +84,7 @@ export default function ArticleEditView(props) {
         categoryId: essayClass,
       },
       successCallback: () => {
-        alert('添加成功')
+        alertBox({ text: '添加成功', severity: "success" });
         history.replace("/app/essayRecommendation/essays");
       }
     });

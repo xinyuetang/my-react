@@ -18,6 +18,7 @@ import {
   DELETE_CLASS_URL,
 } from "src/settings";
 import { deleteFetch } from "src/base";
+import corfirmModal from "src/components/ConfirmModal";
 import NewClassForm from "./NewClassForm";
 const useStyles = makeStyles((theme) => ({
   root: {},
@@ -61,12 +62,18 @@ const EssayClasses = () => {
     setRefresh((prev) => !prev);
   };
 
-  const handleDeleteEssayClasses = (id) => {
-    deleteFetch({
-      url: `${DELETE_CLASS_URL}?id=${id}`,
-      values: { id },
-      successCallback: () => {
-        setRefresh((prev) => !prev);
+  const handleDeleteEssayClasses = (id, name) => {
+    const cor = corfirmModal({
+      title: `确定要删除[${name}]吗？`,
+      handleCorfirm: () => {
+        cor.close();
+        deleteFetch({
+          url: `${DELETE_CLASS_URL}?id=${id}`,
+          values: { id },
+          successCallback: () => {
+            setRefresh((prev) => !prev);
+          },
+        });
       },
     });
   };
@@ -111,7 +118,9 @@ const EssayClasses = () => {
                         color="primary"
                         size="small"
                         variant="text"
-                        onClick={(e) => handleDeleteEssayClasses(essayClass.id)}
+                        onClick={(e) =>
+                          handleDeleteEssayClasses(essayClass.id, essayClass.name)
+                        }
                       >
                         删除
                       </Button>

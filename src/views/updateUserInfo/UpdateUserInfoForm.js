@@ -3,6 +3,7 @@ import { useHistory } from "react-router-dom";
 import clsx from "clsx";
 import { useFormik } from "formik";
 import { postFetch } from "src/base";
+import alertBox from "src/components/AlertBox";
 import { Box, Button, TextField, makeStyles } from "@material-ui/core";
 import { UPDATE_USER_URL } from "src/settings";
 const useStyles = makeStyles((theme) => ({
@@ -41,7 +42,7 @@ export default function UpdateUserInfoForm({ userDetail }) {
         url: UPDATE_USER_URL,
         values,
         successCallback: () => {
-          alert("修改成功");
+          alertBox({ text: "修改成功", severity: "success" });
           history.goBack();
         },
       });

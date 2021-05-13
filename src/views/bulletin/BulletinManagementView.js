@@ -11,6 +11,7 @@ import {
   TextField,
   makeStyles,
 } from "@material-ui/core";
+import alertBox from "src/components/AlertBox";
 import Page from "src/components/Page";
 import { ADD_BULLETIN_URL } from "src/settings";
 import { Redirect } from "react-router-dom";
@@ -74,7 +75,7 @@ const BulletinManagementView = () => {
                   values,
                   successCallback: () => {
                     // sendMessage("xxx");
-                    alert('通知发送成功');
+                    alertBox({ text: "通知发送成功", severity: "success" });
                     window.location.reload()
                   },
                 });

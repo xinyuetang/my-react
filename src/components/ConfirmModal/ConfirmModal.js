@@ -4,7 +4,6 @@ import {
   Dialog,
   DialogActions,
   DialogContent,
-  DialogContentText,
 } from "@material-ui/core";
 
 const ConfirmModal = React.forwardRef((props, ref) => {
@@ -34,7 +33,7 @@ const ConfirmModal = React.forwardRef((props, ref) => {
           {other && <p style={{ fontSize: 14, marginTop: 16 }}>{other}</p>}
         </div>
       </DialogContent>
-      <DialogActions>
+      <DialogActions style={{ justifyContent: 'center' }}>
         <Button autoFocus onClick={handleClose} variant="contained">
           取消
         </Button>

@@ -12,6 +12,7 @@ import {
   makeStyles,
   Typography,
 } from "@material-ui/core";
+import Pagination from "@material-ui/lab/Pagination";
 import { RoleName, DELETE_USER_URL } from "src/settings";
 import { getAllUser } from "src/service/userService";
 import { UserContext } from "src/layouts/Context";
@@ -27,6 +28,12 @@ const useStyles = makeStyles((theme) => ({
       lineHeight: 2,
     },
   },
+  Pagination: {
+    padding: theme.spacing(2),
+    '& .MuiPagination-ul': {
+      justifyContent: 'center',
+    }
+  },
 }));
 
 const UserManage = (props) => {
@@ -35,6 +42,8 @@ const UserManage = (props) => {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
   const { userInfo } = useContext(UserContext);
+  const [page, setPage] = useState(1);
+  const [pageNo, setPageNo] = useState(0);
 
   //向后台调取用户列表并更新界面
   // const getAllUser = () => {
@@ -69,10 +78,12 @@ const UserManage = (props) => {
 
   // useEffect(getAllUser,[]);
   useEffect(() => {
-    getAllUser().then((res) => {
+    getAllUser(page).then((res) => {
       setUsers(res.data || []);
+      console.log(res?.paging?.pageNo);
+      setPageNo(parseInt(res?.paging?.total / 10) || 0);
     });
-  }, [refresh]);
+  }, [refresh, page]);
   return (
     <div>
       <Card>
@@ -135,6 +146,14 @@ const UserManage = (props) => {
               ))}
             </TableBody>
           </Table>
+          {pageNo > 0 && (
+            <Pagination
+              className={classes.Pagination}
+              count={pageNo}
+              color="primary"
+              onChange={(e, i) => setPage(i)}
+            />
+          )}
         </Box>
         {/* </PerfectScrollbar> */}
       </Card>

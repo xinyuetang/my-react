@@ -15,6 +15,7 @@ import {
   MNG_DELETE_DEVICE_URL,
 } from "src/settings";
 import { deleteFetch } from "src/base";
+import corfirmModal from "src/components/ConfirmModal";
 import ApplyDeviceForm from "./ApplyDeviceForm";
 import EditDevice from './EditDevice'
 import DeviceApplyHistory from "./DeviceApplyHistory";
@@ -70,10 +71,16 @@ export default function DeviceTable(props) {
   const [deviceId, setDeviceId] = useState(0)
   const [type, setType] = useState(100)
   const [deviceDetail, setDeviceDetail] = useState({});
-  const deleteDevice = (id) => {
-    deleteFetch({
-      url: `${MNG_DELETE_DEVICE_URL}?id=${id}`,
-      successCallback: refresh,
+  const deleteDevice = (id, name) => {
+    const cor = corfirmModal({
+      title: `确定要删除[${name}]吗？`,
+      handleCorfirm: () => {
+        cor.close();
+        deleteFetch({
+          url: `${MNG_DELETE_DEVICE_URL}?id=${id}`,
+          successCallback: refresh,
+        });
+      },
     });
   };
   const filterDevices =
@@ -160,7 +167,7 @@ export default function DeviceTable(props) {
                       color="primary"
                       size="small"
                       variant="text"
-                      onClick={() => deleteDevice(device.id)}
+                      onClick={() => deleteDevice(device.id, device.name)}
                     >
                       删除
                     </Button>

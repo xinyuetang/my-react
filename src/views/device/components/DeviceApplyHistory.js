@@ -19,6 +19,7 @@ import {
 import CloseIcon from "@material-ui/icons/Close";
 import { MNG_DEVICE_USAGE_URL, MNG_RETURN_DEVICE_URL } from "src/settings";
 import { postFetch } from "src/base";
+import alertBox from "src/components/AlertBox";
 
 const useStyles = makeStyles((theme) => ({
   appBar: {
@@ -60,7 +61,7 @@ export default function DeviceApplyHistory(props) {
         allocationId,
       },
       successCallback: () => {
-        alert("归还成功");
+        alertBox({ text: "归还成功", severity: "success" });
         setRefresh(!refresh);
       },
     });

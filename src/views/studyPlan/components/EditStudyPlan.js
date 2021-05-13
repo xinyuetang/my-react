@@ -11,6 +11,7 @@ import {
 } from "@material-ui/core";
 import { MNG_ADD_PLAN_URL, MNG_UPDATE_PLAN_URL } from "src/settings";
 import { postFetch } from "src/base";
+import alertBox from "src/components/AlertBox";
 const useStyles = makeStyles((theme) => ({
   root: {
     padding: theme.spacing(3)
@@ -36,7 +37,7 @@ export default function EditStudyPlan(props) {
             url: planDetail?.id > 0 ? MNG_UPDATE_PLAN_URL : MNG_ADD_PLAN_URL,
             values,
             successCallback: () => {
-              alert("操作成功");
+              alertBox({ text: "操作成功", severity: "success" });
               handleClose();
             },
           });

@@ -16,14 +16,14 @@ import { RoleName, GET_ALL_USER_URL, USER_INFO } from 'src/settings'
 //       });
 // }
 
-export const getAllUser = async () => {
+export const getAllUser = async (page) => {
   try {
-    let response = await fetch(`${GET_ALL_USER_URL}?limit=1999`);
-    return await response.json()
+    let response = await fetch(`${GET_ALL_USER_URL}?limit=10&offset=${(page - 1) * 10}`);
+    return await response.json();
   } catch (error) {
-    console.log('Request Failed', error);
+    console.log("Request Failed", error);
   }
-}
+};
 
 export const getUserInfo = async () => {
   try {

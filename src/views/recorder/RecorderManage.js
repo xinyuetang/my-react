@@ -16,6 +16,7 @@ import ReactDOM from "react-dom";
 import { UserContext } from "src/layouts/Context";
 import { getAllUser } from "src/service/userService";
 import { deleteFetch } from "src/base";
+import corfirmModal from "src/components/ConfirmModal";
 import RecorderManageForm from "./RecorderManageForm";
 import {
   GET_ALL_RECORDER_URL,
@@ -123,11 +124,17 @@ const RecorderManage = () => {
     getAllRecorder();
   };
   const handleDeleteRecorder = (id) => {
-    deleteFetch({
-      url: `${DELETE_RECORDER_URL}?id=${id}`,
-      values: { id },
-      successCallback: () => {
-        setRefresh((prev) => !prev);
+    const cor = corfirmModal({
+      title: "确定要删除吗？",
+      handleCorfirm: () => {
+        cor.close();
+        deleteFetch({
+          url: `${DELETE_RECORDER_URL}?id=${id}`,
+          values: { id },
+          successCallback: () => {
+            setRefresh((prev) => !prev);
+          },
+        });
       },
     });
   };

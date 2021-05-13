@@ -7,6 +7,7 @@ import {
   Typography,
 } from '@material-ui/core';
 import { formDataFetch } from "src/base";
+import alertBox from "src/components/AlertBox";
 import { UPLOAD_RECORDER_URL } from "src/settings";
 
 const useStyles = makeStyles(() => ({
@@ -53,7 +54,7 @@ const useStyles = makeStyles(() => ({
           [FileKeys[DocType]]: file,
         },
         successCallback: () => {
-          alert("上传成功");
+          alertBox({ text: "上传成功", severity: "success" });
           setUploading(false);
           refresh();
         },

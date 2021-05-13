@@ -15,6 +15,8 @@ import {
 import AddBoxIcon from "@material-ui/icons/AddBox";
 import { MNG_DELETE_WORK_URL, U_EDIT_ALLOCATION } from "src/settings";
 import { deleteFetch, postFetch } from "src/base";
+import corfirmModal from "src/components/ConfirmModal";
+import alertBox from "src/components/AlertBox";
 import EditWork from "./EditWork";
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -51,10 +53,16 @@ export default function WorkTable(props) {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
   const [workDetail, setWorkDetail] = useState({});
-  const deleteWork = (id) => {
-    deleteFetch({
-      url: `${MNG_DELETE_WORK_URL}?id=${id}`,
-      successCallback: refresh,
+  const deleteWork = (id, name) => {
+    const cor = corfirmModal({
+      title: `确定要删除[${name}]吗？`,
+      handleCorfirm: () => {
+        cor.close();
+        deleteFetch({
+          url: `${MNG_DELETE_WORK_URL}?id=${id}`,
+          successCallback: refresh,
+        });
+      },
     });
   };
   const handleUpdate = (id, finished) => {
@@ -65,7 +73,7 @@ export default function WorkTable(props) {
         finished
       },
       successCallback: () => {
-        alert("变更成功");
+        alertBox({ text: "变更成功", severity: "success" });
         refresh();
       }
     });
@@ -135,7 +143,7 @@ export default function WorkTable(props) {
                         color="primary"
                         size="small"
                         variant="text"
-                        onClick={() => deleteWork(work.id)}
+                        onClick={() => deleteWork(work.id, work.name)}
                       >
                         删除
                       </Button>

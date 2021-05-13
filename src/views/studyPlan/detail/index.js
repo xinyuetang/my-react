@@ -16,6 +16,8 @@ import {
   U_GET_PLAN_DETAIL_URL,
 } from "src/settings";
 import { deleteFetch } from "src/base";
+import corfirmModal from "src/components/ConfirmModal";
+import alertBox from "src/components/AlertBox";
 import WorkTable from '../components/WorkTable'
 import EditStage from '../components/EditStage'
 import StageButton from "../components/StageButton";
@@ -85,12 +87,18 @@ const StudyPlanDetailView = () => {
       });
   }, [refresh]);
   const currentStage = plan?.stages ? plan?.stages[currentKey] : [];
-  const  handleDelete = (stageId) => {
-    deleteFetch({
-      url: `${MNG_DELETE_STAGE_URL}?id=${stageId}`,
-      successCallback: () => {
-        alert('删除成功')
-        setRefresh(!refresh);
+  const  handleDelete = (stageId, name) => {
+    const cor = corfirmModal({
+      title: "确定要删除改阶段吗？",
+      handleCorfirm: () => {
+        cor.close();
+        deleteFetch({
+          url: `${MNG_DELETE_STAGE_URL}?id=${stageId}`,
+          successCallback: () => {
+            alertBox({ text: "删除成功", severity: "success" });
+            setRefresh(!refresh);
+          },
+        });
       },
     });
   }

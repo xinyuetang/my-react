@@ -10,6 +10,7 @@ import {
 } from "@material-ui/core";
 import { MNG_UPDATE_WORK_URL, MNG_ADD_WORK_URL } from "src/settings";
 import { postFetch } from "src/base";
+import alertBox from "src/components/AlertBox";
 const useStyles = makeStyles((theme) => ({
   root: {
     padding: theme.spacing(3)
@@ -39,7 +40,7 @@ export default function EditWork(props) {
               planStageId,
             },
             successCallback: () => {
-              alert("操作成功");
+              alertBox({ text: "操作成功", severity: "success" });
               handleClose();
             },
           });

@@ -17,6 +17,7 @@ import { UserContext } from "src/layouts/Context";
 import { getAllUser } from "src/service/userService";
 import { GET_ALL_SEMINAR_URL, DELETE_SEMINAR_URL } from "src/settings";
 import { deleteFetch } from "src/base";
+import corfirmModal from "src/components/ConfirmModal";
 import SeminarManageForm from "./SeminarManageForm";
 import AddLinkForm from "./AddLinkForm";
 const useStyles = makeStyles((theme) => ({
@@ -69,11 +70,17 @@ const SeminarManage = () => {
   };
 
   const handleDeleteSeminar = (id) => {
-    deleteFetch({
-      url: `${DELETE_SEMINAR_URL}?id=${id}`,
-      values: { id },
-      successCallback: () => {
-        setRefresh((prev) => !prev);
+    const cor = corfirmModal({
+      title: "确定要删除吗？",
+      handleCorfirm: () => {
+        cor.close();
+        deleteFetch({
+          url: `${DELETE_SEMINAR_URL}?id=${id}`,
+          values: { id },
+          successCallback: () => {
+            setRefresh((prev) => !prev);
+          },
+        });
       },
     });
   };

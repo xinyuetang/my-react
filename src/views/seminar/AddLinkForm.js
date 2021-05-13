@@ -4,6 +4,7 @@ import * as Yup from "yup";
 import { Button, TextField, makeStyles } from "@material-ui/core";
 import { UPDATE_SEMINAR_URL } from "src/settings";
 import { postFetch } from "src/base";
+import alertBox from "src/components/AlertBox";
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -37,7 +38,7 @@ function AddLinkForm(props) {
             ...seminar,
             link: values.link,
           },
-          successCallback: () => alert('提交成功')
+          successCallback: () => alertBox({ text: "提交成功", severity: "success" })
         });
       }}
     >

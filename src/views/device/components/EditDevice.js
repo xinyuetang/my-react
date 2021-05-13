@@ -9,6 +9,7 @@ import {
   makeStyles,
   DialogTitle,
 } from "@material-ui/core";
+import alertBox from "src/components/AlertBox";
 import { MNG_ADD_DEVICE_URL, MNG_UPDATE_DEVICE_URL } from "src/settings";
 import { postFetch } from "src/base";
 const useStyles = makeStyles((theme) => ({
@@ -48,7 +49,7 @@ export default function EditDevice(props) {
             url: deviceDetail?.id > 0 ? MNG_UPDATE_DEVICE_URL : MNG_ADD_DEVICE_URL,
             values,
             successCallback: () => {
-              alert("操作成功");
+              alertBox({ text: "操作成功", severity: "success" });
               handleClose();
             },
           });

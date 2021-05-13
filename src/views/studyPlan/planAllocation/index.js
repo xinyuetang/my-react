@@ -25,6 +25,7 @@ import {
 } from "src/settings";
 import { getAllUser } from "src/service/userService";
 import { deleteFetch } from "src/base";
+import alertBox from "src/components/AlertBox";
 import AssignUser from "../components/AssignUser";
 import Process from "../components/Process";
 const useStyles = makeStyles((theme) => ({
@@ -111,15 +112,14 @@ const PlanAllocationView = () => {
     const cor = corfirmModal({
       title: `确定要将[${name}]移出该培养计划吗？`,
       handleCorfirm: () => {
-        alert("删除成功");
         cor.close()
-        // deleteFetch({
-        //   url: `${MNG_DELETE_ALLOCATION}?id=${id}&planId=${planId}`,
-        //   values: { id },
-        //   successCallback: () => {
-        //     setRefresh((prev) => !prev);
-        //   },
-        // });
+        deleteFetch({
+          url: `${MNG_DELETE_ALLOCATION}?id=${id}&planId=${planId}`,
+          values: { id },
+          successCallback: () => {
+            setRefresh((prev) => !prev);
+          },
+        });
       },
     });
   };
@@ -131,7 +131,7 @@ const PlanAllocationView = () => {
         userIds,
       },
       successCallback: () => {
-        alert("设置成功");
+        alertBox({ text: "设置成功", severity: "success" });
         handleClose();
       },
     });

@@ -4,6 +4,7 @@ import * as Yup from "yup";
 import { Box, Button, TextField, Typography, Dialog } from "@material-ui/core";
 import { U_APPLY_DEVICE_URL } from "src/settings";
 import { postFetch } from "src/base";
+import alertBox from "src/components/AlertBox";
 
 export default function ApplyDeviceForm(props) {
   const { onClose, open, deviceId } = props;
@@ -27,7 +28,7 @@ export default function ApplyDeviceForm(props) {
               ...values,
               deviceId,
             },
-            successCallback: () => alert('申请成功')
+            successCallback: () => alertBox({ text: "申请成功", severity: "success" })
           });
           handleClose();
         }}

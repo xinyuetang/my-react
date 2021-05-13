@@ -19,6 +19,7 @@ import {
   U_GET_ALL_PLAN_URL,
 } from "src/settings";
 import { deleteFetch } from "src/base";
+import corfirmModal from "src/components/ConfirmModal";
 import EditStudyPlan from "./components/EditStudyPlan";
 const useStyles = makeStyles((theme) => ({
   root: {},
@@ -65,12 +66,18 @@ const StudyPlanManage = () => {
     setRefresh((prev) => !prev);
   };
 
-  const handlePlan = (id) => {
-    deleteFetch({
-      url: `${MNG_DELETE_PLAN_URL}?id=${id}`,
-      values: { id },
-      successCallback: () => {
-        setRefresh((prev) => !prev);
+  const handlePlan = (id, name) => {
+    const cor = corfirmModal({
+      title: `确定要删除[${name}]吗？`,
+      handleCorfirm: () => {
+        cor.close();
+        deleteFetch({
+          url: `${MNG_DELETE_PLAN_URL}?id=${id}`,
+          values: { id },
+          successCallback: () => {
+            setRefresh((prev) => !prev);
+          },
+        });
       },
     });
   };
@@ -146,7 +153,7 @@ const StudyPlanManage = () => {
                           color="primary"
                           size="small"
                           variant="text"
-                          onClick={(e) => handlePlan(plan.id)}
+                          onClick={(e) => handlePlan(plan.id, plan.name)}
                         >
                           删除
                         </Button>

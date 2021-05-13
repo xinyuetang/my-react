@@ -15,6 +15,7 @@ import {
 import { UserContext } from "src/layouts/Context";
 import { GET_ALL_ARTICLE_URL, DELETE_ARTICLE_URL } from "src/settings";
 import { deleteFetch } from "src/base";
+import corfirmModal from "src/components/ConfirmModal";
 const useStyles = makeStyles((theme) => ({
   root: {},
   actions: {
@@ -48,12 +49,18 @@ const Essays = () => {
       });
   };
 
-  const handleDeleteEssays = (id) => {
-    deleteFetch({
-      url: `${DELETE_ARTICLE_URL}?id=${id}`,
-      values: { id },
-      successCallback: () => {
-        setRefresh((prev) => !prev);
+  const handleDeleteEssays = (id, name) => {
+    const cor = corfirmModal({
+      title: `确定要删除[${name}]吗？`,
+      handleCorfirm: () => {
+        cor.close();
+        deleteFetch({
+          url: `${DELETE_ARTICLE_URL}?id=${id}`,
+          values: { id },
+          successCallback: () => {
+            setRefresh((prev) => !prev);
+          },
+        });
       },
     });
   };
@@ -106,7 +113,12 @@ const Essays = () => {
                         color="primary"
                         size="small"
                         variant="text"
-                        onClick={(e) => handleDeleteEssays(essayClass.id)}
+                        onClick={(e) =>
+                          handleDeleteEssays(
+                            essayClass.id,
+                            essayClass.categoryName
+                          )
+                        }
                       >
                         删除
                       </Button>
