@@ -72,6 +72,7 @@ export default function EditStudyPlan(props) {
               variant="outlined"
               onBlur={handleBlur}
               onChange={handleChange}
+              disabled={planDetail?.id > 0}
             />
             <TextField
               select

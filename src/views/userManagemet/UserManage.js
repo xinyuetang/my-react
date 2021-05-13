@@ -69,7 +69,7 @@ const UserManage = (props) => {
 
   const handleDeleteUser = (id, name) => {
     const cor = corfirmModal({
-      title: `确定要将[${name}]移出该培养计划吗？`,
+      title: `确定要删除[${name}]吗？`,
       handleCorfirm: () => {
         cor.close();
         deleteFetch({
