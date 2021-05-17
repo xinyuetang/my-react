@@ -17,6 +17,9 @@ const useStyles = makeStyles({
   unRead: {
     color: "#0a0d0e",
   },
+  readButton: {
+    padding: '0px 4px'
+  },
 });
 
 export default function BulletinCard(props) {
@@ -69,7 +72,13 @@ export default function BulletinCard(props) {
           </Grid>
           <Grid item md={1}>
             {read == 0 && (
-              <Button size="small" onClick={() => markAsRead(id)}>
+              <Button
+                color="primary"
+                size="small"
+                variant="outlined"
+                className={classes.readButton}
+                onClick={() => markAsRead(id)}
+              >
                 标记已读
               </Button>
             )}
