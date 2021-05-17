@@ -85,7 +85,7 @@ export const MNG_DELETE_ALLOCATION = BASE_URL + "/mng/study/plan/allocation/dele
 export const MNG_GET_ALLOCATION_INfO =
   BASE_URL + "/mng/study/plan/allocation/user/overview";
 export const MNG_EDIT_ALLOCATION= BASE_URL + "/mng/study/plan/allocation/edit";
-export const MNG_GET_USER_LIST = BASE_URL + "/user/allocation/list";
+export const MNG_GET_USER_LIST = BASE_URL + "/mng/user/allocation/list";
 
 //培养计划 普通用户
 export const U_GET_ALL_PLAN_URL = BASE_URL + "/u/study/plan/allocation/list";
