@@ -1,9 +1,6 @@
 import React, { useRef, useContext } from "react";
 import { Formik } from "formik";
 import * as Yup from "yup";
-// import cookie from "react-cookies";
-// import { BASE_URL } from "src/settings";
-// import SockJsClient from "react-stomp";
 import {
   Box,
   Button,
@@ -13,7 +10,7 @@ import {
 } from "@material-ui/core";
 import alertBox from "src/components/AlertBox";
 import Page from "src/components/Page";
-import { ADD_BULLETIN_URL } from "src/settings";
+import { MNG_ADD_BULLETIN_URL } from "src/settings";
 import { Redirect } from "react-router-dom";
 import { UserContext } from "src/layouts/Context";
 import { postFetch } from "src/base";
@@ -71,7 +68,7 @@ const BulletinManagementView = () => {
               })}
               onSubmit={(values) => {
                 postFetch({
-                  url: ADD_BULLETIN_URL,
+                  url: MNG_ADD_BULLETIN_URL,
                   values,
                   successCallback: () => {
                     // sendMessage("xxx");

@@ -16,9 +16,10 @@ import ArticleEditView from './views/ArticleEditView'
 import TrainingSchemeView from './views/trainingScheme/TrainingSchemeView';
 import StudyPlanView from "./views/studyPlan";
 import PlanAllocationView from "./views/studyPlan/planAllocation";
-import StudyPlanEditView from "./views/studyPlan/edit";
+// import StudyPlanEditView from "./views/studyPlan/edit";
 import StudyPlanDetailView from "./views/studyPlan/detail";
-import BulletinManagementView from './views/bulletin/BulletinManagementView';
+import BulletinManageView from "./views/bulletin/BulletinManageView";
+import BulletinManagementView from "./views/bulletin/BulletinManagementView";
 import BulletinListView from './views/bulletin/BulletinListView';
 import DeviceView from './views/device/DeviceView';
        
@@ -29,7 +30,7 @@ const routes = [
     routes: [
       { path: "/main/login", component: LoginView },
       { path: "/main/reset", component: ResetPasswordView },
-    ],
+    ], 
   },
   {
     path: "/app",
@@ -55,6 +56,7 @@ const routes = [
       { path: "/app/studyPlan/detail/:id", component: StudyPlanDetailView }, //培养计划详情
       { path: "/app/studyPlan", component: StudyPlanView }, //培养计划列表
       { path: "/app/trainingScheme", component: TrainingSchemeView }, //培养方案
+      { path: "/app/bulletinManage", component: BulletinManageView }, // 通告管理
       { path: "/app/bulletinManagement", component: BulletinManagementView }, // 通告管理
       { path: "/app/bulletinList", component: BulletinListView }, //通知列表
       { path: "/app/device", component: DeviceView }, //IT资源管理

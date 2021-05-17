@@ -1,7 +1,7 @@
 import React from "react";
 import { Container, makeStyles } from "@material-ui/core";
 import Page from "src/components/Page";
-import SeminarManage from "./SeminarManage";
+import BulletinManage from "./BulletinManage";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -11,17 +11,16 @@ const useStyles = makeStyles((theme) => ({
     paddingTop: theme.spacing(3),
   },
 }));
-const SeminarView = () => {
+const BulletinManageView = () => {
   const classes = useStyles();
 
   return (
-    <Page className={classes.root} title="演讲安排">
+    <Page className={classes.root} title="通知管理">
       <Container maxWidth={false}>
-        <SeminarManage></SeminarManage>
+        <BulletinManage></BulletinManage>
       </Container>
     </Page>
   );
 };
 
-export default SeminarView;
-
+export default BulletinManageView;

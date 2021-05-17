@@ -91,8 +91,11 @@ export const U_GET_PLAN_DETAIL_URL = BASE_URL + "/u/study/plan/allocation/overvi
 export const U_EDIT_ALLOCATION = BASE_URL + "/u/study/plan/allocation/edit";
 
 //通告管理
-export const ADD_BULLETIN_URL = BASE_URL + "/mng/bulletin/add";
-export const GET_ALL_BULLETIN_URL = BASE_URL + "/mng/bulletin/paging";
+export const MNG_ADD_BULLETIN_URL = BASE_URL + "/mng/bulletin/add";
+export const MNG_UPDATE_BULLETIN_URL = BASE_URL + "/mng/bulletin/update";
+export const MNG_DELETE_BULLETIN_URL = BASE_URL + "/mng/bulletin/delete";
+export const MNG_GET_ALL_BULLETIN_URL = BASE_URL + "/mng/bulletin/paging";
+export const GET_ALL_BULLETIN_URL = BASE_URL + "/u/bulletin/paging";
 export const GET_NEW_BULLETIN_NUMBER_URL =
   BASE_URL + "/u/bulletin/newBulletinNumber";
 export const MARK_AS_READ_URL = BASE_URL + "/mng/bulletin/markAsRead";

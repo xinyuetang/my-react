@@ -119,7 +119,7 @@ const NavBar = ({ onMobileClose, openMobile }) => {
 
           {(userInfo.roleId === 60 || userInfo.roleId === 10) && (
             <NavItem
-              href="/app/bulletinManagement"
+              href="/app/bulletinManage"
               title="通知管理"
               icon={MessageCircleIcon}
               isToOutLink={false}
