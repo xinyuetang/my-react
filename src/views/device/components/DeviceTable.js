@@ -62,7 +62,7 @@ const TYPES = [
   },
 ];
 export default function DeviceTable(props) {
-  const { devices, refresh } = props;
+  const { devices, refresh, refreshHistory } = props;
   const classes = useStyles();
   const { userInfo } = useContext(UserContext);
   const [open, setOpen] = useState(false);
@@ -197,6 +197,7 @@ export default function DeviceTable(props) {
           setOpen(false);
           setDeviceId(0);
           refresh();
+          refreshHistory();
         }}
         tag={0}
       />

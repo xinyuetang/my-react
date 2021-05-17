@@ -61,7 +61,7 @@ const DeviceNormal = (props) => {
         </Tabs>
       </AppBar>
       <TabPanel value={value} index={0}>
-        <DeviceTable {...props} />
+        <DeviceTable {...props} refreshHistory={refreshHistory} />
       </TabPanel>
       <TabPanel value={value} index={1}>
         <HistoryTable

@@ -13,8 +13,8 @@ export const RoleName = {
 //部署开发环境
 // export const BASE_URL ='http://10.176.36.7:8088';
 // 解决跨域问题临时使用
-export const BASE_URL = "http://fd.foxbank.cn";
-// export const BASE_URL = "http://fd.foxzz.cn";
+// export const BASE_URL = "http://fd.foxbank.cn";
+export const BASE_URL = "http://fd.foxzz.cn";
 
 /**
  * MNG_: 管理员
@@ -22,14 +22,16 @@ export const BASE_URL = "http://fd.foxbank.cn";
  */
 
 //登录、用户管理
-export const USER_INFO = BASE_URL + "/user/info";
-export const LOGIN_URL = BASE_URL + "/user/login";
-export const RESET_PASSWORD_URL = BASE_URL + "/user/reset";
-export const ADD_USER_URL = BASE_URL + "/user/add";
-export const UPDATE_USER_URL = BASE_URL + "/user/update";
-export const DELETE_USER_URL = BASE_URL + "/user/delete";
-export const GET_ALL_USER_URL = BASE_URL + "/user/paging";
-export const GET_USER_DETAIL = BASE_URL + "/user/detail";
+export const USER_INFO = BASE_URL + "/u/user/info";
+export const LOGIN_URL = BASE_URL + "/u/user/login";
+export const RESET_PASSWORD_URL = BASE_URL + "/u/user/reset";
+export const ADD_USER_URL = BASE_URL + "/mng/user/add";
+export const MNG_UPDATE_USER_URL = BASE_URL + "/mng/user/update";
+export const U_UPDATE_USER_URL = BASE_URL + "/u/user/update";
+export const DELETE_USER_URL = BASE_URL + "/mng/user/delete";
+export const GET_ALL_USER_URL = BASE_URL + "/mng/user/paging";
+export const MNG_GET_USER_DETAIL = BASE_URL + "/mng/user/detail";
+export const U_GET_USER_DETAIL = BASE_URL + "/u/user/detail";
 
 //会议安排
 export const ADD_SEMINAR_URL = BASE_URL + "/seminar/add";
@@ -98,7 +100,9 @@ export const MNG_GET_ALL_BULLETIN_URL = BASE_URL + "/mng/bulletin/paging";
 export const GET_ALL_BULLETIN_URL = BASE_URL + "/u/bulletin/paging";
 export const GET_NEW_BULLETIN_NUMBER_URL =
   BASE_URL + "/u/bulletin/newBulletinNumber";
-export const MARK_AS_READ_URL = BASE_URL + "/mng/bulletin/markAsRead";
+export const MARK_AS_READ_URL = BASE_URL + "/u/bulletin/read";
+export const MARK_READ_ALL = BASE_URL + "/u/bulletin/read/all";
+export const GET_BULLETIN_STATE = BASE_URL + "/u/bulletin/state";
 
 //设备管理 
 export const MNG_ADD_DEVICE_URL = BASE_URL + "/mng/device/add";

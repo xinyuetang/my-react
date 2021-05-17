@@ -25,7 +25,7 @@ import NotificationsIcon from "@material-ui/icons/NotificationsOutlined";
 import InputIcon from "@material-ui/icons/Input";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import cookie from "react-cookies";
-import { GET_ALL_BULLETIN_URL } from "src/settings";
+import { GET_BULLETIN_STATE } from "src/settings";
 import { UserContext } from "src/layouts/Context";
 
 const useStyles = makeStyles(() => ({
@@ -52,10 +52,14 @@ const TopBar = ({ className, onMobileNavOpen, ...rest }) => {
 
   //向后台调取所有未读通知数
   const getAllBulletin = () => {
-    return fetch(`${GET_ALL_BULLETIN_URL}?limit=1999`, {})
+    return fetch(`${GET_BULLETIN_STATE}`, {})
       .then((res) => res.json())
       .catch((error) => console.error("Error:", error))
-      .then((response) => setNewBulletinBumber(response?.data?.length || 0));
+      .then((response) =>
+        setNewBulletinBumber(
+          (response?.data?.totalCount || 0) - (response?.data?.readCount || 0)
+        )
+      );
   };
 
   useEffect(getAllBulletin, []);

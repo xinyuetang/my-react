@@ -1,10 +1,26 @@
 import React, { useState, useEffect } from "react";
-import { Box, Container, Typography, makeStyles } from "@material-ui/core";
-import cookie from "react-cookies";
+import {
+  Box,
+  Container,
+  Typography,
+  makeStyles,
+  Button,
+} from "@material-ui/core";
+// import cookie from "react-cookies";
 import Page from "src/components/Page";
-import { GET_ALL_BULLETIN_URL } from "src/settings";
+import { GET_ALL_BULLETIN_URL, MARK_READ_ALL } from "src/settings";
 import BulletinCard from "./BulletinCard";
-const useStyles = makeStyles((theme) => ({}));
+import { postFetch } from "src/base";
+const useStyles = makeStyles((theme) => ({
+  header: {
+    display: "flex",
+    justifyContent: "space-between",
+    padding: "16px",
+    "& p": {
+      lineHeight: 2,
+    },
+  },
+}));
 
 const BulletinListView = () => {
   const classes = useStyles();
@@ -30,6 +46,24 @@ const BulletinListView = () => {
         justifyContent="center"
       >
         <Container maxWidth="md">
+          <Box className={classes.header}>
+            <Typography color="textPrimary" size="small" component="h2">
+              通知记录
+            </Typography>
+            <Button
+              color="primary"
+              size="small"
+              variant="outlined"
+              onClick={() =>
+                postFetch({
+                  url: MARK_READ_ALL,
+                  successCallback: getAllBulletin,
+                })
+              }
+            >
+              全部已读
+            </Button>
+          </Box>
           {bulletins.map((item) => (
             <BulletinCard
               bulletin={item}

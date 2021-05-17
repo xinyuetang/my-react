@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import {
   Box,
   Button,
@@ -8,7 +8,8 @@ import {
   makeStyles,
 } from "@material-ui/core";
 import { useParams, useHistory } from "react-router-dom";
-import { GET_USER_DETAIL } from "src/settings";
+import { MNG_GET_USER_DETAIL, U_GET_USER_DETAIL } from "src/settings";
+import { UserContext } from "src/layouts/Context";
 import UpdateUserInfoForm from "./UpdateUserInfoForm";
 const useStyles = makeStyles((theme) => ({
   header: {
@@ -24,12 +25,18 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 export default function UpdateUserInfoView(props) {
-  let { id } = useParams();
+  const { id } = useParams();
+  const { userInfo } = useContext(UserContext);
   const history = useHistory();
-  let [userDetail, setUserDetail] = useState({});
+  const [userDetail, setUserDetail] = useState({});
   const classes = useStyles();
   const getUserInfo = () => {
-    fetch(`${GET_USER_DETAIL}?stuId=${id}`, {})
+    fetch(
+      `${
+        userInfo.roleId === 10 ? MNG_GET_USER_DETAIL : U_GET_USER_DETAIL
+      }?stuId=${id}`,
+      {}
+    )
       .then((res) => res.json())
       .catch((error) => console.error("Error:", error))
       .then((response) => {

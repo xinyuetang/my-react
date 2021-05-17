@@ -1,11 +1,12 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useHistory } from "react-router-dom";
 import clsx from "clsx";
 import { useFormik } from "formik";
 import { postFetch } from "src/base";
+import { UserContext } from "src/layouts/Context";
 import alertBox from "src/components/AlertBox";
 import { Box, Button, TextField, makeStyles } from "@material-ui/core";
-import { UPDATE_USER_URL } from "src/settings";
+import { MNG_UPDATE_USER_URL, U_UPDATE_USER_URL } from "src/settings";
 const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
@@ -35,11 +36,12 @@ const types = [
 export default function UpdateUserInfoForm({ userDetail }) {
   const classes = useStyles();
   const history = useHistory();
+  const { userInfo } = useContext(UserContext);
   const formik = useFormik({
     initialValues: userDetail,
     onSubmit: (values) => {
       postFetch({
-        url: UPDATE_USER_URL,
+        url: userInfo.roleId === 10 ? MNG_UPDATE_USER_URL : U_UPDATE_USER_URL,
         values,
         successCallback: () => {
           alertBox({ text: "修改成功", severity: "success" });

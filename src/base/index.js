@@ -92,6 +92,25 @@ export const postFetch = ({
     });
 };
 
+export const formFetch = ({ url, successCallback }) => {
+  fetch(url, {
+    method: "POST",
+    headers: {
+      "content-type": "application/x-www-form-urlencoded",
+    },
+  })
+    .then((res) => res.json())
+    .catch((error) => console.error("Error:", error))
+    .then((response) => {
+      // alert(response?.success ? "删除成功" : response?.msg || "删除失败");
+      alertBox({
+        text: response?.success ? "操作成功" : response?.msg || "操作失败",
+        severity: response?.success ? "success" : "error",
+      });
+      successCallback && successCallback();
+    });
+};
+
 export const deleteFetch = ({ url, successCallback }) => {
   fetch(url, {
     method: "POST",
