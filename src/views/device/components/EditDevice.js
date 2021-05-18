@@ -31,23 +31,18 @@ export default function EditDevice(props) {
         {deviceDetail?.id ? "新增设备" : "编辑设备"}
       </DialogTitle>
       <Formik
-        initialValues={
-          deviceDetail || {
-            type: 0,
-            model: "",
-            principal: "",
-            name: "",
-            inventory: 0,
-            inventoryUnit: "",
-          }
-        }
-        validationSchema={Yup.object().shape({
-          type: Yup.number().required("设备类型必填"),
-        })}
+        initialValues={deviceDetail}
+        // validationSchema={Yup.object().shape({
+        //   type: Yup.number().required("设备类型必填"),
+        // })}
         onSubmit={(values) => {
           postFetch({
-            url: deviceDetail?.id > 0 ? MNG_UPDATE_DEVICE_URL : MNG_ADD_DEVICE_URL,
-            values,
+            url:
+              deviceDetail?.id > 0 ? MNG_UPDATE_DEVICE_URL : MNG_ADD_DEVICE_URL,
+            values: {
+              ...values,
+              type: values?.type || 0
+            },
             successCallback: () => {
               alertBox({ text: "操作成功", severity: "success" });
               handleClose();
@@ -71,9 +66,7 @@ export default function EditDevice(props) {
               label="设备类型"
               name="type"
               margin="normal"
-              onBlur={handleBlur}
               onChange={handleChange}
-              value={values.type}
               variant="outlined"
               SelectProps={{
                 native: true,
