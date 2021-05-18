@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Formik } from "formik";
 import * as Yup from "yup";
 import {
@@ -9,7 +9,11 @@ import {
   makeStyles,
   DialogTitle,
 } from "@material-ui/core";
-import { MNG_ADD_PLAN_URL, MNG_UPDATE_PLAN_URL } from "src/settings";
+import {
+  MNG_ADD_PLAN_URL,
+  MNG_UPDATE_PLAN_URL,
+  MNG_GET_ALL_PLAN_URL,
+} from "src/settings";
 import { postFetch } from "src/base";
 import alertBox from "src/components/AlertBox";
 const useStyles = makeStyles((theme) => ({
@@ -20,11 +24,20 @@ const useStyles = makeStyles((theme) => ({
 
 export default function EditStudyPlan(props) {
   const { onClose, open, planDetail } = props;
+  const [plans, setPlans] = useState([]);
   const classes = useStyles();
 
   const handleClose = () => {
     onClose();
   };
+  useEffect(() => {
+    fetch(`${MNG_GET_ALL_PLAN_URL}?limit=100`, {})
+      .then((res) => res.json())
+      .catch((error) => console.error("Error:", error))
+      .then((response) => {
+        setPlans(response?.data || []);
+      })
+  }, [])
   return (
     <Dialog onClose={handleClose} open={open}>
       <DialogTitle onClose={handleClose}>
@@ -88,7 +101,9 @@ export default function EditStudyPlan(props) {
                 }}
               >
                 <option value={0}>否</option>
-                <option value={1}>是</option>
+                {plans?.map((plan) => (
+                  <option key={plan.id} value={plan.id}>{plan?.name}</option>
+                ))}
               </TextField>
             )}
 
