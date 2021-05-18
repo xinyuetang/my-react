@@ -1,5 +1,6 @@
 import React from "react";
 import { Formik } from "formik";
+import * as Yup from "yup";
 import {
   Box,
   Button,
@@ -24,13 +25,21 @@ export default function EditStage(props) {
   const handleClose = () => {
     onClose();
   };
+  const initialValues = {
+    ...stageDetail,
+    endDate: stageDetail?.id > 0 ? stageDetail.endDate.slice(0, 10) : '',
+  };
   return (
     <Dialog onClose={handleClose} open={open} className={classes.root}>
       <DialogTitle onClose={handleClose}>
         {stageDetail?.id ? "编辑培养阶段" : "新增培养阶段"}
       </DialogTitle>
       <Formik
-        initialValues={stageDetail}
+        initialValues={initialValues}
+        validationSchema={Yup.object().shape({
+          term: Yup.string().required(),
+          endDate: Yup.string().required(),
+        })}
         onSubmit={(values) => {
           postFetch({
             url: stageDetail?.id > 0 ? MNG_UPDATE_STAGE_URL : MNG_ADD_STAGE_URL,
@@ -46,10 +55,11 @@ export default function EditStage(props) {
         }}
       >
         {({ handleBlur, handleChange, handleSubmit, isSubmitting, values }) => (
-          <form onSubmit={handleSubmit} className="dialogForm">
+          <form onSubmit={handleSubmit} className="dialogForm" noValidate>
             <TextField
               label="学期"
               fullWidth
+              disabled={stageDetail?.id > 0}
               margin="normal"
               name="term"
               value={values.term}
